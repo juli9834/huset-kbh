@@ -29,7 +29,7 @@
  *    		must have the first slash. Defaults to the base folder the plugin is
  *    		located in.
  *     Network: Optional. Specify "Network: true" to require that a plugin is activated
- *    		across all sites in an installation. This will prevent a plugin from being
+ *    		across all sites in an installation. This will prEvent a plugin from being
  *    		activated on a single site when Multisite is enabled.
  *      * / # Remove the space to close comment
  *
@@ -514,7 +514,7 @@ function is_network_only_plugin( $plugin ) {
  * be overwritten with the success message. Also, the options will not be
  * updated and the activation hook will not be called on plugin error.
  *
- * It should be noted that in no way the below code will actually prevent errors
+ * It should be noted that in no way the below code will actually prEvent errors
  * within the file. The code should not be used elsewhere to replicate the
  * "sandbox", which uses redirection to work.
  * {@source 13 1}
@@ -528,7 +528,7 @@ function is_network_only_plugin( $plugin ) {
  * @param string $redirect     Optional. URL to redirect to.
  * @param bool   $network_wide Optional. Whether to enable the plugin for all sites in the network
  *                             or just the current site. Multisite only. Default false.
- * @param bool   $silent       Optional. Whether to prevent calling activation hooks. Default false.
+ * @param bool   $silent       Optional. Whether to prEvent calling activation hooks. Default false.
  * @return WP_Error|null WP_Error on invalid file or null on success.
  */
 function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silent = false ) {
@@ -632,7 +632,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
  * @since 2.5.0
  *
  * @param string|array $plugins Single plugin or list of plugins to deactivate.
- * @param bool $silent Prevent calling deactivation hooks. Default is false.
+ * @param bool $silent PrEvent calling deactivation hooks. Default is false.
  * @param mixed $network_wide Whether to deactivate the plugin for all sites in the network.
  * 	A value of null (the default) will deactivate plugins for both the site and the network.
  */
@@ -733,7 +733,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
  * @param string|array $plugins Single plugin or list of plugins to activate.
  * @param string $redirect Redirect to page after successful activation.
  * @param bool $network_wide Whether to enable the plugin for all sites in the network.
- * @param bool $silent Prevent calling activation hooks. Default is false.
+ * @param bool $silent PrEvent calling activation hooks. Default is false.
  * @return bool|WP_Error True when finished or WP_Error if there were errors during a plugin activation.
  */
 function activate_plugins( $plugins, $redirect = '', $network_wide = false, $silent = false ) {

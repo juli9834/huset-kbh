@@ -7,7 +7,7 @@ class Akismet {
 
 	private static $last_comment = '';
 	private static $initiated = false;
-	private static $prevent_moderation_email_for_these_comments = array();
+	private static $prEvent_moderation_email_for_these_comments = array();
 	private static $last_comment_result = null;
 	private static $comment_as_submitted_allowed_keys = array( 'blog' => '', 'blog_charset' => '', 'blog_lang' => '', 'blog_ua' => '', 'comment_agent' => '', 'comment_author' => '', 'comment_author_IP' => '', 'comment_author_email' => '', 'comment_author_url' => '', 'comment_content' => '', 'comment_date_gmt' => '', 'comment_tags' => '', 'comment_type' => '', 'guid' => '', 'is_test' => '', 'permalink' => '', 'reporter' => '', 'site_domain' => '', 'submit_referer' => '', 'submit_uri' => '', 'user_ID' => '', 'user_agent' => '', 'user_id' => '', 'user_ip' => '' );
 	private static $is_rest_api_call = false;
@@ -246,16 +246,16 @@ class Akismet {
 			}
 
 			if ( ! wp_next_scheduled( 'akismet_schedule_cron_recheck' ) ) {
-				wp_schedule_single_event( time() + 1200, 'akismet_schedule_cron_recheck' );
+				wp_schedule_single_Event( time() + 1200, 'akismet_schedule_cron_recheck' );
 				do_action( 'akismet_scheduled_recheck', 'invalid-response-' . $response[1] );
 			}
 
-			self::$prevent_moderation_email_for_these_comments[] = $commentdata;
+			self::$prEvent_moderation_email_for_these_comments[] = $commentdata;
 		}
 
 		// Delete old comments daily
 		if ( ! wp_next_scheduled( 'akismet_scheduled_delete' ) ) {
-			wp_schedule_event( time(), 'daily', 'akismet_scheduled_delete' );
+			wp_schedule_Event( time(), 'daily', 'akismet_scheduled_delete' );
 		}
 
 		self::set_last_comment( $commentdata );
@@ -469,33 +469,33 @@ class Akismet {
 	}
 
 	/**
-	 * Log an event for a given comment, storing it in comment_meta.
+	 * Log an Event for a given comment, storing it in comment_meta.
 	 *
 	 * @param int $comment_id The ID of the relevant comment.
-	 * @param string $message The string description of the event. No longer used.
-	 * @param string $event The event code.
+	 * @param string $message The string description of the Event. No longer used.
+	 * @param string $Event The Event code.
 	 * @param array $meta Metadata about the history entry. e.g., the user that reported or changed the status of a given comment.
 	 */
-	public static function update_comment_history( $comment_id, $message, $event=null, $meta=null ) {
+	public static function update_comment_history( $comment_id, $message, $Event=null, $meta=null ) {
 		global $current_user;
 
 		$user = '';
 
-		$event = array(
+		$Event = array(
 			'time'    => self::_get_microtime(),
-			'event'   => $event,
+			'Event'   => $Event,
 		);
 
 		if ( is_object( $current_user ) && isset( $current_user->user_login ) ) {
-			$event['user'] = $current_user->user_login;
+			$Event['user'] = $current_user->user_login;
 		}
 
 		if ( ! empty( $meta ) ) {
-			$event['meta'] = $meta;
+			$Event['meta'] = $meta;
 		}
 
 		// $unique = false so as to allow multiple values per comment
-		$r = add_comment_meta( $comment_id, 'akismet_history', $event, false );
+		$r = add_comment_meta( $comment_id, 'akismet_history', $Event, false );
 	}
 
 	public static function check_db_comment( $id, $recheck_reason = 'recheck_queue' ) {
@@ -742,7 +742,7 @@ class Akismet {
 		$status = self::verify_key( $api_key );
 		if ( get_option( 'akismet_alert_code' ) || $status == 'invalid' ) {
 			// since there is currently a problem with the key, reschedule a check for 6 hours hence
-			wp_schedule_single_event( time() + 21600, 'akismet_schedule_cron_recheck' );
+			wp_schedule_single_Event( time() + 21600, 'akismet_schedule_cron_recheck' );
 			do_action( 'akismet_scheduled_recheck', 'key-problem-' . get_option( 'akismet_alert_code' ) . '-' . $status );
 			return false;
 		}
@@ -771,19 +771,19 @@ class Akismet {
 			add_comment_meta( $comment_id, 'akismet_rechecking', true );
 			$status = self::check_db_comment( $comment_id, 'retry' );
 
-			$event = '';
+			$Event = '';
 			if ( $status == 'true' ) {
-				$event = 'cron-retry-spam';
+				$Event = 'cron-retry-spam';
 			} elseif ( $status == 'false' ) {
-				$event = 'cron-retry-ham';
+				$Event = 'cron-retry-ham';
 			}
 
 			// If we got back a legit response then update the comment history
 			// other wise just bail now and try again later.  No point in
 			// re-trying all the comments once we hit one failure.
-			if ( !empty( $event ) ) {
+			if ( !empty( $Event ) ) {
 				delete_comment_meta( $comment_id, 'akismet_error' );
-				self::update_comment_history( $comment_id, '', $event );
+				self::update_comment_history( $comment_id, '', $Event );
 				update_comment_meta( $comment_id, 'akismet_result', $status );
 				// make sure the comment status is still pending.  if it isn't, that means the user has already moved it elsewhere.
 				$comment = get_comment( $comment_id );
@@ -810,7 +810,7 @@ class Akismet {
 				}
 
 				delete_comment_meta( $comment_id, 'akismet_rechecking' );
-				wp_schedule_single_event( time() + 1200, 'akismet_schedule_cron_recheck' );
+				wp_schedule_single_Event( time() + 1200, 'akismet_schedule_cron_recheck' );
 				do_action( 'akismet_scheduled_recheck', 'check-db-comment-' . $status );
 				return;
 			}
@@ -819,7 +819,7 @@ class Akismet {
 
 		$remaining = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->commentmeta} WHERE meta_key = 'akismet_error'" );
 		if ( $remaining && !wp_next_scheduled('akismet_schedule_cron_recheck') ) {
-			wp_schedule_single_event( time() + 1200, 'akismet_schedule_cron_recheck' );
+			wp_schedule_single_Event( time() + 1200, 'akismet_schedule_cron_recheck' );
 			do_action( 'akismet_scheduled_recheck', 'remaining' );
 		}
 	}
@@ -837,7 +837,7 @@ class Akismet {
 		$check_range = time() + 1200;
 		if ( $future_check > $check_range ) {
 			wp_clear_scheduled_hook( 'akismet_schedule_cron_recheck' );
-			wp_schedule_single_event( time() + 300, 'akismet_schedule_cron_recheck' );
+			wp_schedule_single_Event( time() + 300, 'akismet_schedule_cron_recheck' );
 			do_action( 'akismet_scheduled_recheck', 'fix-scheduled-recheck' );
 		}
 	}
@@ -1017,10 +1017,10 @@ class Akismet {
 	 * @return array An array of email addresses that the moderation email will be sent to.
 	 */
 	public static function disable_moderation_emails_if_unreachable( $emails, $comment_id ) {
-		if ( ! empty( self::$prevent_moderation_email_for_these_comments ) && ! empty( $emails ) ) {
+		if ( ! empty( self::$prEvent_moderation_email_for_these_comments ) && ! empty( $emails ) ) {
 			$comment = get_comment( $comment_id );
 
-			foreach ( self::$prevent_moderation_email_for_these_comments as $possible_match ) {
+			foreach ( self::$prEvent_moderation_email_for_these_comments as $possible_match ) {
 				if ( self::comments_match( $possible_match, $comment ) ) {
 					update_comment_meta( $comment_id, 'akismet_delayed_moderation_email', true );
 					return array();
@@ -1275,16 +1275,16 @@ p {
 		self::deactivate_key( self::get_api_key() );
 
 		// Remove any scheduled cron jobs.
-		$akismet_cron_events = array(
+		$akismet_cron_Events = array(
 			'akismet_schedule_cron_recheck',
 			'akismet_scheduled_delete',
 		);
 
-		foreach ( $akismet_cron_events as $akismet_cron_event ) {
-			$timestamp = wp_next_scheduled( $akismet_cron_event );
+		foreach ( $akismet_cron_Events as $akismet_cron_Event ) {
+			$timestamp = wp_next_scheduled( $akismet_cron_Event );
 
 			if ( $timestamp ) {
-				wp_unschedule_event( $timestamp, $akismet_cron_event );
+				wp_unschedule_Event( $timestamp, $akismet_cron_Event );
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 /* Simple AJAX Code-Kit (SACK) v1.6.1 */
-/* ©2005 Gregory Wild-Smith */
+/* ï¿½2005 Gregory Wild-Smith */
 /* www.twilightuniverse.com */
 /* Software licenced under a modified X11 licence,
    see documentation or authors website for more details */
@@ -94,7 +94,7 @@ function sack(file) {
 			}
 		}
 
-		// prevents caching of URLString
+		// prEvents caching of URLString
 		this.setVar("rndval", new Date().getTime());
 
 		urlstringtemp = new Array();

@@ -122,7 +122,7 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 	}
 
 	/**
-	 * Calls the resize x times in 100ms intervals. We can't wait for load events since
+	 * Calls the resize x times in 100ms intervals. We can't wait for load Events since
 	 * the CSS files might load async.
 	 */
 	function wait( times, interval, callback ) {

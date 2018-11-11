@@ -1563,7 +1563,7 @@ function img_caption_shortcode( $attr, $content = null ) {
 	 * Filters the width of an image's caption.
 	 *
 	 * By default, the caption is 10 pixels greater than the width of the image,
-	 * to prevent post content from running up against a floated image.
+	 * to prEvent post content from running up against a floated image.
 	 *
 	 * @since 3.7.0
 	 *
@@ -2548,7 +2548,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	}
 
 	// Mediaelement has issues with some URL formats for Vimeo and YouTube, so
-	// update the URL to prevent the ME.js player from breaking.
+	// update the URL to prEvent the ME.js player from breaking.
 	if ( 'mediaelement' === $library ) {
 		if ( $is_youtube ) {
 			// Remove `feature` query arg and force SSL - see #40866.
@@ -3015,7 +3015,7 @@ function wp_plupload_default_settings() {
 		),
 	);
 
-	// Currently only iOS Safari supports multiple files uploading but iOS 7.x has a bug that prevents uploading of videos
+	// Currently only iOS Safari supports multiple files uploading but iOS 7.x has a bug that prEvents uploading of videos
 	// when enabled. See #29602.
 	if ( wp_is_mobile() && strpos( $_SERVER['HTTP_USER_AGENT'], 'OS 7_' ) !== false &&
 		strpos( $_SERVER['HTTP_USER_AGENT'], 'like Mac OS X' ) !== false ) {

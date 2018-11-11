@@ -10,7 +10,7 @@ Akismet checks your comments and contact form submissions against our global dat
 
 == Description ==
 
-Akismet checks your comments and contact form submissions against our global database of spam to prevent your site from publishing malicious content. You can review the comment spam it catches on your blog's "Comments" admin screen.
+Akismet checks your comments and contact form submissions against our global database of spam to prEvent your site from publishing malicious content. You can review the comment spam it catches on your blog's "Comments" admin screen.
 
 Major features in Akismet include:
 
@@ -60,7 +60,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 * Added a hook to provide Akismet-specific privacy information for a site's privacy policy.
 * Added tools to control the display of a privacy related notice under comment forms.
 * Fixed HTML in activation failure message to close META and HEAD tag properly.
-* Fixed a bug that would sometimes prevent Akismet from being correctly auto-configured.
+* Fixed a bug that would sometimes prEvent Akismet from being correctly auto-configured.
 
 = 4.0.3 =
 *Release Date - 19 February 2018*
@@ -77,8 +77,8 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 = 4.0.1 =
 *Release Date - 6 November 2017*
 
-* Fixed a bug that could prevent some users from connecting Akismet via their Jetpack connection.
-* Ensured that any pending Akismet-related events are unscheduled if the plugin is deactivated.
+* Fixed a bug that could prEvent some users from connecting Akismet via their Jetpack connection.
+* Ensured that any pending Akismet-related Events are unscheduled if the plugin is deactivated.
 * Allow some JavaScript to be run asynchronously to avoid affecting page render speeds.
 
 = 4.0 =
@@ -95,7 +95,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 * Disabled Akismet's debug log output by default unless AKISMET_DEBUG is defined.
 * URL previews now begin preloading when the mouse moves near them in the comments section of wp-admin.
 * When a comment is caught by the Comment Blacklist, Akismet will always allow it to stay in the trash even if it is spam as well.
-* Fixed a bug that was preventing an error from being shown when a site can't reach Akismet's servers.
+* Fixed a bug that was prEventing an error from being shown when a site can't reach Akismet's servers.
 
 = 3.3.3 =
 *Release Date - 13 July 2017*
@@ -116,15 +116,15 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 
 * Improve performance by only requesting the akismet_comment_nonce option when absolutely necessary.
 * Fixed two bugs that could cause PHP warnings.
-* Fixed a bug that was preventing the "Remove author URL" feature from working after a comment was edited using "Quick Edit."
-* Fixed a bug that was preventing the URL preview feature from working after a comment was edited using "Quick Edit."
+* Fixed a bug that was prEventing the "Remove author URL" feature from working after a comment was edited using "Quick Edit."
+* Fixed a bug that was prEventing the URL preview feature from working after a comment was edited using "Quick Edit."
 
 = 3.3 =
 *Release Date - 23 February 2017*
 
 * Updated the Akismet admin pages with a new clean design.
-* Fixed bugs preventing the `akismet_add_comment_nonce` and `akismet_update_alert` wrapper functions from working properly.
-* Fixed bug preventing the loading indicator from appearing when re-checking all comments for spam.
+* Fixed bugs prEventing the `akismet_add_comment_nonce` and `akismet_update_alert` wrapper functions from working properly.
+* Fixed bug prEventing the loading indicator from appearing when re-checking all comments for spam.
 * Added a progress indicator to the "Check for Spam" button.
 * Added a success message after manually rechecking the Pending queue for spam.
 
@@ -141,7 +141,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 *Release Date - 12 May 2016*
 
 * Fixed a bug that could cause the "Check for Spam" button to skip some comments.
-* Fixed a bug that could prevent some spam submissions from being sent to Akismet.
+* Fixed a bug that could prEvent some spam submissions from being sent to Akismet.
 * Updated all links to use https:// when possible.
 * Disabled Akismet debug logging unless WP_DEBUG and WP_DEBUG_LOG are both enabled.
 
@@ -156,12 +156,12 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 *Release Date - 28 March 2016*
 
 * Add compatibility with Jetpack so that Jetpack can automatically configure Akismet settings when appropriate.
-* Fixed a bug preventing some comment data from being sent to Akismet.
+* Fixed a bug prEventing some comment data from being sent to Akismet.
 
 = 3.1.8 =
 *Release Date - 4 March 2016*
 
-* Fixed a bug preventing Akismet from being used with some plugins that rewrite admin URLs.
+* Fixed a bug prEventing Akismet from being used with some plugins that rewrite admin URLs.
 * Reduced the amount of bandwidth used on Akismet API calls
 * Reduced the amount of space Akismet uses in the database
 * Fixed a bug that could cause comments caught as spam to be placed in the Pending queue.
@@ -171,7 +171,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 
 * Added documentation for the 'akismet_comment_nonce' filter.
 * The post-install activation button is now accessible to screen readers and keyboard-only users.
-* Fixed a bug that was preventing the "Remove author URL" feature from working in WordPress 4.4
+* Fixed a bug that was prEventing the "Remove author URL" feature from working in WordPress 4.4
 
 = 3.1.6 =
 *Release Date - 14 December 2015*
@@ -187,7 +187,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 = 3.1.4 =
 *Release Date - 24 September 2015*
 
-* Fixed a bug that was preventing some users from automatically connecting using Jetpack if they didn't have a current Akismet subscription.
+* Fixed a bug that was prEventing some users from automatically connecting using Jetpack if they didn't have a current Akismet subscription.
 * Fixed a bug that could cause comments caught as spam to be placed in the Pending queue.
 * Error messages and instructions have been simplified to be more understandable.
 * Link previews are enabled for all links inside comments, not just the author's website link.
@@ -231,7 +231,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 = 3.0.3 =
 *Release Date - 3rd November, 2014*
 
-* Fix for sending the wrong data to delete_comment action that could have prevented old spam comments from being deleted.
+* Fix for sending the wrong data to delete_comment action that could have prEvented old spam comments from being deleted.
 * Added a filter to disable logging of Akismet debugging information.
 * Added a filter for the maximum comment age when deleting old spam comments.
 * Added a filter for the number per batch when deleting old spam comments.
@@ -289,7 +289,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 
 * Simplify the activation process for new users
 * Remove the reporter_ip parameter
-* Minor preventative security improvements
+* Minor prEventative security improvements
 
 = 2.5.7 =
 *Release Date - 13th December, 2012*
@@ -297,7 +297,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 * FireFox Stats iframe preview bug
 * Fix mshots preview when using https
 * Add .htaccess to block direct access to files
-* Prevent some PHP notices
+* PrEvent some PHP notices
 * Fix Check For Spam return location when referrer is empty
 * Fix Settings links for network admins
 * Fix prepare() warnings in WP 3.5
@@ -305,7 +305,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 = 2.5.6 =
 *Release Date - 26th April, 2012*
 
-* Prevent retry scheduling problems on sites where wp_cron is misbehaving
+* PrEvent retry scheduling problems on sites where wp_cron is misbehaving
 * Preload mshot previews
 * Modernize the widget code
 * Fix a bug where comments were not held for moderation during an error condition
@@ -327,7 +327,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 * Limit Akismet CSS and Javascript loading in wp-admin to just the pages that need it
 * Added author URL quick removal functionality
 * Added mShot preview on Author URL hover
-* Added empty index.php to prevent directory listing
+* Added empty index.php to prEvent directory listing
 * Move wp-admin menu items under Jetpack, if it is installed
 * Purge old Akismet comment meta data, default of 15 days
 

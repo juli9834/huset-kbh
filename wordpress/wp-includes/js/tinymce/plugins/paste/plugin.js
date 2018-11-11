@@ -670,14 +670,14 @@ var paste = (function () {
   var postProcessFilter = function (editor, html, internal, isWordHtml) {
     var tempBody = editor.dom.create('div', { style: 'display:none' }, html);
     var postProcessArgs = $_8tki3zijjjgwectj.firePastePostProcess(editor, tempBody, internal, isWordHtml);
-    return processResult(postProcessArgs.node.innerHTML, postProcessArgs.isDefaultPrevented());
+    return processResult(postProcessArgs.node.innerHTML, postProcessArgs.isDefaultPrEvented());
   };
   var filterContent = function (editor, content, internal, isWordHtml) {
     var preProcessArgs = $_8tki3zijjjgwectj.firePastePreProcess(editor, content, internal, isWordHtml);
-    if (editor.hasEventListeners('PastePostProcess') && !preProcessArgs.isDefaultPrevented()) {
+    if (editor.hasEventListeners('PastePostProcess') && !preProcessArgs.isDefaultPrEvented()) {
       return postProcessFilter(editor, preProcessArgs.content, internal, isWordHtml);
     } else {
-      return processResult(preProcessArgs.content, preProcessArgs.isDefaultPrevented());
+      return processResult(preProcessArgs.content, preProcessArgs.isDefaultPrEvented());
     }
   };
   var process = function (editor, html, internal) {
@@ -835,8 +835,8 @@ var paste = (function () {
       pasteHtml$1(editor, '<img src="' + dataUri + '">', false);
     }
   };
-  var isClipboardEvent = function (event$$1) {
-    return event$$1.type === 'paste';
+  var isClipboardEvent = function (Event$$1) {
+    return Event$$1.type === 'paste';
   };
   var pasteImageData = function (editor, e, rng) {
     var dataTransfer = isClipboardEvent(e) ? e.clipboardData : e.dataTransfer;
@@ -850,7 +850,7 @@ var paste = (function () {
             reader = new window.FileReader();
             reader.onload = pasteImage.bind(null, editor, rng, reader, blob);
             reader.readAsDataURL(blob);
-            e.preventDefault();
+            e.prEventDefault();
             hadImage = true;
           }
         }
@@ -873,11 +873,11 @@ var paste = (function () {
     var keyboardPastePlainTextState;
     editor.on('keydown', function (e) {
       function removePasteBinOnKeyUp(e) {
-        if (isKeyboardPasteEvent(e) && !e.isDefaultPrevented()) {
+        if (isKeyboardPasteEvent(e) && !e.isDefaultPrEvented()) {
           pasteBin.remove();
         }
       }
-      if (isKeyboardPasteEvent(e) && !e.isDefaultPrevented()) {
+      if (isKeyboardPasteEvent(e) && !e.isDefaultPrEvented()) {
         keyboardPastePlainTextState = e.shiftKey && e.keyCode === 86;
         if (keyboardPastePlainTextState && global$1.webkit && navigator.userAgent.indexOf('Version/') !== -1) {
           return;
@@ -885,7 +885,7 @@ var paste = (function () {
         e.stopImmediatePropagation();
         keyboardPasteTimeStamp = new Date().getTime();
         if (global$1.ie && keyboardPastePlainTextState) {
-          e.preventDefault();
+          e.prEventDefault();
           $_8tki3zijjjgwectj.firePaste(editor, true);
           return;
         }
@@ -944,7 +944,7 @@ var paste = (function () {
       var plainTextMode = pasteFormat.get() === 'text' || keyboardPastePlainTextState;
       var internal = hasContentType(clipboardContent, $_4x13hjirjjgwecu1.internalHtmlMime());
       keyboardPastePlainTextState = false;
-      if (e.isDefaultPrevented() || isBrokenAndroidClipboardEvent(e)) {
+      if (e.isDefaultPrEvented() || isBrokenAndroidClipboardEvent(e)) {
         pasteBin.remove();
         return;
       }
@@ -953,7 +953,7 @@ var paste = (function () {
         return;
       }
       if (!isKeyBoardPaste) {
-        e.preventDefault();
+        e.prEventDefault();
       }
       if (global$1.ie && (!isKeyBoardPaste || e.ieFake) && !hasContentType(clipboardContent, 'text/html')) {
         pasteBin.create();
@@ -964,7 +964,7 @@ var paste = (function () {
         clipboardContent['text/html'] = pasteBin.getHtml();
       }
       if (hasContentType(clipboardContent, 'text/html')) {
-        e.preventDefault();
+        e.prEventDefault();
         if (!internal) {
           internal = $_4x13hjirjjgwecu1.isMarked(clipboardContent['text/html']);
         }
@@ -1170,7 +1170,7 @@ var paste = (function () {
   };
   var setClipboardData = function (evt, data, fallback, done) {
     if (setHtml5Clipboard(evt.clipboardData, data.html, data.text)) {
-      evt.preventDefault();
+      evt.prEventDefault();
       done();
     } else {
       fallback(data.html, done);
@@ -1251,7 +1251,7 @@ var paste = (function () {
   var setup = function (editor, clipboard, draggingInternallyState) {
     if ($_xr8b0ikjjgwectl.shouldBlockDrop(editor)) {
       editor.on('dragend dragover draggesture dragdrop drop drag', function (e) {
-        e.preventDefault();
+        e.prEventDefault();
         e.stopPropagation();
       });
     }
@@ -1259,14 +1259,14 @@ var paste = (function () {
       editor.on('drop', function (e) {
         var dataTransfer = e.dataTransfer;
         if (dataTransfer && dataTransfer.files && dataTransfer.files.length > 0) {
-          e.preventDefault();
+          e.prEventDefault();
         }
       });
     }
     editor.on('drop', function (e) {
       var dropContent, rng;
       rng = getCaretRangeFromEvent(editor, e);
-      if (e.isDefaultPrevented() || draggingInternallyState.get()) {
+      if (e.isDefaultPrEvented() || draggingInternallyState.get()) {
         return;
       }
       dropContent = clipboard.getDataTransferItems(e.dataTransfer);
@@ -1277,7 +1277,7 @@ var paste = (function () {
       if (rng && $_xr8b0ikjjgwectl.shouldFilterDrop(editor)) {
         var content_1 = dropContent['mce-internal'] || dropContent['text/html'] || dropContent['text/plain'];
         if (content_1) {
-          e.preventDefault();
+          e.prEventDefault();
           global$2.setEditorTimeout(editor, function () {
             editor.undoManager.transact(function () {
               if (dropContent['mce-internal']) {
@@ -1300,7 +1300,7 @@ var paste = (function () {
     });
     editor.on('dragover dragend', function (e) {
       if ($_xr8b0ikjjgwectl.shouldPasteDataImages(editor) && draggingInternallyState.get() === false) {
-        e.preventDefault();
+        e.prEventDefault();
         setFocusedRange(editor, getCaretRangeFromEvent(editor, e));
       }
       if (e.type === 'dragend') {

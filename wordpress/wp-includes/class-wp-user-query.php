@@ -326,7 +326,7 @@ class WP_User_Query {
 				'compare' => '!=',
 			);
 
-			// Prevent extra meta query.
+			// PrEvent extra meta query.
 			$qv['blog_id'] = $blog_id = 0;
 
 			if ( empty( $this->meta_query->queries ) ) {

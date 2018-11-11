@@ -46,7 +46,7 @@ $shortcode_tags = array();
  *
  * Care should be taken through prefixing or other means to ensure that the
  * shortcode tag being added is unique and will not conflict with other,
- * already-added shortcode tags. In the event of a duplicated tag, the tag
+ * already-added shortcode tags. In the Event of a duplicated tag, the tag
  * loaded last will take precedence.
  *
  * @since 2.5.0
@@ -335,7 +335,7 @@ function do_shortcode_tag( $m ) {
  * Search only inside HTML elements for shortcodes and process them.
  *
  * Any [ or ] characters remaining inside elements will be HTML encoded
- * to prevent interference with shortcodes that are outside the elements.
+ * to prEvent interference with shortcodes that are outside the elements.
  * Assumes $content processed by KSES already.  Users with unfiltered_html
  * capability may get unexpected output if angle braces are nested in tags.
  *

@@ -23,7 +23,7 @@
  * <li>WP_PROXY_PORT - Proxy port for connection. No default, must be defined.</li>
  * <li>WP_PROXY_USERNAME - Proxy username, if it requires authentication.</li>
  * <li>WP_PROXY_PASSWORD - Proxy password, if it requires authentication.</li>
- * <li>WP_PROXY_BYPASS_HOSTS - Will prevent the hosts in this list from going through the proxy.
+ * <li>WP_PROXY_BYPASS_HOSTS - Will prEvent the hosts in this list from going through the proxy.
  * You do not need to have localhost and the site host in this list, because they will not be passed
  * through the proxy. The list should be presented in a comma separated list, wildcards using * are supported, eg. *.wordpress.org</li>
  * </ol>

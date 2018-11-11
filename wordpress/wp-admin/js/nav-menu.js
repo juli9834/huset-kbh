@@ -538,7 +538,7 @@ var wpNavMenu;
 					if ( 37 != e.which && 38 != e.which && 39 != e.which && 40 != e.which )
 						return;
 
-					// Avoid multiple keydown events
+					// Avoid multiple keydown Events
 					$this.off('keydown');
 
 					// Bail if there is only one menu item
@@ -817,15 +817,15 @@ var wpNavMenu;
 			$('#update-nav-menu').bind('click', function(e) {
 				if ( e.target && e.target.className ) {
 					if ( -1 != e.target.className.indexOf('item-edit') ) {
-						return that.eventOnClickEditLink(e.target);
+						return that.EventOnClickEditLink(e.target);
 					} else if ( -1 != e.target.className.indexOf('menu-save') ) {
-						return that.eventOnClickMenuSave(e.target);
+						return that.EventOnClickMenuSave(e.target);
 					} else if ( -1 != e.target.className.indexOf('menu-delete') ) {
-						return that.eventOnClickMenuDelete(e.target);
+						return that.EventOnClickMenuDelete(e.target);
 					} else if ( -1 != e.target.className.indexOf('item-delete') ) {
-						return that.eventOnClickMenuItemDelete(e.target);
+						return that.EventOnClickMenuItemDelete(e.target);
 					} else if ( -1 != e.target.className.indexOf('item-cancel') ) {
-						return that.eventOnClickCancelLink(e.target);
+						return that.EventOnClickCancelLink(e.target);
 					}
 				}
 			});
@@ -833,7 +833,7 @@ var wpNavMenu;
 				$('#customlinkdiv').removeClass('form-invalid');
 
 				if ( e.keyCode === 13 ) {
-					e.preventDefault();
+					e.prEventDefault();
 					$( '#submit-customlinkdiv' ).click();
 				}
 			});
@@ -870,14 +870,14 @@ var wpNavMenu;
 			var searchTimer,
 				inputEvent;
 
-			// Prevent form submission.
-			$( '#nav-menu-meta' ).on( 'submit', function( event ) {
-				event.preventDefault();
+			// PrEvent form submission.
+			$( '#nav-menu-meta' ).on( 'submit', function( Event ) {
+				Event.prEventDefault();
 			});
 
 			/*
 			 * Use feature detection to determine whether inputs should use
-			 * the `keyup` or `input` event. Input is preferred but lacks support
+			 * the `keyup` or `input` Event. Input is preferred but lacks support
 			 * in legacy browsers. See changeset 34078, see also ticket #26600#comment:59
 			 */
 			if ( 'oninput' in document.createElement( 'input' ) ) {
@@ -1081,7 +1081,7 @@ var wpNavMenu;
 						wrapper.removeClass( 'has-no-menu-item' );
 					}
 
-					e.preventDefault();
+					e.prEventDefault();
 				} else if ( target.hasClass('select-all') ) {
 					selectAreaMatch = /#(.*)$/.exec(e.target.href);
 					if ( selectAreaMatch && selectAreaMatch[1] ) {
@@ -1104,7 +1104,7 @@ var wpNavMenu;
 			});
 
 			/*
-			 * Delegate the `click` event and attach it just to the pagination
+			 * Delegate the `click` Event and attach it just to the pagination
 			 * links thus excluding the current page `<span>`. See ticket #35577.
 			 */
 			$( '#nav-menu-meta' ).on( 'click', 'a.page-numbers', function() {
@@ -1135,7 +1135,7 @@ var wpNavMenu;
 			});
 		},
 
-		eventOnClickEditLink : function(clickedEl) {
+		EventOnClickEditLink : function(clickedEl) {
 			var settings, item,
 			matchedSection = /#(.*)$/.exec(clickedEl.href);
 			if ( matchedSection && matchedSection[1] ) {
@@ -1159,7 +1159,7 @@ var wpNavMenu;
 			}
 		},
 
-		eventOnClickCancelLink : function(clickedEl) {
+		EventOnClickCancelLink : function(clickedEl) {
 			var settings = $( clickedEl ).closest( '.menu-item-settings' ),
 				thisMenuItem = $( clickedEl ).closest( '.menu-item' );
 			thisMenuItem.removeClass('menu-item-edit-active').addClass('menu-item-edit-inactive');
@@ -1167,7 +1167,7 @@ var wpNavMenu;
 			return false;
 		},
 
-		eventOnClickMenuSave : function() {
+		EventOnClickMenuSave : function() {
 			var locs = '',
 			menuName = $('#menu-name'),
 			menuNameVal = menuName.val();
@@ -1188,7 +1188,7 @@ var wpNavMenu;
 			return true;
 		},
 
-		eventOnClickMenuDelete : function() {
+		EventOnClickMenuDelete : function() {
 			// Delete warning AYS
 			if ( window.confirm( navMenuL10n.warnDeleteMenu ) ) {
 				window.onbeforeunload = null;
@@ -1197,7 +1197,7 @@ var wpNavMenu;
 			return false;
 		},
 
-		eventOnClickMenuItemDelete : function(clickedEl) {
+		EventOnClickMenuItemDelete : function(clickedEl) {
 			var itemID = parseInt(clickedEl.id.replace('delete-', ''), 10);
 			api.removeMenuItem( $('#menu-item-' + itemID) );
 			api.registerChange();

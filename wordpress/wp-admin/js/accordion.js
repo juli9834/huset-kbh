@@ -38,7 +38,7 @@
 				return;
 			}
 
-			e.preventDefault(); // Keep this AFTER the key filter above
+			e.prEventDefault(); // Keep this AFTER the key filter above
 
 			accordionSwitch( $( this ) );
 		});

@@ -1,13 +1,13 @@
 <?php
 /**
- * Handles adding and dispatching events
+ * Handles adding and dispatching Events
  *
  * @package Requests
  * @subpackage Utilities
  */
 
 /**
- * Handles adding and dispatching events
+ * Handles adding and dispatching Events
  *
  * @package Requests
  * @subpackage Utilities
@@ -31,7 +31,7 @@ class Requests_Hooks implements Requests_Hooker {
 	 * Register a callback for a hook
 	 *
 	 * @param string $hook Hook name
-	 * @param callback $callback Function/method to call on event
+	 * @param callback $callback Function/method to call on Event
 	 * @param int $priority Priority number. <0 is executed earlier, >0 is executed later
 	 */
 	public function register($hook, $callback, $priority = 0) {

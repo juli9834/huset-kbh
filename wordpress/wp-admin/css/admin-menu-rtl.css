@@ -438,7 +438,7 @@ ul#adminmenu > li.current > a.current:after {
 	height: 0;
 	width: 0;
 	position: absolute;
-	pointer-events: none;
+	pointer-Events: none;
 	border-left-color: #f1f1f1;
 	top: 50%;
 	margin-top: -8px;
@@ -462,7 +462,7 @@ ul#adminmenu > li.current > a.current:after {
 	height: 0;
 	width: 0;
 	position: absolute;
-	pointer-events: none;
+	pointer-Events: none;
 	border-width: 8px;
 	top: 10px;
 	z-index: 10000;

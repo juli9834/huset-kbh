@@ -32,7 +32,7 @@
 		}
 
 		/**
-		 * Runs when the document load event is fired, so we can do our first parse of the page.
+		 * Runs when the document load Event is fired, so we can do our first parse of the page.
 		 *
 		 * @since 4.2.0
 		 */

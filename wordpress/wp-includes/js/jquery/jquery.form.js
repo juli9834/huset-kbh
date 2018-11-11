@@ -4,7 +4,7 @@
  * Requires jQuery v1.7 or later
  * Copyright 2017 Kevin Morris
  * Copyright 2006 M. Alsup
- * Project repository: https://github.com/jquery-form/form
+ * Event repository: https://github.com/jquery-form/form
  * Dual licensed under the MIT and LGPLv3 licenses.
  * https://github.com/jquery-form/form#license
  */
@@ -49,14 +49,14 @@
 
 		$(document).ready(function() {
 			$('#myForm').on('submit', function(e) {
-				e.preventDefault(); // <-- important
+				e.prEventDefault(); // <-- important
 				$(this).ajaxSubmit({
 					target: '#output'
 				});
 			});
 		});
 
-		Use ajaxForm when you want the plugin to manage all the event binding
+		Use ajaxForm when you want the plugin to manage all the Event binding
 		for you. For example,
 
 		$(document).ready(function() {
@@ -204,7 +204,7 @@
 			return this;
 		}
 
-		// fire vetoable 'validate' event
+		// fire vetoable 'validate' Event
 		this.trigger('form-submit-validate', [a, this, options, veto]);
 		if (veto.veto) {
 			log('ajaxSubmit: submit vetoed via form-submit-validate trigger');
@@ -333,7 +333,7 @@
 			elements[k] = null;
 		}
 
-		// fire 'notify' event
+		// fire 'notify' Event
 		this.trigger('form-submit-notify', [this, options]);
 
 		return this;
@@ -389,16 +389,16 @@
 					var xhr = $.ajaxSettings.xhr();
 
 					if (xhr.upload) {
-						xhr.upload.addEventListener('progress', function(event) {
+						xhr.upload.addEventListener('progress', function(Event) {
 							var percent = 0;
-							var position = event.loaded || event.position;			/* event.position is deprecated */
-							var total = event.total;
+							var position = Event.loaded || Event.position;			/* Event.position is deprecated */
+							var total = Event.total;
 
-							if (event.lengthComputable) {
+							if (Event.lengthComputable) {
 								percent = Math.ceil(position / total * 100);
 							}
 
-							options.uploadProgress(event, position, total, percent);
+							options.uploadProgress(Event, position, total, percent);
 						}, false);
 					}
 
@@ -498,7 +498,7 @@
 					}
 
 					if (g) {
-						$.event.trigger('ajaxError', [xhr, s, e]);
+						$.Event.trigger('ajaxError', [xhr, s, e]);
 					}
 
 					if (s.complete) {
@@ -508,12 +508,12 @@
 			};
 
 			g = s.global;
-			// trigger ajax global events so that activity/block indicators work like normal
+			// trigger ajax global Events so that activity/block indicators work like normal
 			if (g && $.active++ === 0) {
-				$.event.trigger('ajaxStart');
+				$.Event.trigger('ajaxStart');
 			}
 			if (g) {
-				$.event.trigger('ajaxSend', [xhr, s]);
+				$.Event.trigger('ajaxSend', [xhr, s]);
 			}
 
 			if (s.beforeSend && s.beforeSend.call(s.context, xhr, s) === false) {
@@ -850,7 +850,7 @@
 					deferred.resolve(xhr.responseText, 'success', xhr);
 
 					if (g) {
-						$.event.trigger('ajaxSuccess', [xhr, s]);
+						$.Event.trigger('ajaxSuccess', [xhr, s]);
 					}
 
 				} else if (status) {
@@ -862,16 +862,16 @@
 					}
 					deferred.reject(xhr, 'error', errMsg);
 					if (g) {
-						$.event.trigger('ajaxError', [xhr, s, errMsg]);
+						$.Event.trigger('ajaxError', [xhr, s, errMsg]);
 					}
 				}
 
 				if (g) {
-					$.event.trigger('ajaxComplete', [xhr, s]);
+					$.Event.trigger('ajaxComplete', [xhr, s]);
 				}
 
 				if (g && !--$.active) {
-					$.event.trigger('ajaxStop');
+					$.Event.trigger('ajaxStop');
 				}
 
 				if (s.complete) {
@@ -952,7 +952,7 @@
 	 * 3. This method binds the submit() method to the form for you.
 	 *
 	 * The options argument for ajaxForm works exactly as it does for ajaxSubmit. ajaxForm merely
-	 * passes the options argument along after properly binding events for submit elements and
+	 * passes the options argument along after properly binding Events for submit elements and
 	 * the form itself.
 	 */
 	$.fn.ajaxForm = function(options, data, dataType, onSuccess) {
@@ -1005,13 +1005,13 @@
 			.on('click.form-plugin', options, captureSubmittingElement);
 	};
 
-	// private event handlers
+	// private Event handlers
 	function doAjaxSubmit(e) {
 		/* jshint validthis:true */
 		var options = e.data;
 
-		if (!e.isDefaultPrevented()) { // if event has been canceled, don't proceed
-			e.preventDefault();
+		if (!e.isDefaultPrEvented()) { // if Event has been canceled, don't proceed
+			e.prEventDefault();
 			$(e.target).closest('form').ajaxSubmit(options); // #365
 		}
 	}
@@ -1058,7 +1058,7 @@
 	}
 
 
-	// ajaxFormUnbind unbinds the event handlers that were bound by ajaxForm
+	// ajaxFormUnbind unbinds the Event handlers that were bound by ajaxForm
 	$.fn.ajaxFormUnbind = function() {
 		return this.off('submit.form-plugin click.form-plugin');
 	};

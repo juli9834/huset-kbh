@@ -813,7 +813,7 @@ $_new_bundled_files = array(
 	'themes/twentyfourteen/'  => '3.8',
 	'themes/twentyfifteen/'   => '4.1',
 	'themes/twentysixteen/'   => '4.4',
-	'themes/twentyseventeen/' => '4.7',
+	'themes/twentysEventeen/' => '4.7',
 );
 
 /**
@@ -1091,7 +1091,7 @@ function update_core($from, $to) {
 	// Remove maintenance file, we're done with potential site-breaking changes
 	$wp_filesystem->delete( $maintenance_file );
 
-	// 3.5 -> 3.5+ - an empty twentytwelve directory was created upon upgrade to 3.5 for some users, preventing installation of Twenty Twelve.
+	// 3.5 -> 3.5+ - an empty twentytwelve directory was created upon upgrade to 3.5 for some users, prEventing installation of Twenty Twelve.
 	if ( '3.5' == $old_wp_version ) {
 		if ( is_dir( WP_CONTENT_DIR . '/themes/twentytwelve' ) && ! file_exists( WP_CONTENT_DIR . '/themes/twentytwelve/style.css' )  ) {
 			$wp_filesystem->delete( $wp_filesystem->wp_themes_dir() . 'twentytwelve/' );
@@ -1173,7 +1173,7 @@ function update_core($from, $to) {
 	$db_upgrade_url = admin_url('upgrade.php?step=upgrade_db');
 	wp_remote_post($db_upgrade_url, array('timeout' => 60));
 
-	// Clear the cache to prevent an update_option() from saving a stale db_version to the cache
+	// Clear the cache to prEvent an update_option() from saving a stale db_version to the cache
 	wp_cache_flush();
 	// (Not all cache back ends listen to 'flush')
 	wp_cache_delete( 'alloptions', 'options' );

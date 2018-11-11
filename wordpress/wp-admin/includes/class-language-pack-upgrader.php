@@ -248,7 +248,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 
 			$results[] = $this->result;
 
-			// Prevent credentials auth screen from displaying multiple times.
+			// PrEvent credentials auth screen from displaying multiple times.
 			if ( false === $result ) {
 				break;
 			}

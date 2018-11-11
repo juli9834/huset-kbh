@@ -54,16 +54,16 @@
 				hide: false,
 				color: color,
 				/**
-				 * @summary Handles the onChange event if one has been defined in the options.
+				 * @summary Handles the onChange Event if one has been defined in the options.
 				 *
-				 * @param {Event} event    The event that's being called.
+				 * @param {Event} Event    The Event that's being called.
 				 * @param {HTMLElement} ui The HTMLElement containing the color picker.
 				 *
 				 * @returns {void}
 				 */
-				change: function( event, ui ) {
+				change: function( Event, ui ) {
 					if ( $.isFunction( self.options.change ) ) {
-						self.options.change.call( this, event, ui );
+						self.options.change.call( this, Event, ui );
 					}
 				},
 				width: self.options.width,
@@ -98,7 +98,7 @@
 				return self._createHueOnly();
 			}
 
-			// Bind the close event.
+			// Bind the close Event.
 			self.close = $.proxy( self.close, self );
 
 			self.initialValue = el.val();
@@ -172,23 +172,23 @@
 				mode: self.options.mode,
 				palettes: self.options.palettes,
 				/**
-				 * @summary Handles the onChange event if one has been defined in the options.
+				 * @summary Handles the onChange Event if one has been defined in the options.
 				 *
-				 * Handles the onChange event if one has been defined in the options and additionally
+				 * Handles the onChange Event if one has been defined in the options and additionally
 				 * sets the background color for the toggler element.
 				 *
 				 * @since 3.5.0
 				 *
-				 * @param {Event} event    The event that's being called.
+				 * @param {Event} Event    The Event that's being called.
 				 * @param {HTMLElement} ui The HTMLElement containing the color picker.
 				 *
 				 * @returns {void}
 				 */
-				change: function( event, ui ) {
+				change: function( Event, ui ) {
 					self.toggler.css( { backgroundColor: ui.color.toString() } );
 
 					if ( $.isFunction( self.options.change ) ) {
-						self.options.change.call( this, event, ui );
+						self.options.change.call( this, Event, ui );
 					}
 				}
 			} );
@@ -202,7 +202,7 @@
 			}
 		},
 		/**
-		 * @summary Binds event listeners to the color picker.
+		 * @summary Binds Event listeners to the color picker.
 		 *
 		 * @since 3.5.0
 		 *
@@ -214,16 +214,16 @@
 			var self = this;
 
 			/**
-			 * @summary Prevent any clicks inside this widget from leaking to the top and closing it.
+			 * @summary PrEvent any clicks inside this widget from leaking to the top and closing it.
 			 *
 			 * @since 3.5.0
 			 *
-			 * @param {Event} event The event that's being called.
+			 * @param {Event} Event The Event that's being called.
 			 *
 			 * @returs {void}
 			 */
-			self.wrap.on( 'click.wpcolorpicker', function( event ) {
-				event.stopPropagation();
+			self.wrap.on( 'click.wpcolorpicker', function( Event ) {
+				Event.stopPropagation();
 			});
 
 			/**
@@ -247,11 +247,11 @@
 			 *
 			 * @since 3.5.0
 			 *
-			 * @param {Event} event The event that's being called.
+			 * @param {Event} Event The Event that's being called.
 			 *
 			 * @returns {void}
 			 */
-			self.element.change( function( event ) {
+			self.element.change( function( Event ) {
 				var me = $( this ),
 					val = me.val();
 
@@ -259,7 +259,7 @@
 					self.toggler.css( 'backgroundColor', '' );
 					// Fire clear callback if we have one.
 					if ( $.isFunction( self.options.clear ) ) {
-						self.options.clear.call( this, event );
+						self.options.clear.call( this, Event );
 					}
 				}
 			});
@@ -271,17 +271,17 @@
 			 *
 			 * @since 3.5.0
 			 *
-			 * @param {Event} event The event that's being called.
+			 * @param {Event} Event The Event that's being called.
 			 *
 			 * @returns {void}
 			 */
-			self.button.click( function( event ) {
+			self.button.click( function( Event ) {
 				var me = $( this );
 				if ( me.hasClass( 'wp-picker-clear' ) ) {
 					self.element.val( '' );
 					self.toggler.css( 'backgroundColor', '' );
 					if ( $.isFunction( self.options.clear ) ) {
-						self.options.clear.call( this, event );
+						self.options.clear.call( this, Event );
 					}
 				} else if ( me.hasClass( 'wp-picker-default' ) ) {
 					self.element.val( self.options.defaultColor ).change();

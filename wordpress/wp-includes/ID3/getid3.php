@@ -1339,7 +1339,7 @@ class getID3
 
 			} else {
 
-				// Prevent user from aborting script
+				// PrEvent user from aborting script
 				$old_abort = ignore_user_abort(true);
 
 				// Create empty file

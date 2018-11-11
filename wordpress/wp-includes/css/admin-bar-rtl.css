@@ -14,8 +14,8 @@
 	border-radius: 0;
 	box-sizing: content-box;
 	transition: none;
-	-webkit-font-smoothing: subpixel-antialiased; /* Prevent Safari from switching to standard antialiasing on hover */
-	-moz-osx-font-smoothing: auto; /* Prevent Firefox from inheriting from themes that use other values */
+	-webkit-font-smoothing: subpixel-antialiased; /* PrEvent Safari from switching to standard antialiasing on hover */
+	-moz-osx-font-smoothing: auto; /* PrEvent Firefox from inheriting from themes that use other values */
 }
 
 .rtl #wpadminbar * {
@@ -969,7 +969,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 		text-indent: 150%; /* More than 100% indention is needed since this element has padding */
 		width: 28px;
 		padding: 0 10px;
-		overflow: hidden; /* Prevent link text from forcing horizontal scrolling on mobile */
+		overflow: hidden; /* PrEvent link text from forcing horizontal scrolling on mobile */
 	}
 
 	#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {

@@ -302,7 +302,7 @@ media.query = function( props ) {
 	});
 };
 
-// Clean up. Prevents mobile browsers caching
+// Clean up. PrEvents mobile browsers caching
 $(window).on('unload', function(){
 	window.wp = null;
 });
@@ -528,7 +528,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		this.props   = new Backbone.Model();
 		this.filters = options.filters || {};
 
-		// Bind default `change` events to the `props` model.
+		// Bind default `change` Events to the `props` model.
 		this.props.on( 'change', this._changeFilteredProps, this );
 
 		this.props.on( 'change:order',   this._changeOrder,   this );
@@ -701,7 +701,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		return this;
 	},
 	/**
-	 * Start observing another attachments collection change events
+	 * Start observing another attachments collection change Events
 	 * and replicate them on this collection.
 	 *
 	 * @param {wp.media.model.Attachments} The attachments collection to observe.
@@ -717,7 +717,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		return this;
 	},
 	/**
-	 * Stop replicating collection change events from another attachments collection.
+	 * Stop replicating collection change Events from another attachments collection.
 	 *
 	 * @param {wp.media.model.Attachments} The attachments collection to stop observing.
 	 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
@@ -779,7 +779,7 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		this.unmirror();
 		this.mirroring = attachments;
 
-		// Clear the collection silently. A `reset` event will be fired
+		// Clear the collection silently. A `reset` Event will be fired
 		// when `observe()` calls `validateAll()`.
 		this.reset( [], { silent: true } );
 		this.observe( attachments );
@@ -1599,13 +1599,13 @@ Selection = Attachments.extend(/** @lends wp.media.model.Selection.prototype */{
 
 		this._single = this._single || this.last();
 
-		// If single has changed, fire an event.
+		// If single has changed, fire an Event.
 		if ( this._single !== previous ) {
 			if ( previous ) {
 				previous.trigger( 'selection:unsingle', previous, this );
 
 				// If the model was already removed, trigger the collection
-				// event manually.
+				// Event manually.
 				if ( ! this.get( previous.cid ) ) {
 					this.trigger( 'selection:unsingle', previous, this );
 				}

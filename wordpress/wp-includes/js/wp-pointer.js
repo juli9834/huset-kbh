@@ -16,21 +16,21 @@
 			content: function() {
 				return $(this).text();
 			},
-			buttons: function( event, t ) {
+			buttons: function( Event, t ) {
 				var close  = ( wpPointerL10n ) ? wpPointerL10n.dismiss : 'Dismiss',
 					button = $('<a class="close" href="#">' + close + '</a>');
 
 				return button.bind( 'click.pointer', function(e) {
-					e.preventDefault();
+					e.prEventDefault();
 					t.element.pointer('close');
 				});
 			},
 			position: 'top',
-			show: function( event, t ) {
+			show: function( Event, t ) {
 				t.pointer.show();
 				t.opened();
 			},
-			hide: function( event, t ) {
+			hide: function( Event, t ) {
 				t.pointer.hide();
 				t.closed();
 			},
@@ -94,7 +94,7 @@
 			return this.pointer;
 		},
 
-		update: function( event ) {
+		update: function( Event ) {
 			var self = this,
 				o    = this.options,
 				dfd  = $.Deferred(),
@@ -104,7 +104,7 @@
 				return;
 
 			dfd.done( function( content ) {
-				self._update( event, content );
+				self._update( Event, content );
 			});
 
 			// Either o.content is a string...
@@ -113,7 +113,7 @@
 
 			// ...or o.content is a callback.
 			} else {
-				content = o.content.call( this.element[0], dfd.resolve, event, this._handoff() );
+				content = o.content.call( this.element[0], dfd.resolve, Event, this._handoff() );
 			}
 
 			// If content is set, then complete the update.
@@ -124,10 +124,10 @@
 		},
 
 		/**
-		 * Update is separated into two functions to allow events to defer
+		 * Update is separated into two functions to allow Events to defer
 		 * updating the pointer (e.g. fetch content with ajax, etc).
 		 */
-		_update: function( event, content ) {
+		_update: function( Event, content ) {
 			var buttons,
 				o = this.options;
 
@@ -137,7 +137,7 @@
 			this.pointer.stop(); // Kill any animations on the pointer.
 			this.content.html( content );
 
-			buttons = o.buttons.call( this.element[0], event, this._handoff() );
+			buttons = o.buttons.call( this.element[0], Event, this._handoff() );
 			if ( buttons ) {
 				buttons.wrap('<div class="wp-pointer-buttons" />').parent().appendTo( this.content );
 			}
@@ -218,7 +218,7 @@
 			return result;
 		},
 
-		open: function( event ) {
+		open: function( Event ) {
 			var self = this,
 				o    = this.options;
 
@@ -226,11 +226,11 @@
 				return;
 
 			this.update().done( function() {
-				self._open( event );
+				self._open( Event );
 			});
 		},
 
-		_open: function( event ) {
+		_open: function( Event ) {
 			var self = this,
 				o    = this.options;
 
@@ -239,26 +239,26 @@
 
 			this.active = true;
 
-			this._trigger( 'open', event, this._handoff() );
+			this._trigger( 'open', Event, this._handoff() );
 
-			this._trigger( 'show', event, this._handoff({
+			this._trigger( 'show', Event, this._handoff({
 				opened: function() {
-					self._trigger( 'opened', event, self._handoff() );
+					self._trigger( 'opened', Event, self._handoff() );
 				}
 			}));
 		},
 
-		close: function( event ) {
+		close: function( Event ) {
 			if ( !this.active || this.options.disabled )
 				return;
 
 			var self = this;
 			this.active = false;
 
-			this._trigger( 'close', event, this._handoff() );
-			this._trigger( 'hide', event, this._handoff({
+			this._trigger( 'close', Event, this._handoff() );
+			this._trigger( 'hide', Event, this._handoff({
 				closed: function() {
-					self._trigger( 'closed', event, self._handoff() );
+					self._trigger( 'closed', Event, self._handoff() );
 				}
 			}));
 		},
@@ -268,11 +268,11 @@
 				this.pointer.css( 'z-index', zindex++ );
 		},
 
-		toggle: function( event ) {
+		toggle: function( Event ) {
 			if ( this.pointer.is(':hidden') )
-				this.open( event );
+				this.open( Event );
 			else
-				this.close( event );
+				this.close( Event );
 		},
 
 		_handoff: function( extend ) {

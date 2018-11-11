@@ -107,14 +107,14 @@
 			this.$( '.wp-playlist-item' ).eq(0).addClass( this.playingClass );
 		},
 
-		events : {
+		Events : {
 			'click .wp-playlist-item' : 'clickTrack',
 			'click .wp-playlist-next' : 'next',
 			'click .wp-playlist-prev' : 'prev'
 		},
 
 		clickTrack : function (e) {
-			e.preventDefault();
+			e.prEventDefault();
 
 			this.index = this.$( '.wp-playlist-item' ).index( e.currentTarget );
 			this.setCurrent();

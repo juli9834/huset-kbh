@@ -112,7 +112,7 @@ class Core_Upgrader extends WP_Upgrader {
 		else
 			$to_download = 'full';
 
-		// Lock to prevent multiple Core Updates occurring
+		// Lock to prEvent multiple Core Updates occurring
 		$lock = WP_Upgrader::create_lock( 'core_updater', 15 * MINUTE_IN_SECONDS );
 		if ( ! $lock ) {
 			return new WP_Error( 'locked', $this->strings['locked'] );
@@ -147,7 +147,7 @@ class Core_Upgrader extends WP_Upgrader {
 
 		$result = update_core( $working_dir, $wp_dir );
 
-		// In the event of an issue, we may be able to roll back.
+		// In the Event of an issue, we may be able to roll back.
 		if ( $parsed_args['attempt_rollback'] && $current->packages->rollback && ! $parsed_args['do_rollback'] ) {
 			$try_rollback = false;
 			if ( is_wp_error( $result ) ) {

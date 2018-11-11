@@ -116,10 +116,10 @@ include( ABSPATH . 'wp-admin/admin-footer.php' );
 return;
 
 // These are strings returned by the API that we want to be translatable
-__( 'Project Leaders' );
+__( 'Event Leaders' );
 __( 'Core Contributors to WordPress %s' );
 __( 'Noteworthy Contributors' );
-__( 'Cofounder, Project Lead' );
+__( 'Cofounder, Event Lead' );
 __( 'Lead Developer' );
 __( 'Release Lead' );
 __( 'Release Design Lead' );

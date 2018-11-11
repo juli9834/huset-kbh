@@ -297,31 +297,31 @@ function wp_ajax_autocomplete_user() {
 }
 
 /**
- * Handles AJAX requests for community events
+ * Handles AJAX requests for community Events
  *
  * @since 4.8.0
  */
-function wp_ajax_get_community_events() {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-community-events.php' );
+function wp_ajax_get_community_Events() {
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-community-Events.php' );
 
-	check_ajax_referer( 'community_events' );
+	check_ajax_referer( 'community_Events' );
 
 	$search         = isset( $_POST['location'] ) ? wp_unslash( $_POST['location'] ) : '';
 	$timezone       = isset( $_POST['timezone'] ) ? wp_unslash( $_POST['timezone'] ) : '';
 	$user_id        = get_current_user_id();
-	$saved_location = get_user_option( 'community-events-location', $user_id );
-	$events_client  = new WP_Community_Events( $user_id, $saved_location );
-	$events         = $events_client->get_events( $search, $timezone );
+	$saved_location = get_user_option( 'community-Events-location', $user_id );
+	$Events_client  = new WP_Community_Events( $user_id, $saved_location );
+	$Events         = $Events_client->get_Events( $search, $timezone );
 	$ip_changed     = false;
 
-	if ( is_wp_error( $events ) ) {
+	if ( is_wp_error( $Events ) ) {
 		wp_send_json_error( array(
-			'error' => $events->get_error_message(),
+			'error' => $Events->get_error_message(),
 		) );
 	} else {
-		if ( empty( $saved_location['ip'] ) && ! empty( $events['location']['ip'] ) ) {
+		if ( empty( $saved_location['ip'] ) && ! empty( $Events['location']['ip'] ) ) {
 			$ip_changed = true;
-		} elseif ( isset( $saved_location['ip'] ) && ! empty( $events['location']['ip'] ) && $saved_location['ip'] !== $events['location']['ip'] ) {
+		} elseif ( isset( $saved_location['ip'] ) && ! empty( $Events['location']['ip'] ) && $saved_location['ip'] !== $Events['location']['ip'] ) {
 			$ip_changed = true;
 		}
 
@@ -339,10 +339,10 @@ function wp_ajax_get_community_events() {
 		 * The location is stored network-wide, so that the user doesn't have to set it on each site.
 		 */
 		if ( $ip_changed || $search ) {
-			update_user_option( $user_id, 'community-events-location', $events['location'], true );
+			update_user_option( $user_id, 'community-Events-location', $Events['location'], true );
 		}
 
-		wp_send_json_success( $events );
+		wp_send_json_success( $Events );
 	}
 }
 

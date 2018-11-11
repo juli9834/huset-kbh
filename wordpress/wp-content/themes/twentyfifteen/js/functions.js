@@ -21,7 +21,7 @@
 
 		container.find( '.dropdown-toggle' ).click( function( e ) {
 			var _this = $( this );
-			e.preventDefault();
+			e.prEventDefault();
 			_this.toggleClass( 'toggle-on' );
 			_this.next( '.children, .sub-menu' ).toggleClass( 'toggled-on' );
 			_this.attr( 'aria-expanded', _this.attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' );

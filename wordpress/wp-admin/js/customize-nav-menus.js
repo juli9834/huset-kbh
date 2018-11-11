@@ -154,7 +154,7 @@
 
 		el: '#available-menu-items',
 
-		events: {
+		Events: {
 			'input #menu-items-search': 'debounceSearch',
 			'keyup #menu-items-search': 'debounceSearch',
 			'focus .menu-item-tpl': 'focus',
@@ -207,7 +207,7 @@
 				}
 			} );
 
-			// Clear the search results and trigger a `keyup` event to fire a new search.
+			// Clear the search results and trigger a `keyup` Event to fire a new search.
 			this.$clearResults.on( 'click', function() {
 				self.$search.val( '' ).focus().trigger( 'keyup' );
 			} );
@@ -252,30 +252,30 @@
 		},
 
 		// Search input change handler.
-		search: function( event ) {
+		search: function( Event ) {
 			var $searchSection = $( '#available-menu-items-search' ),
 				$otherSections = $( '#available-menu-items .accordion-section' ).not( $searchSection );
 
-			if ( ! event ) {
+			if ( ! Event ) {
 				return;
 			}
 
-			if ( this.searchTerm === event.target.value ) {
+			if ( this.searchTerm === Event.target.value ) {
 				return;
 			}
 
-			if ( '' !== event.target.value && ! $searchSection.hasClass( 'open' ) ) {
+			if ( '' !== Event.target.value && ! $searchSection.hasClass( 'open' ) ) {
 				$otherSections.fadeOut( 100 );
 				$searchSection.find( '.accordion-section-content' ).slideDown( 'fast' );
 				$searchSection.addClass( 'open' );
 				this.$clearResults.addClass( 'is-visible' );
-			} else if ( '' === event.target.value ) {
+			} else if ( '' === Event.target.value ) {
 				$searchSection.removeClass( 'open' );
 				$otherSections.show();
 				this.$clearResults.removeClass( 'is-visible' );
 			}
 
-			this.searchTerm = event.target.value;
+			this.searchTerm = Event.target.value;
 			this.pages.search = 1;
 			this.doSearch( 1 );
 		},
@@ -483,18 +483,18 @@
 		},
 
 		// Highlights a menu item on focus.
-		focus: function( event ) {
-			this.select( $( event.currentTarget ) );
+		focus: function( Event ) {
+			this.select( $( Event.currentTarget ) );
 		},
 
 		// Submit handler for keypress and click on menu item.
-		_submit: function( event ) {
+		_submit: function( Event ) {
 			// Only proceed with keypress if it is Enter or Spacebar
-			if ( 'keypress' === event.type && ( 13 !== event.which && 32 !== event.which ) ) {
+			if ( 'keypress' === Event.type && ( 13 !== Event.which && 32 !== Event.which ) ) {
 				return;
 			}
 
-			this.submit( $( event.currentTarget ) );
+			this.submit( $( Event.currentTarget ) );
 		},
 
 		// Adds a selected menu item to the menu.
@@ -523,9 +523,9 @@
 		},
 
 		// Submit handler for keypress and click on custom menu item.
-		_submitLink: function( event ) {
+		_submitLink: function( Event ) {
 			// Only proceed with keypress if it is Enter.
-			if ( 'keypress' === event.type && 13 !== event.which ) {
+			if ( 'keypress' === Event.type && 13 !== Event.which ) {
 				return;
 			}
 
@@ -586,14 +586,14 @@
 		 * @since 4.7.0
 		 * @private
 		 *
-		 * @param {jQuery.Event} event Event.
+		 * @param {jQuery.Event} Event Event.
 		 * @returns {void}
 		 */
-		_submitNew: function( event ) {
+		_submitNew: function( Event ) {
 			var container;
 
 			// Only proceed with keypress if it is Enter.
-			if ( 'keypress' === event.type && 13 !== event.which ) {
+			if ( 'keypress' === Event.type && 13 !== Event.which ) {
 				return;
 			}
 
@@ -601,7 +601,7 @@
 				return;
 			}
 
-			container = $( event.target ).closest( '.accordion-section' );
+			container = $( Event.target ).closest( '.accordion-section' );
 
 			this.submitNew( container );
 		},
@@ -727,11 +727,11 @@
 		},
 
 		// Add a few keyboard enhancements to the panel.
-		keyboardAccessible: function( event ) {
-			var isEnter = ( 13 === event.which ),
-				isEsc = ( 27 === event.which ),
-				isBackTab = ( 9 === event.which && event.shiftKey ),
-				isSearchFocused = $( event.target ).is( this.$search );
+		keyboardAccessible: function( Event ) {
+			var isEnter = ( 13 === Event.which ),
+				isEsc = ( 27 === Event.which ),
+				isBackTab = ( 9 === Event.which && Event.shiftKey ),
+				isSearchFocused = $( Event.target ).is( this.$search );
 
 			// If enter pressed but nothing entered, don't do anything
 			if ( isEnter && ! this.$search.val() ) {
@@ -740,7 +740,7 @@
 
 			if ( isSearchFocused && isBackTab ) {
 				this.currentMenuControl.container.find( '.add-new-menu-item' ).focus();
-				event.preventDefault(); // Avoid additional back-tab.
+				Event.prEventDefault(); // Avoid additional back-tab.
 			} else if ( isEsc ) {
 				this.close( { returnFocus: true } );
 			}
@@ -767,11 +767,11 @@
 				content = panelMeta.find( '.customize-panel-description' ),
 				options = $( '#screen-options-wrap' ),
 				button = panelMeta.find( '.customize-screen-options-toggle' );
-			button.on( 'click keydown', function( event ) {
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+			button.on( 'click keydown', function( Event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 					return;
 				}
-				event.preventDefault();
+				Event.prEventDefault();
 
 				// Hide description
 				if ( content.not( ':hidden' ) ) {
@@ -795,11 +795,11 @@
 			} );
 
 			// Help toggle
-			help.on( 'click keydown', function( event ) {
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+			help.on( 'click keydown', function( Event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 					return;
 				}
-				event.preventDefault();
+				Event.prEventDefault();
 
 				if ( 'true' === button.attr( 'aria-expanded' ) ) {
 					button.attr( 'aria-expanded', 'false' );
@@ -915,7 +915,7 @@
 			}
 
 			/*
-			 * Since newly created sections won't be registered in PHP, we need to prevent the
+			 * Since newly created sections won't be registered in PHP, we need to prEvent the
 			 * preview's sending of the activeSections to result in this control
 			 * being deactivated when the preview refreshes. So we can hook onto
 			 * the setting that has the same ID and its presence can dictate
@@ -1128,7 +1128,7 @@
 					}
 				} );
 
-				// Make sure Sortables is initialized after the section has been expanded to prevent `offset` issues.
+				// Make sure Sortables is initialized after the section has been expanded to prEvent `offset` issues.
 				if ( args.completeCallback ) {
 					completeCallback = args.completeCallback;
 				}
@@ -1240,15 +1240,15 @@
 				section.expand();
 			});
 
-			contentContainer.on( 'keydown', '.menu-name-field', function( event ) {
-				if ( 13 === event.which ) { // Enter.
+			contentContainer.on( 'keydown', '.menu-name-field', function( Event ) {
+				if ( 13 === Event.which ) { // Enter.
 					section.submit();
 				}
 			} );
-			contentContainer.on( 'click', '#customize-new-menu-submit', function( event ) {
+			contentContainer.on( 'click', '#customize-new-menu-submit', function( Event ) {
 				section.submit();
-				event.stopPropagation();
-				event.preventDefault();
+				Event.stopPropagation();
+				Event.prEventDefault();
 			} );
 
 			/**
@@ -1622,7 +1622,7 @@
 			var control = this;
 
 			this.container.find( '.menu-item-handle' ).on( 'click', function( e ) {
-				e.preventDefault();
+				e.prEventDefault();
 				e.stopPropagation();
 				var menuControl = control.getMenuControl(),
 					isDeleteBtn = $( e.target ).is( '.item-delete, .item-delete *' ),
@@ -1676,7 +1676,7 @@
 		},
 
 		/**
-		 * Set up event handlers for menu item updating.
+		 * Set up Event handlers for menu item updating.
 		 */
 		_setupUpdateUI: function() {
 			var control = this,
@@ -1774,7 +1774,7 @@
 		},
 
 		/**
-		 * Set up event handlers for menu item deletion.
+		 * Set up Event handlers for menu item deletion.
 		 */
 		_setupRemoveUI: function() {
 			var control = this, $removeBtn;
@@ -1818,7 +1818,7 @@
 			$origBtn = this.container.find( 'a.original-link' );
 
 			$origBtn.on( 'click', function( e ) {
-				e.preventDefault();
+				e.prEventDefault();
 				api.previewer.previewUrl( e.target.toString() );
 			} );
 		},
@@ -2447,7 +2447,7 @@
 				settingValue = control.setting();
 
 			/*
-			 * Since the control is not registered in PHP, we need to prevent the
+			 * Since the control is not registered in PHP, we need to prEvent the
 			 * preview's sending of the activeControls to result in this control
 			 * being deactivated.
 			 */
@@ -2511,7 +2511,7 @@
 			}
 
 			/*
-			 * Since the control is not registered in PHP, we need to prevent the
+			 * Since the control is not registered in PHP, we need to prEvent the
 			 * preview's sending of the activeControls to result in this control
 			 * being deactivated.
 			 */
@@ -2569,7 +2569,7 @@
 
 			/*
 			 * Wait for menu items to be added.
-			 * Ideally, we'd bind to an event indicating construction is complete,
+			 * Ideally, we'd bind to an Event indicating construction is complete,
 			 * but deferring appears to be the best option today.
 			 */
 			_.defer( function () {
@@ -2684,7 +2684,7 @@
 		_setupAddition: function() {
 			var self = this;
 
-			this.container.find( '.add-new-menu-item' ).on( 'click', function( event ) {
+			this.container.find( '.add-new-menu-item' ).on( 'click', function( Event ) {
 				if ( self.$sectionContent.hasClass( 'reordering' ) ) {
 					return;
 				}
@@ -2695,7 +2695,7 @@
 				} else {
 					$( this ).attr( 'aria-expanded', 'false' );
 					api.Menus.availableMenuItemsPanel.close();
-					event.stopPropagation();
+					Event.stopPropagation();
 				}
 			} );
 		},
@@ -3058,15 +3058,15 @@
 			var self = this,
 				name = $( '#customize-control-new_menu_name input' ),
 				submit = $( '#create-new-menu-submit' );
-			name.on( 'keydown', function( event ) {
-				if ( 13 === event.which ) { // Enter.
+			name.on( 'keydown', function( Event ) {
+				if ( 13 === Event.which ) { // Enter.
 					self.submit();
 				}
 			} );
-			submit.on( 'click', function( event ) {
+			submit.on( 'click', function( Event ) {
 				self.submit();
-				event.stopPropagation();
-				event.preventDefault();
+				Event.stopPropagation();
+				Event.prEventDefault();
 			} );
 		},
 
@@ -3149,7 +3149,7 @@
 
 		/*
 		 * Reset the list of posts created in the customizer once published.
-		 * The setting is updated quietly (bypassing events being triggered)
+		 * The setting is updated quietly (bypassing Events being triggered)
 		 * so that the customized state doesn't become immediately dirty.
 		 */
 		api.state( 'changesetStatus' ).bind( function( status ) {
@@ -3239,7 +3239,7 @@
 				} );
 
 				// Delete the old placeholder nav_menu.
-				oldSetting.callbacks.disable(); // Prevent setting triggering Customizer dirty state when set.
+				oldSetting.callbacks.disable(); // PrEvent setting triggering Customizer dirty state when set.
 				oldSetting.set( false );
 				oldSetting.preview();
 				newSetting.preview();
@@ -3371,7 +3371,7 @@
 				api.control.add( newControl );
 
 				// Delete the placeholder and preview the new setting.
-				oldSetting.callbacks.disable(); // Prevent setting triggering Customizer dirty state when set.
+				oldSetting.callbacks.disable(); // PrEvent setting triggering Customizer dirty state when set.
 				oldSetting.set( false );
 				oldSetting.preview();
 				newSetting.preview();

@@ -697,10 +697,10 @@
 		 * Update the featured image id when the 'remove' link is clicked.
 		 */
 		init: function() {
-			$('#postimagediv').on( 'click', '#set-post-thumbnail', function( event ) {
-				event.preventDefault();
-				// Stop propagation to prevent thickbox from activating.
-				event.stopPropagation();
+			$('#postimagediv').on( 'click', '#set-post-thumbnail', function( Event ) {
+				Event.prEventDefault();
+				// Stop propagation to prEvent thickbox from activating.
+				Event.stopPropagation();
 
 				wp.media.featuredImage.frame().open();
 			}).on( 'click', '#remove-post-thumbnail', function() {
@@ -1024,12 +1024,12 @@
 		},
 
 		/**
-		 * Bind click event for .insert-media using event delegation
+		 * Bind click Event for .insert-media using Event delegation
 		 */
 		init: function() {
 			$(document.body)
-				.on( 'click.add-media-button', '.insert-media', function( event ) {
-					var elem = $( event.currentTarget ),
+				.on( 'click.add-media-button', '.insert-media', function( Event ) {
+					var elem = $( Event.currentTarget ),
 						editor = elem.data('editor'),
 						options = {
 							frame:    'post',
@@ -1038,7 +1038,7 @@
 							multiple: true
 						};
 
-					event.preventDefault();
+					Event.prEventDefault();
 
 					if ( elem.hasClass( 'gallery' ) ) {
 						options.state = 'gallery';

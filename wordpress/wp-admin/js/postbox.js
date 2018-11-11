@@ -81,14 +81,14 @@ var postboxes;
 			 * Contains a jQuery object with the relevant postbox element.
 			 *
 			 * @since 4.0.0
-			 * @event postboxes#postbox-toggled
+			 * @Event postboxes#postbox-toggled
 			 * @type {Object}
 			 */
 			$document.trigger( 'postbox-toggled', p );
 		},
 
 		/**
-		 * Adds event handlers to all postboxes and screen option on the current page.
+		 * Adds Event handlers to all postboxes and screen option on the current page.
 		 *
 		 * @since 2.7.0
 		 * @memberof postboxes
@@ -126,7 +126,7 @@ var postboxes;
 			 */
 			$( '.postbox a.dismiss' ).on( 'click.postboxes', function( e ) {
 				var hide_id = $(this).parents('.postbox').attr('id') + '-hide';
-				e.preventDefault();
+				e.prEventDefault();
 				$( '#' + hide_id ).prop('checked', false).triggerHandler('click');
 			});
 
@@ -215,7 +215,7 @@ var postboxes;
 				distance: 2,
 				tolerance: 'pointer',
 				forcePlaceholderSize: true,
-				helper: function( event, element ) {
+				helper: function( Event, element ) {
 					/* `helper: 'clone'` is equivalent to `return element.clone();`
 					 * Cloning a checked radio and then inserting that clone next to the original
 					 * radio unchecks the original radio (since only one of the two can be checked).
@@ -383,7 +383,7 @@ var postboxes;
 			 * Fires when the amount of columns on the post edit page has been changed.
 			 *
 			 * @since 4.0.0
-			 * @event postboxes#postboxes-columnchange
+			 * @Event postboxes#postboxes-columnchange
 			 */
 			$( document ).trigger( 'postboxes-columnchange' );
 		},

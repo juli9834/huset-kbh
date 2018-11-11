@@ -12,9 +12,9 @@
 	}
 
 	/**
-	 * Trigger an event.
+	 * Trigger an Event.
 	 *
-	 * @param {Element} target HTML element to dispatch the event on.
+	 * @param {Element} target HTML element to dispatch the Event on.
 	 * @param {string} name Event name.
 	 */
 	function trigger( target, name ) {
@@ -59,7 +59,7 @@
 					if ( 'test' in handler && handler.test( settings ) ) {
 						this.activeHandler = handler.initialize.call( handler, settings );
 
-						// Dispatch custom event when the video is loaded.
+						// Dispatch custom Event when the video is loaded.
 						trigger( document, 'wp-custom-header-video-loaded' );
 						break;
 					}
@@ -221,7 +221,7 @@
 		},
 
 		/**
-		 * Trigger an event on the header container.
+		 * Trigger an Event on the header container.
 		 *
 		 * @param {string} name Event name.
 		 */
@@ -385,7 +385,7 @@
 				height: this.settings.height,
 				width: this.settings.width,
 				videoId: this.settings.videoUrl.match( VIDEO_ID_REGEX )[1],
-				events: {
+				Events: {
 					onReady: function( e ) {
 						e.target.mute();
 						handler.showControls();

@@ -424,14 +424,14 @@ final class WP_Customize_Selective_Refresh {
 		 *
 		 * Plugins may use this filter to inject `$scripts` and `$styles`, which are dependencies
 		 * for the partials being rendered. The response data will be available to the client via
-		 * the `render-partials-response` JS event, so the client can then inject the scripts and
+		 * the `render-partials-response` JS Event, so the client can then inject the scripts and
 		 * styles into the DOM if they have not already been enqueued there.
 		 *
 		 * If plugins do this, they'll need to take care for any scripts that do `document.write()`
 		 * and make sure that these are not injected, or else to override the function to no-op,
 		 * or else the page will be destroyed.
 		 *
-		 * Plugins should be aware that `$scripts` and `$styles` may eventually be included by
+		 * Plugins should be aware that `$scripts` and `$styles` may Eventually be included by
 		 * default in the response.
 		 *
 		 * @since 4.5.0

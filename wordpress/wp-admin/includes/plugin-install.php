@@ -386,7 +386,7 @@ function display_plugins_table() {
  * }
  */
 function install_plugin_install_status($api, $loop = false) {
-	// This function is called recursively, $loop prevents further loops.
+	// This function is called recursively, $loop prEvents further loops.
 	if ( is_array($api) )
 		$api = (object) $api;
 

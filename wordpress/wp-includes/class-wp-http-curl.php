@@ -344,7 +344,7 @@ class WP_Http_Curl {
 
 		$this->bytes_written_total += $bytes_written;
 
-		// Upon event of this function returning less than strlen( $data ) curl will error with CURLE_WRITE_ERROR.
+		// Upon Event of this function returning less than strlen( $data ) curl will error with CURLE_WRITE_ERROR.
 		return $bytes_written;
 	}
 

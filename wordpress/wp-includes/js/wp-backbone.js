@@ -196,7 +196,7 @@ window.wp = window.wp || {};
 		//
 		// Detaches all subviews from the DOM.
 		//
-		// Helps to preserve all subview events when re-rendering the master
+		// Helps to preserve all subview Events when re-rendering the master
 		// view. Used in conjunction with `Views.render()`.
 		detach: function() {
 			$( _.pluck( this.all(), 'el' ) ).detach();
@@ -268,13 +268,13 @@ window.wp = window.wp || {};
 			return this;
 		},
 
-		// ### Trigger the ready event
+		// ### Trigger the ready Event
 		//
 		// **Only use this method if you know what you're doing.**
 		// For performance reasons, this method does not check if the view is
 		// actually attached to the DOM. It's taking your word for it.
 		//
-		// Fires the ready event on the current view and all attached subviews.
+		// Fires the ready Event on the current view and all attached subviews.
 		ready: function() {
 			this.view.trigger('ready');
 

@@ -83,7 +83,7 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 	/**
 	 * Filter gallery shortcode attributes.
 	 *
-	 * Prevents all of a site's attachments from being shown in a gallery displayed on a
+	 * PrEvents all of a site's attachments from being shown in a gallery displayed on a
 	 * non-singular template where a $post context is not available.
 	 *
 	 * @since 4.9.0
@@ -117,11 +117,11 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 			// Make sure post is always the queried object on singular queries (not from another sub-query that failed to clean up the global $post).
 			$post = get_queried_object();
 		} else {
-			// Nullify the $post global during widget rendering to prevent shortcodes from running with the unexpected context on archive queries.
+			// Nullify the $post global during widget rendering to prEvent shortcodes from running with the unexpected context on archive queries.
 			$post = null;
 		}
 
-		// Prevent dumping out all attachments from the media library.
+		// PrEvent dumping out all attachments from the media library.
 		add_filter( 'shortcode_atts_gallery', array( $this, '_filter_gallery_shortcode_attrs' ) );
 
 		$instance = array_merge( $this->default_instance, $instance );

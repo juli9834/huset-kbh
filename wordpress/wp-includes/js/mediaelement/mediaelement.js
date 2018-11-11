@@ -697,7 +697,7 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 
 	t.mediaElement.id = id;
 	t.mediaElement.renderers = {};
-	t.mediaElement.events = {};
+	t.mediaElement.Events = {};
 	t.mediaElement.promises = [];
 	t.mediaElement.renderer = null;
 	t.mediaElement.rendererName = null;
@@ -769,10 +769,10 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 	t.mediaElement.generateError = function (message, urlList) {
 		message = message || '';
 		urlList = Array.isArray(urlList) ? urlList : [];
-		var event = (0, _general.createEvent)('error', t.mediaElement);
-		event.message = message;
-		event.urls = urlList;
-		t.mediaElement.dispatchEvent(event);
+		var Event = (0, _general.createEvent)('error', t.mediaElement);
+		Event.message = message;
+		Event.urls = urlList;
+		t.mediaElement.dispatchEvent(Event);
 		error = true;
 	};
 
@@ -845,12 +845,12 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 		}
 
 		var renderInfo = _renderer.renderer.select(mediaFiles, t.mediaElement.options.renderers.length ? t.mediaElement.options.renderers : []),
-		    event = void 0;
+		    Event = void 0;
 
 		if (!t.mediaElement.paused) {
 			t.mediaElement.pause();
-			event = (0, _general.createEvent)('pause', t.mediaElement);
-			t.mediaElement.dispatchEvent(event);
+			Event = (0, _general.createEvent)('pause', t.mediaElement);
+			t.mediaElement.dispatchEvent(Event);
 		}
 		t.mediaElement.originalNode.src = mediaFiles[0].src || '';
 
@@ -921,42 +921,42 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 		assignMethods(methods[_i4]);
 	}
 
-	t.mediaElement.addEventListener = function (eventName, callback) {
-		t.mediaElement.events[eventName] = t.mediaElement.events[eventName] || [];
+	t.mediaElement.addEventListener = function (EventName, callback) {
+		t.mediaElement.Events[EventName] = t.mediaElement.Events[EventName] || [];
 
-		t.mediaElement.events[eventName].push(callback);
+		t.mediaElement.Events[EventName].push(callback);
 	};
-	t.mediaElement.removeEventListener = function (eventName, callback) {
-		if (!eventName) {
-			t.mediaElement.events = {};
+	t.mediaElement.removeEventListener = function (EventName, callback) {
+		if (!EventName) {
+			t.mediaElement.Events = {};
 			return true;
 		}
 
-		var callbacks = t.mediaElement.events[eventName];
+		var callbacks = t.mediaElement.Events[EventName];
 
 		if (!callbacks) {
 			return true;
 		}
 
 		if (!callback) {
-			t.mediaElement.events[eventName] = [];
+			t.mediaElement.Events[EventName] = [];
 			return true;
 		}
 
 		for (var _i5 = 0; _i5 < callbacks.length; _i5++) {
 			if (callbacks[_i5] === callback) {
-				t.mediaElement.events[eventName].splice(_i5, 1);
+				t.mediaElement.Events[EventName].splice(_i5, 1);
 				return true;
 			}
 		}
 		return false;
 	};
 
-	t.mediaElement.dispatchEvent = function (event) {
-		var callbacks = t.mediaElement.events[event.type];
+	t.mediaElement.dispatchEvent = function (Event) {
+		var callbacks = t.mediaElement.Events[Event.type];
 		if (callbacks) {
 			for (var _i6 = 0; _i6 < callbacks.length; _i6++) {
-				callbacks[_i6].apply(null, [event]);
+				callbacks[_i6].apply(null, [Event]);
 			}
 		}
 	};
@@ -1016,7 +1016,7 @@ mejs.html5media = {
 
 	methods: ['load', 'play', 'pause', 'canPlayType'],
 
-	events: ['loadstart', 'durationchange', 'loadedmetadata', 'loadeddata', 'progress', 'canplay', 'canplaythrough', 'suspend', 'abort', 'error', 'emptied', 'stalled', 'play', 'playing', 'pause', 'waiting', 'seeking', 'seeked', 'timeupdate', 'ended', 'ratechange', 'volumechange'],
+	Events: ['loadstart', 'durationchange', 'loadedmetadata', 'loadeddata', 'progress', 'canplay', 'canplaythrough', 'suspend', 'abort', 'error', 'emptied', 'stalled', 'play', 'playing', 'pause', 'waiting', 'seeking', 'seeked', 'timeupdate', 'ended', 'ratechange', 'volumechange'],
 
 	mediaTypes: ['audio/mp3', 'audio/ogg', 'audio/oga', 'audio/wav', 'audio/x-wav', 'audio/wave', 'audio/x-pn-wav', 'audio/mpeg', 'audio/mp4', 'video/mp4', 'video/webm', 'video/ogg', 'video/ogv']
 };
@@ -1320,11 +1320,11 @@ var DashNativeRenderer = {
 		options = Object.assign(options, mediaElement.options);
 
 		var props = _mejs2.default.html5media.properties,
-		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    Events = _mejs2.default.html5media.Events.concat(['click', 'mouseover', 'mouseout']),
 		    attachNativeEvents = function attachNativeEvents(e) {
 			if (e.type !== 'error') {
-				var _event = (0, _general.createEvent)(e.type, mediaElement);
-				mediaElement.dispatchEvent(_event);
+				var _Event = (0, _general.createEvent)(e.type, mediaElement);
+				mediaElement.dispatchEvent(_Event);
 			}
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
@@ -1341,8 +1341,8 @@ var DashNativeRenderer = {
 						node[propName] = source;
 						if (dashPlayer !== null) {
 							dashPlayer.reset();
-							for (var _i = 0, _total = events.length; _i < _total; _i++) {
-								node.removeEventListener(events[_i], attachNativeEvents);
+							for (var _i = 0, _total = Events.length; _i < _total; _i++) {
+								node.removeEventListener(Events[_i], attachNativeEvents);
 							}
 							dashPlayer = NativeDash._createPlayer({
 								options: options.dash,
@@ -1374,9 +1374,9 @@ var DashNativeRenderer = {
 		_window2.default['__ready__' + id] = function (_dashPlayer) {
 			mediaElement.dashPlayer = dashPlayer = _dashPlayer;
 
-			var dashEvents = dashjs.MediaPlayer.events,
-			    assignEvents = function assignEvents(eventName) {
-				if (eventName === 'loadedmetadata') {
+			var dashEvents = dashjs.MediaPlayer.Events,
+			    assignEvents = function assignEvents(EventName) {
+				if (EventName === 'loadedmetadata') {
 					dashPlayer.getDebug().setLogToBrowserConsole(options.dash.debug);
 					dashPlayer.initialize();
 					dashPlayer.setScheduleWhilePaused(false);
@@ -1393,11 +1393,11 @@ var DashNativeRenderer = {
 					dashPlayer.attachSource(node.getSrc());
 				}
 
-				node.addEventListener(eventName, attachNativeEvents);
+				node.addEventListener(EventName, attachNativeEvents);
 			};
 
-			for (var _i3 = 0, _total3 = events.length; _i3 < _total3; _i3++) {
-				assignEvents(events[_i3]);
+			for (var _i3 = 0, _total3 = Events.length; _i3 < _total3; _i3++) {
+				assignEvents(Events[_i3]);
 			}
 
 			var assignMdashEvents = function assignMdashEvents(name, data) {
@@ -1405,15 +1405,15 @@ var DashNativeRenderer = {
 					mediaElement.generateError(data.message, node.src);
 					console.error(data);
 				} else {
-					var _event2 = (0, _general.createEvent)(name, mediaElement);
-					_event2.data = data;
-					mediaElement.dispatchEvent(_event2);
+					var _Event2 = (0, _general.createEvent)(name, mediaElement);
+					_Event2.data = data;
+					mediaElement.dispatchEvent(_Event2);
 				}
 			};
 
-			for (var eventType in dashEvents) {
-				if (dashEvents.hasOwnProperty(eventType)) {
-					dashPlayer.on(dashEvents[eventType], function (e) {
+			for (var EventType in dashEvents) {
+				if (dashEvents.hasOwnProperty(EventType)) {
+					dashPlayer.on(dashEvents[EventType], function (e) {
 						for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 							args[_key - 1] = arguments[_key];
 						}
@@ -1465,8 +1465,8 @@ var DashNativeRenderer = {
 			}
 		};
 
-		var event = (0, _general.createEvent)('rendererready', node);
-		mediaElement.dispatchEvent(event);
+		var Event = (0, _general.createEvent)('rendererready', node);
+		mediaElement.dispatchEvent(Event);
 
 		mediaElement.promises.push(NativeDash.load({
 			options: options.dash,
@@ -1672,8 +1672,8 @@ var FlashMediaElementRenderer = {
 		var initEvents = ['rendererready'];
 
 		for (var _i2 = 0, _total2 = initEvents.length; _i2 < _total2; _i2++) {
-			var event = (0, _general.createEvent)(initEvents[_i2], flash);
-			mediaElement.dispatchEvent(event);
+			var Event = (0, _general.createEvent)(initEvents[_i2], flash);
+			mediaElement.dispatchEvent(Event);
 		}
 
 		_window2.default['__ready__' + flash.id] = function () {
@@ -1697,18 +1697,18 @@ var FlashMediaElementRenderer = {
 			}
 		};
 
-		_window2.default['__event__' + flash.id] = function (eventName, message) {
-			var event = (0, _general.createEvent)(eventName, flash);
+		_window2.default['__Event__' + flash.id] = function (EventName, message) {
+			var Event = (0, _general.createEvent)(EventName, flash);
 			if (message) {
 				try {
-					event.data = JSON.parse(message);
-					event.details.data = JSON.parse(message);
+					Event.data = JSON.parse(message);
+					Event.details.data = JSON.parse(message);
 				} catch (e) {
-					event.message = message;
+					Event.message = message;
 				}
 			}
 
-			flash.mediaElement.dispatchEvent(event);
+			flash.mediaElement.dispatchEvent(Event);
 		};
 
 		flash.flashWrapper = _document2.default.createElement('div');
@@ -2010,11 +2010,11 @@ var FlvNativeRenderer = {
 		options = Object.assign(options, mediaElement.options);
 
 		var props = _mejs2.default.html5media.properties,
-		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    Events = _mejs2.default.html5media.Events.concat(['click', 'mouseover', 'mouseout']),
 		    attachNativeEvents = function attachNativeEvents(e) {
 			if (e.type !== 'error') {
-				var _event = (0, _general.createEvent)(e.type, mediaElement);
-				mediaElement.dispatchEvent(_event);
+				var _Event = (0, _general.createEvent)(e.type, mediaElement);
+				mediaElement.dispatchEvent(_Event);
 			}
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
@@ -2038,8 +2038,8 @@ var FlvNativeRenderer = {
 							var _flvConfigs = options.flv.configs;
 
 							flvPlayer.destroy();
-							for (var i = 0, total = events.length; i < total; i++) {
-								node.removeEventListener(events[i], attachNativeEvents);
+							for (var i = 0, total = Events.length; i < total; i++) {
+								node.removeEventListener(Events[i], attachNativeEvents);
 							}
 							flvPlayer = NativeFlv._createPlayer({
 								options: _flvOptions,
@@ -2064,19 +2064,19 @@ var FlvNativeRenderer = {
 			mediaElement.flvPlayer = flvPlayer = _flvPlayer;
 
 			var flvEvents = flvjs.Events,
-			    assignEvents = function assignEvents(eventName) {
-				if (eventName === 'loadedmetadata') {
+			    assignEvents = function assignEvents(EventName) {
+				if (EventName === 'loadedmetadata') {
 					flvPlayer.unload();
 					flvPlayer.detachMediaElement();
 					flvPlayer.attachMediaElement(node);
 					flvPlayer.load();
 				}
 
-				node.addEventListener(eventName, attachNativeEvents);
+				node.addEventListener(EventName, attachNativeEvents);
 			};
 
-			for (var _i = 0, _total = events.length; _i < _total; _i++) {
-				assignEvents(events[_i]);
+			for (var _i = 0, _total = Events.length; _i < _total; _i++) {
+				assignEvents(Events[_i]);
 			}
 
 			var assignFlvEvents = function assignFlvEvents(name, data) {
@@ -2084,26 +2084,26 @@ var FlvNativeRenderer = {
 					var message = data[0] + ': ' + data[1] + ' ' + data[2].msg;
 					mediaElement.generateError(message, node.src);
 				} else {
-					var _event2 = (0, _general.createEvent)(name, mediaElement);
-					_event2.data = data;
-					mediaElement.dispatchEvent(_event2);
+					var _Event2 = (0, _general.createEvent)(name, mediaElement);
+					_Event2.data = data;
+					mediaElement.dispatchEvent(_Event2);
 				}
 			};
 
-			var _loop = function _loop(eventType) {
-				if (flvEvents.hasOwnProperty(eventType)) {
-					flvPlayer.on(flvEvents[eventType], function () {
+			var _loop = function _loop(EventType) {
+				if (flvEvents.hasOwnProperty(EventType)) {
+					flvPlayer.on(flvEvents[EventType], function () {
 						for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 							args[_key] = arguments[_key];
 						}
 
-						return assignFlvEvents(flvEvents[eventType], args);
+						return assignFlvEvents(flvEvents[EventType], args);
 					});
 				}
 			};
 
-			for (var eventType in flvEvents) {
-				_loop(eventType);
+			for (var EventType in flvEvents) {
+				_loop(EventType);
 			}
 		};
 
@@ -2155,8 +2155,8 @@ var FlvNativeRenderer = {
 			}
 		};
 
-		var event = (0, _general.createEvent)('rendererready', node);
-		mediaElement.dispatchEvent(event);
+		var Event = (0, _general.createEvent)('rendererready', node);
+		mediaElement.dispatchEvent(Event);
 
 		mediaElement.promises.push(NativeFlv.load({
 			options: flvOptions,
@@ -2262,11 +2262,11 @@ var HlsNativeRenderer = {
 		options.hls.autoStartLoad = preload && preload !== 'none' || autoplay;
 
 		var props = _mejs2.default.html5media.properties,
-		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    Events = _mejs2.default.html5media.Events.concat(['click', 'mouseover', 'mouseout']),
 		    attachNativeEvents = function attachNativeEvents(e) {
 			if (e.type !== 'error') {
-				var _event = (0, _general.createEvent)(e.type, mediaElement);
-				mediaElement.dispatchEvent(_event);
+				var _Event = (0, _general.createEvent)(e.type, mediaElement);
+				mediaElement.dispatchEvent(_Event);
 			}
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
@@ -2282,8 +2282,8 @@ var HlsNativeRenderer = {
 						node[propName] = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.src ? value.src : value;
 						if (hlsPlayer !== null) {
 							hlsPlayer.destroy();
-							for (var i = 0, _total = events.length; i < _total; i++) {
-								node.removeEventListener(events[i], attachNativeEvents);
+							for (var i = 0, _total = Events.length; i < _total; i++) {
+								node.removeEventListener(Events[i], attachNativeEvents);
 							}
 							hlsPlayer = NativeHls._createPlayer({
 								options: options.hls,
@@ -2306,19 +2306,19 @@ var HlsNativeRenderer = {
 		_window2.default['__ready__' + id] = function (_hlsPlayer) {
 			mediaElement.hlsPlayer = hlsPlayer = _hlsPlayer;
 			var hlsEvents = Hls.Events,
-			    assignEvents = function assignEvents(eventName) {
-				if (eventName === 'loadedmetadata') {
+			    assignEvents = function assignEvents(EventName) {
+				if (EventName === 'loadedmetadata') {
 					var url = mediaElement.originalNode.src;
 					hlsPlayer.detachMedia();
 					hlsPlayer.loadSource(url);
 					hlsPlayer.attachMedia(node);
 				}
 
-				node.addEventListener(eventName, attachNativeEvents);
+				node.addEventListener(EventName, attachNativeEvents);
 			};
 
-			for (var _i = 0, _total3 = events.length; _i < _total3; _i++) {
-				assignEvents(events[_i]);
+			for (var _i = 0, _total3 = Events.length; _i < _total3; _i++) {
+				assignEvents(Events[_i]);
 			}
 
 			var recoverDecodingErrorDate = void 0,
@@ -2369,26 +2369,26 @@ var HlsNativeRenderer = {
 						}
 					}
 				} else {
-					var _event2 = (0, _general.createEvent)(name, mediaElement);
-					_event2.data = data;
-					mediaElement.dispatchEvent(_event2);
+					var _Event2 = (0, _general.createEvent)(name, mediaElement);
+					_Event2.data = data;
+					mediaElement.dispatchEvent(_Event2);
 				}
 			};
 
-			var _loop = function _loop(eventType) {
-				if (hlsEvents.hasOwnProperty(eventType)) {
-					hlsPlayer.on(hlsEvents[eventType], function () {
+			var _loop = function _loop(EventType) {
+				if (hlsEvents.hasOwnProperty(EventType)) {
+					hlsPlayer.on(hlsEvents[EventType], function () {
 						for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 							args[_key] = arguments[_key];
 						}
 
-						return assignHlsEvents(hlsEvents[eventType], args);
+						return assignHlsEvents(hlsEvents[EventType], args);
 					});
 				}
 			};
 
-			for (var eventType in hlsEvents) {
-				_loop(eventType);
+			for (var EventType in hlsEvents) {
+				_loop(EventType);
 			}
 		};
 
@@ -2445,8 +2445,8 @@ var HlsNativeRenderer = {
 			}
 		};
 
-		var event = (0, _general.createEvent)('rendererready', node);
-		mediaElement.dispatchEvent(event);
+		var Event = (0, _general.createEvent)('rendererready', node);
+		mediaElement.dispatchEvent(Event);
 
 		mediaElement.promises.push(NativeHls.load({
 			options: options.hls,
@@ -2540,18 +2540,18 @@ var HtmlMediaElement = {
 			assignGettersSetters(props[i]);
 		}
 
-		var events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
-		    assignEvents = function assignEvents(eventName) {
-			node.addEventListener(eventName, function (e) {
+		var Events = _mejs2.default.html5media.Events.concat(['click', 'mouseover', 'mouseout']),
+		    assignEvents = function assignEvents(EventName) {
+			node.addEventListener(EventName, function (e) {
 				if (isActive) {
-					var _event = (0, _general.createEvent)(e.type, e.target);
-					mediaElement.dispatchEvent(_event);
+					var _Event = (0, _general.createEvent)(e.type, e.target);
+					mediaElement.dispatchEvent(_Event);
 				}
 			});
 		};
 
-		for (var _i = 0, _total2 = events.length; _i < _total2; _i++) {
-			assignEvents(events[_i]);
+		for (var _i = 0, _total2 = Events.length; _i < _total2; _i++) {
+			assignEvents(Events[_i]);
 		}
 
 		node.setSize = function (width, height) {
@@ -2597,8 +2597,8 @@ var HtmlMediaElement = {
 			}
 		});
 
-		var event = (0, _general.createEvent)('rendererready', node);
-		mediaElement.dispatchEvent(event);
+		var Event = (0, _general.createEvent)('rendererready', node);
+		mediaElement.dispatchEvent(Event);
 
 		return node;
 	}
@@ -2851,21 +2851,21 @@ var YouTubeIframeRenderer = {
 								youTubeApi.unMute();
 							}
 							setTimeout(function () {
-								var event = (0, _general.createEvent)('volumechange', youtube);
-								mediaElement.dispatchEvent(event);
+								var Event = (0, _general.createEvent)('volumechange', youtube);
+								mediaElement.dispatchEvent(Event);
 							}, 50);
 							break;
 						case 'volume':
 							volume = value;
 							youTubeApi.setVolume(value * 100);
 							setTimeout(function () {
-								var event = (0, _general.createEvent)('volumechange', youtube);
-								mediaElement.dispatchEvent(event);
+								var Event = (0, _general.createEvent)('volumechange', youtube);
+								mediaElement.dispatchEvent(Event);
 							}, 50);
 							break;
 						case 'readyState':
-							var event = (0, _general.createEvent)('canplay', youtube);
-							mediaElement.dispatchEvent(event);
+							var Event = (0, _general.createEvent)('canplay', youtube);
+							mediaElement.dispatchEvent(Event);
 							break;
 						default:
 
@@ -2935,7 +2935,7 @@ var YouTubeIframeRenderer = {
 				iv_load_policy: 3
 			}, youtube.options.youtube),
 			origin: _window2.default.location.host,
-			events: {
+			Events: {
 				onReady: function onReady(e) {
 					mediaElement.youTubeApi = youTubeApi = e.target;
 					mediaElement.youTubeState = {
@@ -2965,34 +2965,34 @@ var YouTubeIframeRenderer = {
 						youTubeApi.mute();
 					}
 
-					var events = ['mouseover', 'mouseout'],
+					var Events = ['mouseover', 'mouseout'],
 					    assignEvents = function assignEvents(e) {
 						var newEvent = (0, _general.createEvent)(e.type, youtube);
 						mediaElement.dispatchEvent(newEvent);
 					};
 
-					for (var _i3 = 0, _total3 = events.length; _i3 < _total3; _i3++) {
-						youTubeIframe.addEventListener(events[_i3], assignEvents, false);
+					for (var _i3 = 0, _total3 = Events.length; _i3 < _total3; _i3++) {
+						youTubeIframe.addEventListener(Events[_i3], assignEvents, false);
 					}
 
 					var initEvents = ['rendererready', 'loadedmetadata', 'loadeddata', 'canplay'];
 
 					for (var _i4 = 0, _total4 = initEvents.length; _i4 < _total4; _i4++) {
-						var event = (0, _general.createEvent)(initEvents[_i4], youtube);
-						mediaElement.dispatchEvent(event);
+						var Event = (0, _general.createEvent)(initEvents[_i4], youtube);
+						mediaElement.dispatchEvent(Event);
 					}
 				},
 				onStateChange: function onStateChange(e) {
-					var events = [];
+					var Events = [];
 
 					switch (e.data) {
 						case -1:
-							events = ['loadedmetadata'];
+							Events = ['loadedmetadata'];
 							paused = true;
 							ended = false;
 							break;
 						case 0:
-							events = ['ended'];
+							Events = ['ended'];
 							paused = false;
 							ended = !youtube.options.youtube.loop;
 							if (!youtube.options.youtube.loop) {
@@ -3000,37 +3000,37 @@ var YouTubeIframeRenderer = {
 							}
 							break;
 						case 1:
-							events = ['play', 'playing'];
+							Events = ['play', 'playing'];
 							paused = false;
 							ended = false;
 							youtube.startInterval();
 							break;
 						case 2:
-							events = ['pause'];
+							Events = ['pause'];
 							paused = true;
 							ended = false;
 							youtube.stopInterval();
 							break;
 						case 3:
-							events = ['progress'];
+							Events = ['progress'];
 							ended = false;
 							break;
 						case 5:
-							events = ['loadeddata', 'loadedmetadata', 'canplay'];
+							Events = ['loadeddata', 'loadedmetadata', 'canplay'];
 							paused = true;
 							ended = false;
 							break;
 					}
 
-					for (var _i5 = 0, _total5 = events.length; _i5 < _total5; _i5++) {
-						var event = (0, _general.createEvent)(events[_i5], youtube);
-						mediaElement.dispatchEvent(event);
+					for (var _i5 = 0, _total5 = Events.length; _i5 < _total5; _i5++) {
+						var Event = (0, _general.createEvent)(Events[_i5], youtube);
+						mediaElement.dispatchEvent(Event);
 					}
 				},
 				onError: function onError(e) {
-					var event = (0, _general.createEvent)('error', youtube);
-					event.data = e.data;
-					mediaElement.dispatchEvent(event);
+					var Event = (0, _general.createEvent)('error', youtube);
+					Event.data = e.data;
+					mediaElement.dispatchEvent(Event);
 				}
 			}
 		};
@@ -3051,7 +3051,7 @@ var YouTubeIframeRenderer = {
 
 		YouTubeApi.enqueueIframe(youtubeSettings);
 
-		youtube.onEvent = function (eventName, player, _youTubeState) {
+		youtube.onEvent = function (EventName, player, _youTubeState) {
 			if (_youTubeState !== null && _youTubeState !== undefined) {
 				mediaElement.youTubeState = _youTubeState;
 			}
@@ -3081,8 +3081,8 @@ var YouTubeIframeRenderer = {
 
 		youtube.startInterval = function () {
 			youtube.interval = setInterval(function () {
-				var event = (0, _general.createEvent)('timeupdate', youtube);
-				mediaElement.dispatchEvent(event);
+				var Event = (0, _general.createEvent)('timeupdate', youtube);
+				mediaElement.dispatchEvent(Event);
 			}, 250);
 		};
 		youtube.stopInterval = function () {
@@ -3118,7 +3118,7 @@ _renderer.renderer.add(YouTubeIframeRenderer);
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.cancelFullScreen = exports.requestFullScreen = exports.isFullScreen = exports.FULLSCREEN_EVENT_NAME = exports.HAS_NATIVE_FULLSCREEN_ENABLED = exports.HAS_TRUE_NATIVE_FULLSCREEN = exports.HAS_IOS_FULLSCREEN = exports.HAS_MS_NATIVE_FULLSCREEN = exports.HAS_MOZ_NATIVE_FULLSCREEN = exports.HAS_WEBKIT_NATIVE_FULLSCREEN = exports.HAS_NATIVE_FULLSCREEN = exports.SUPPORTS_NATIVE_HLS = exports.SUPPORT_PASSIVE_EVENT = exports.SUPPORT_POINTER_EVENTS = exports.HAS_MSE = exports.IS_STOCK_ANDROID = exports.IS_SAFARI = exports.IS_FIREFOX = exports.IS_CHROME = exports.IS_EDGE = exports.IS_IE = exports.IS_ANDROID = exports.IS_IOS = exports.IS_IPOD = exports.IS_IPHONE = exports.IS_IPAD = exports.UA = exports.NAV = undefined;
+exports.cancelFullScreen = exports.requestFullScreen = exports.isFullScreen = exports.FULLSCREEN_Event_NAME = exports.HAS_NATIVE_FULLSCREEN_ENABLED = exports.HAS_TRUE_NATIVE_FULLSCREEN = exports.HAS_IOS_FULLSCREEN = exports.HAS_MS_NATIVE_FULLSCREEN = exports.HAS_MOZ_NATIVE_FULLSCREEN = exports.HAS_WEBKIT_NATIVE_FULLSCREEN = exports.HAS_NATIVE_FULLSCREEN = exports.SUPPORTS_NATIVE_HLS = exports.SUPPORT_PASSIVE_Event = exports.SUPPORT_POINTER_EventS = exports.HAS_MSE = exports.IS_STOCK_ANDROID = exports.IS_SAFARI = exports.IS_FIREFOX = exports.IS_CHROME = exports.IS_EDGE = exports.IS_IE = exports.IS_ANDROID = exports.IS_IOS = exports.IS_IPOD = exports.IS_IPHONE = exports.IS_IPAD = exports.UA = exports.NAV = undefined;
 
 var _window = _dereq_(3);
 
@@ -3148,7 +3148,7 @@ var IS_FIREFOX = exports.IS_FIREFOX = /firefox/i.test(UA);
 var IS_SAFARI = exports.IS_SAFARI = /safari/i.test(UA) && !IS_CHROME;
 var IS_STOCK_ANDROID = exports.IS_STOCK_ANDROID = /^mozilla\/\d+\.\d+\s\(linux;\su;/i.test(UA);
 var HAS_MSE = exports.HAS_MSE = 'MediaSource' in _window2.default;
-var SUPPORT_POINTER_EVENTS = exports.SUPPORT_POINTER_EVENTS = function () {
+var SUPPORT_POINTER_EventS = exports.SUPPORT_POINTER_EventS = function () {
 	var element = _document2.default.createElement('x'),
 	    documentElement = _document2.default.documentElement,
 	    getComputedStyle = _window2.default.getComputedStyle;
@@ -3165,7 +3165,7 @@ var SUPPORT_POINTER_EVENTS = exports.SUPPORT_POINTER_EVENTS = function () {
 	return !!supports;
 }();
 
-var SUPPORT_PASSIVE_EVENT = exports.SUPPORT_PASSIVE_EVENT = function () {
+var SUPPORT_PASSIVE_Event = exports.SUPPORT_PASSIVE_Event = function () {
 	var supportsPassive = false;
 	try {
 		var opts = Object.defineProperty({}, 'passive', {
@@ -3264,7 +3264,7 @@ var HAS_MS_NATIVE_FULLSCREEN = exports.HAS_MS_NATIVE_FULLSCREEN = hasMsNativeFul
 var HAS_IOS_FULLSCREEN = exports.HAS_IOS_FULLSCREEN = hasiOSFullScreen;
 var HAS_TRUE_NATIVE_FULLSCREEN = exports.HAS_TRUE_NATIVE_FULLSCREEN = hasTrueNativeFullScreen;
 var HAS_NATIVE_FULLSCREEN_ENABLED = exports.HAS_NATIVE_FULLSCREEN_ENABLED = nativeFullScreenEnabled;
-var FULLSCREEN_EVENT_NAME = exports.FULLSCREEN_EVENT_NAME = fullScreenEventName;
+var FULLSCREEN_Event_NAME = exports.FULLSCREEN_Event_NAME = fullScreenEventName;
 exports.isFullScreen = isFullScreen;
 exports.requestFullScreen = requestFullScreen;
 exports.cancelFullScreen = cancelFullScreen;
@@ -3284,8 +3284,8 @@ _mejs2.default.Features.isSafari = IS_SAFARI;
 _mejs2.default.Features.isStockAndroid = IS_STOCK_ANDROID;
 _mejs2.default.Features.hasMSE = HAS_MSE;
 _mejs2.default.Features.supportsNativeHLS = SUPPORTS_NATIVE_HLS;
-_mejs2.default.Features.supportsPointerEvents = SUPPORT_POINTER_EVENTS;
-_mejs2.default.Features.supportsPassiveEvent = SUPPORT_PASSIVE_EVENT;
+_mejs2.default.Features.supportsPointerEvents = SUPPORT_POINTER_EventS;
+_mejs2.default.Features.supportsPassiveEvent = SUPPORT_PASSIVE_Event;
 _mejs2.default.Features.hasiOSFullScreen = HAS_IOS_FULLSCREEN;
 _mejs2.default.Features.hasNativeFullscreen = HAS_NATIVE_FULLSCREEN;
 _mejs2.default.Features.hasWebkitNativeFullScreen = HAS_WEBKIT_NATIVE_FULLSCREEN;
@@ -3293,7 +3293,7 @@ _mejs2.default.Features.hasMozNativeFullScreen = HAS_MOZ_NATIVE_FULLSCREEN;
 _mejs2.default.Features.hasMsNativeFullScreen = HAS_MS_NATIVE_FULLSCREEN;
 _mejs2.default.Features.hasTrueNativeFullScreen = HAS_TRUE_NATIVE_FULLSCREEN;
 _mejs2.default.Features.nativeFullScreenEnabled = HAS_NATIVE_FULLSCREEN_ENABLED;
-_mejs2.default.Features.fullScreenEventName = FULLSCREEN_EVENT_NAME;
+_mejs2.default.Features.fullScreenEventName = FULLSCREEN_Event_NAME;
 _mejs2.default.Features.isFullScreen = isFullScreen;
 _mejs2.default.Features.requestFullScreen = requestFullScreen;
 _mejs2.default.Features.cancelFullScreen = cancelFullScreen;
@@ -3604,18 +3604,18 @@ function isObjectEmpty(instance) {
 	return Object.getOwnPropertyNames(instance).length <= 0;
 }
 
-function splitEvents(events, id) {
+function splitEvents(Events, id) {
 	var rwindow = /^((after|before)print|(before)?unload|hashchange|message|o(ff|n)line|page(hide|show)|popstate|resize|storage)\b/;
 
 	var ret = { d: [], w: [] };
-	(events || '').split(' ').forEach(function (v) {
-		var eventName = '' + v + (id ? '.' + id : '');
+	(Events || '').split(' ').forEach(function (v) {
+		var EventName = '' + v + (id ? '.' + id : '');
 
-		if (eventName.startsWith('.')) {
-			ret.d.push(eventName);
-			ret.w.push(eventName);
+		if (EventName.startsWith('.')) {
+			ret.d.push(EventName);
+			ret.w.push(EventName);
 		} else {
-			ret[rwindow.test(v) ? 'w' : 'd'].push(eventName);
+			ret[rwindow.test(v) ? 'w' : 'd'].push(EventName);
 		}
 	});
 
@@ -3624,23 +3624,23 @@ function splitEvents(events, id) {
 	return ret;
 }
 
-function createEvent(eventName, target) {
+function createEvent(EventName, target) {
 
-	if (typeof eventName !== 'string') {
+	if (typeof EventName !== 'string') {
 		throw new Error('Event name must be a string');
 	}
 
-	var eventFrags = eventName.match(/([a-z]+\.([a-z]+))/i),
+	var EventFrags = EventName.match(/([a-z]+\.([a-z]+))/i),
 	    detail = {
 		target: target
 	};
 
-	if (eventFrags !== null) {
-		eventName = eventFrags[1];
-		detail.namespace = eventFrags[2];
+	if (EventFrags !== null) {
+		EventName = EventFrags[1];
+		detail.namespace = EventFrags[2];
 	}
 
-	return new window.CustomEvent(eventName, {
+	return new window.CustomEvent(EventName, {
 		detail: detail
 	});
 }
@@ -3821,10 +3821,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		return false;
 	}
 
-	function CustomEvent(event, params) {
+	function CustomEvent(Event, params) {
 		params = params || { bubbles: false, cancelable: false, detail: undefined };
 		var evt = _document2.default.createEvent('CustomEvent');
-		evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+		evt.initCustomEvent(Event, params.bubbles, params.cancelable, params.detail);
 		return evt;
 	}
 

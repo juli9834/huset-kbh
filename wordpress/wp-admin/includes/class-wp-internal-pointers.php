@@ -189,7 +189,7 @@ final class WP_Internal_Pointers {
 	}
 
 	/**
-	 * Prevents new users from seeing existing 'new feature' pointers.
+	 * PrEvents new users from seeing existing 'new feature' pointers.
 	 *
 	 * @since 3.3.0
 	 *

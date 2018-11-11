@@ -128,7 +128,7 @@ body.js .theme-browser.search-loading {
 	display: block;
 	overflow: hidden;
 	position: relative;
-	-webkit-backface-visibility: hidden; /* Prevents flicker of the screenshot on hover. */
+	-webkit-backface-visibility: hidden; /* PrEvents flicker of the screenshot on hover. */
 	transition: opacity 0.2s ease-in-out;
 }
 
@@ -1476,7 +1476,7 @@ body.full-overlay-active {
 	color: #b4b9be;
 	background: #eee;
 	cursor: default;
-	pointer-events: none;
+	pointer-Events: none;
 }
 
 .theme-install-overlay .close-full-overlay,

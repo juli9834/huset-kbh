@@ -460,7 +460,7 @@ window.wp = window.wp || {};
 
 		// So long as `from` and `to` are changed at the same time, the diff
 		// will only be updated once. This is because Backbone updates all of
-		// the changed attributes in `set`, and then fires the `change` events.
+		// the changed attributes in `set`, and then fires the `change` Events.
 		updateDiff: function( options ) {
 			var from, to, diffId, diff;
 
@@ -494,7 +494,7 @@ window.wp = window.wp || {};
 			}
 		},
 
-		// A simple wrapper around `updateDiff` to prevent the change event's
+		// A simple wrapper around `updateDiff` to prEvent the change Event's
 		// parameters from being passed through.
 		changeRevisionHandler: function() {
 			this.updateDiff();
@@ -739,7 +739,7 @@ window.wp = window.wp || {};
 	revisions.view.Meta = wp.Backbone.View.extend({
 		template: wp.template('revisions-meta'),
 
-		events: {
+		Events: {
 			'click .restore-revision': 'restoreRevision'
 		},
 
@@ -775,7 +775,7 @@ window.wp = window.wp || {};
 		className: 'revisions-checkbox',
 		template: wp.template('revisions-checkbox'),
 
-		events: {
+		Events: {
 			'click .compare-two-revisions': 'compareTwoToggle'
 		},
 
@@ -865,7 +865,7 @@ window.wp = window.wp || {};
 		className: 'revisions-buttons',
 		template: wp.template('revisions-buttons'),
 
-		events: {
+		Events: {
 			'click .revisions-next .button': 'nextRevision',
 			'click .revisions-previous .button': 'previousRevision'
 		},
@@ -927,7 +927,7 @@ window.wp = window.wp || {};
 		className: 'wp-slider',
 		direction: isRtl ? 'right' : 'left',
 
-		events: {
+		Events: {
 			'mousemove' : 'mouseMove'
 		},
 
@@ -997,7 +997,7 @@ window.wp = window.wp || {};
 			}
 		},
 
-		start: function( event, ui ) {
+		start: function( Event, ui ) {
 			this.model.set({ scrubbing: true });
 
 			// Track the mouse position to enable smooth dragging,
@@ -1041,12 +1041,12 @@ window.wp = window.wp || {};
 			return isRtl ? this.model.revisions.length - position - 1: position;
 		},
 
-		// Responds to slide events
-		slide: function( event, ui ) {
+		// Responds to slide Events
+		slide: function( Event, ui ) {
 			var attributes, movedRevision;
 			// Compare two revisions mode
 			if ( this.model.get('compareTwoMode') ) {
-				// Prevent sliders from occupying same spot
+				// PrEvent sliders from occupying same spot
 				if ( ui.values[1] === ui.values[0] ) {
 					return false;
 				}

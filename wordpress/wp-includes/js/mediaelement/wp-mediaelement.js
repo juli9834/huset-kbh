@@ -50,7 +50,7 @@
 			 *
 			 * @since 4.9.3
 			 *
-			 * @param {object} media The wrapper that mimics all the native events/properties/methods for all renderers.
+			 * @param {object} media The wrapper that mimics all the native Events/properties/methods for all renderers.
 			 * @param {object} node  The original HTML video, audio, or iframe tag where the media was loaded.
 			 * @returns {string}
 			 */

@@ -2300,7 +2300,7 @@ class getid3_riff extends getid3_handler {
 			DIV4	DivX ;-) MPEG-4 v3.x Fast-Motion
 			DIV5	DivX MPEG-4 v5.x
 			DIV6	DivX ;-) (MS MPEG-4 v3.x)
-			DIVX	DivX MPEG-4 v4 (OpenDivX / Project Mayo)
+			DIVX	DivX MPEG-4 v4 (OpenDivX / Event Mayo)
 			divx	DivX MPEG-4
 			DMB1	Matrox Rainbow Runner hardware MJPEG
 			DMB2	Paradigm MJPEG

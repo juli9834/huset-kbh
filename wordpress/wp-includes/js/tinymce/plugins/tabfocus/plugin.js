@@ -27,13 +27,13 @@ var tabfocus = (function () {
   var DOM = global$1.DOM;
   var tabCancel = function (e) {
     if (e.keyCode === global$6.TAB && !e.ctrlKey && !e.altKey && !e.metaKey) {
-      e.preventDefault();
+      e.prEventDefault();
     }
   };
   var setup = function (editor) {
     function tabHandler(e) {
       var x, el, v, i;
-      if (e.keyCode !== global$6.TAB || e.ctrlKey || e.altKey || e.metaKey || e.isDefaultPrevented()) {
+      if (e.keyCode !== global$6.TAB || e.ctrlKey || e.altKey || e.metaKey || e.isDefaultPrEvented()) {
         return;
       }
       function find(direction) {
@@ -95,7 +95,7 @@ var tabfocus = (function () {
             el.focus();
           }, 10);
         }
-        e.preventDefault();
+        e.prEventDefault();
       }
     }
     editor.on('init', function () {

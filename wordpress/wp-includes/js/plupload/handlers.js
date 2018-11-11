@@ -209,7 +209,7 @@ function wpFileError(fileObj, message) {
 function itemAjaxError(id, message) {
 	var item = jQuery('#media-item-' + id), filename = item.find('.filename').text(), last_err = item.data('last-err');
 
-	if ( last_err == id ) // prevent firing an error for the same file twice
+	if ( last_err == id ) // prEvent firing an error for the same file twice
 		return;
 
 	item.html('<div class="error-div">' +
@@ -381,11 +381,11 @@ jQuery(document).ready(function($){
 		} else if ( target.is('.upload-flash-bypass a') || target.is('a.uploader-html') ) { // switch uploader to html4
 			$('#media-items, p.submit, span.big-file-warning').css('display', 'none');
 			switchUploader(0);
-			e.preventDefault();
+			e.prEventDefault();
 		} else if ( target.is('.upload-html-bypass a') ) { // switch uploader to multi-file
 			$('#media-items, p.submit, span.big-file-warning').css('display', '');
 			switchUploader(1);
-			e.preventDefault();
+			e.prEventDefault();
 		} else if ( target.is('a.describe-toggle-on') ) { // Show
 			target.parent().addClass('open');
 			target.siblings('.slidetoggle').fadeIn(250, function(){
@@ -403,12 +403,12 @@ jQuery(document).ready(function($){
 					}
 				}
 			});
-			e.preventDefault();
+			e.prEventDefault();
 		} else if ( target.is('a.describe-toggle-off') ) { // Hide
 			target.siblings('.slidetoggle').fadeOut(250, function(){
 				target.parent().removeClass('open');
 			});
-			e.preventDefault();
+			e.prEventDefault();
 		}
 	});
 

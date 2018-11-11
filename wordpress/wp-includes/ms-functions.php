@@ -142,7 +142,7 @@ function get_blog_post( $blog_id, $post_id ) {
 /**
  * Adds a user to a blog.
  *
- * Use the {@see 'add_user_to_blog'} action to fire an event when users are added to a blog.
+ * Use the {@see 'add_user_to_blog'} action to fire an Event when users are added to a blog.
  *
  * @since MU (3.0.0)
  *
@@ -211,7 +211,7 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 /**
  * Remove a user from a blog.
  *
- * Use the {@see 'remove_user_from_blog'} action to fire an event when
+ * Use the {@see 'remove_user_from_blog'} action to fire an Event when
  * users are removed from a blog.
  *
  * Accepts an optional `$reassign` parameter, if you want to
@@ -551,7 +551,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
  * Checks the data provided by the user during blog signup. Verifies
  * the validity and uniqueness of blog paths and domains.
  *
- * This function prevents the current user from registering a new site
+ * This function prEvents the current user from registering a new site
  * with a blogname equivalent to another user's login name. Passing the
  * $user parameter to the function, where $user is the other user, is
  * effectively an override of this limitation.
@@ -1027,7 +1027,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 /**
  * Activate a signup.
  *
- * Hook to {@see 'wpmu_activate_user'} or {@see 'wpmu_activate_blog'} for events
+ * Hook to {@see 'wpmu_activate_user'} or {@see 'wpmu_activate_blog'} for Events
  * that should happen only when users or sites are self-created (since
  * those actions are not called when users and sites are created
  * by a Super Admin).
@@ -1122,7 +1122,7 @@ function wpmu_activate_signup($key) {
  * Create a user.
  *
  * This function runs when a user self-registers as well as when
- * a Super Admin creates a new user. Hook to {@see 'wpmu_new_user'} for events
+ * a Super Admin creates a new user. Hook to {@see 'wpmu_new_user'} for Events
  * that should affect all new users, but only on Multisite (otherwise
  * use {@see'user_register'}).
  *
@@ -1161,7 +1161,7 @@ function wpmu_create_user( $user_name, $password, $email ) {
  *
  * This function runs when a user self-registers a new site as well
  * as when a Super Admin creates a new site. Hook to {@see 'wpmu_new_blog'}
- * for events that should affect all new sites.
+ * for Events that should affect all new sites.
  *
  * On subdirectory installations, $domain is the same as the main site's
  * domain, and the path is the subdirectory name (eg 'example.com'
@@ -1933,7 +1933,7 @@ function global_terms( $term_id, $deprecated = '' ) {
 	if ( !global_terms_enabled() )
 		return $term_id;
 
-	// prevent a race condition
+	// prEvent a race condition
 	$recurse_start = false;
 	if ( $global_terms_recurse === null ) {
 		$recurse_start = true;
@@ -2296,7 +2296,7 @@ function wp_schedule_update_network_counts() {
 		return;
 
 	if ( ! wp_next_scheduled('update_network_counts') && ! wp_installing() )
-		wp_schedule_event(time(), 'twicedaily', 'update_network_counts');
+		wp_schedule_Event(time(), 'twicedaily', 'update_network_counts');
 }
 
 /**

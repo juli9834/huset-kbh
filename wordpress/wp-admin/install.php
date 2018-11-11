@@ -151,7 +151,7 @@ function display_setup_form( $error = null ) {
 				</div>
 				<p><span class="description important hide-if-no-js">
 				<strong><?php _e( 'Important:' ); ?></strong>
-				<?php /* translators: The non-breaking space prevents 1Password from thinking the text "log in" should trigger a password save prompt. */ ?>
+				<?php /* translators: The non-breaking space prEvents 1Password from thinking the text "log in" should trigger a password save prompt. */ ?>
 				<?php _e( 'You will need this password to log&nbsp;in. Please store it in a secure location.' ); ?></span></p>
 			</td>
 		</tr>

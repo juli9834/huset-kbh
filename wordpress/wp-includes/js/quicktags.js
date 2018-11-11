@@ -101,7 +101,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 				t.funcs.push(func);
 			}
 
-			if ( ! t.eventAttached ) {
+			if ( ! t.EventAttached ) {
 				if ( document.addEventListener ) {
 					DOMContentLoaded = function(){document.removeEventListener('DOMContentLoaded', DOMContentLoaded, false);t.ready();};
 					document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
@@ -124,7 +124,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 					_tryReady();
 				}
 
-				t.eventAttached = true;
+				t.EventAttached = true;
 			}
 		}
 	},
@@ -193,9 +193,9 @@ function edButton(id, display, tagStart, tagEnd, access) {
 		canvas.parentNode.insertBefore(tb, canvas);
 		t.toolbar = tb;
 
-		// listen for click events
+		// listen for click Events
 		onclick = function(e) {
-			e = e || window.event;
+			e = e || window.Event;
 			var target = e.target || e.srcElement, visible = target.clientWidth || target.offsetWidth, i;
 
 			// don't call the callback on pressing the accesskey when the button is not visible
@@ -406,7 +406,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	};
 
 	qt.insertContent = function(content) {
-		var sel, startPos, endPos, scrollTop, text, canvas = document.getElementById(wpActiveEditor), event;
+		var sel, startPos, endPos, scrollTop, text, canvas = document.getElementById(wpActiveEditor), Event;
 
 		if ( !canvas ) {
 			return false;
@@ -435,9 +435,9 @@ function edButton(id, display, tagStart, tagEnd, access) {
 		}
 
 		if ( document.createEvent ) {
-			event = document.createEvent( 'HTMLEvents' );
-			event.initEvent( 'change', false, true );
-			canvas.dispatchEvent( event );
+			Event = document.createEvent( 'HTMLEvents' );
+			Event.initEvent( 'change', false, true );
+			canvas.dispatchEvent( Event );
 		} else if ( canvas.fireEvent ) {
 			canvas.fireEvent( 'onchange' );
 		}
@@ -524,7 +524,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 		return ret;
 	};
 	qt.TagButton.prototype.callback = function(element, canvas, ed) {
-		var t = this, startPos, endPos, cursorPos, scrollTop, v = canvas.value, l, r, i, sel, endTag = v ? t.tagEnd : '', event;
+		var t = this, startPos, endPos, cursorPos, scrollTop, v = canvas.value, l, r, i, sel, endTag = v ? t.tagEnd : '', Event;
 
 		if ( document.selection ) { // IE
 			canvas.focus();
@@ -601,9 +601,9 @@ function edButton(id, display, tagStart, tagEnd, access) {
 		}
 
 		if ( document.createEvent ) {
-			event = document.createEvent( 'HTMLEvents' );
-			event.initEvent( 'change', false, true );
-			canvas.dispatchEvent( event );
+			Event = document.createEvent( 'HTMLEvents' );
+			Event.initEvent( 'change', false, true );
+			canvas.dispatchEvent( Event );
 		} else if ( canvas.fireEvent ) {
 			canvas.fireEvent( 'onchange' );
 		}

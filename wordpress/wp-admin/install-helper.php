@@ -2,7 +2,7 @@
 /**
  * Plugins may load this file to gain access to special helper functions for
  * plugin installation. This file is not included by WordPress and it is
- * recommended, to prevent fatal errors, that this file is included using
+ * recommended, to prEvent fatal errors, that this file is included using
  * require_once().
  *
  * These functions are not optimized for speed, but they should only be used

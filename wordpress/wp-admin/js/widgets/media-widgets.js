@@ -55,7 +55,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * Get the display settings model.
 		 *
 		 * Model returned is updated with the current customized display settings,
-		 * and an event listener is added so that changes made to the settings
+		 * and an Event listener is added so that changes made to the settings
 		 * will sync back into the model storing the session's customized display
 		 * settings.
 		 *
@@ -66,7 +66,7 @@ wp.mediaWidgets = ( function( $ ) {
 			var display, selectedDisplaySettings = this.get( 'selectedDisplaySettings' );
 			display = wp.media.controller.Library.prototype.display.call( this, model );
 
-			display.off( 'change', this.handleDisplaySettingChange ); // Prevent duplicated event handlers.
+			display.off( 'change', this.handleDisplaySettingChange ); // PrEvent duplicated Event handlers.
 			display.set( selectedDisplaySettings.attributes );
 			if ( 'custom' === selectedDisplaySettings.get( 'link_type' ) ) {
 				display.linkUrl = selectedDisplaySettings.get( 'link_url' );
@@ -258,7 +258,7 @@ wp.mediaWidgets = ( function( $ ) {
 					/**
 					 * Handle render failure.
 					 *
-					 * Overrides the {EmbedLink#renderFail()} method to prevent showing the "Link Text" field.
+					 * Overrides the {EmbedLink#renderFail()} method to prEvent showing the "Link Text" field.
 					 * The element is getting display:none in the stylesheet, but the underlying method uses
 					 * uses {jQuery.fn.show()} which adds an inline style. This avoids the need for !important.
 					 *
@@ -383,7 +383,7 @@ wp.mediaWidgets = ( function( $ ) {
 			toolbar.view = new wp.media.view.Toolbar.Embed({
 				controller: this,
 				text: this.options.text,
-				event: 'insert'
+				Event: 'insert'
 			});
 		},
 
@@ -454,11 +454,11 @@ wp.mediaWidgets = ( function( $ ) {
 		mime_type: '',
 
 		/**
-		 * View events.
+		 * View Events.
 		 *
 		 * @type {Object}
 		 */
-		events: {
+		Events: {
 			'click .notice-missing-attachment a': 'handleMediaLibraryLinkClick',
 			'click .select-media': 'selectMedia',
 			'click .placeholder': 'selectMedia',
@@ -709,12 +709,12 @@ wp.mediaWidgets = ( function( $ ) {
 		/**
 		 * Handle click on link to Media Library to open modal, such as the link that appears when in the missing attachment error notice.
 		 *
-		 * @param {jQuery.Event} event - Event.
+		 * @param {jQuery.Event} Event - Event.
 		 * @returns {void}
 		 */
-		handleMediaLibraryLinkClick: function handleMediaLibraryLinkClick( event ) {
+		handleMediaLibraryLinkClick: function handleMediaLibraryLinkClick( Event ) {
 			var control = this;
-			event.preventDefault();
+			Event.prEventDefault();
 			control.selectMedia();
 		},
 
@@ -1099,19 +1099,19 @@ wp.mediaWidgets = ( function( $ ) {
 	component.widgetControls = {};
 
 	/**
-	 * Handle widget being added or initialized for the first time at the widget-added event.
+	 * Handle widget being added or initialized for the first time at the widget-added Event.
 	 *
-	 * @param {jQuery.Event} event - Event.
+	 * @param {jQuery.Event} Event - Event.
 	 * @param {jQuery}       widgetContainer - Widget container element.
 	 * @returns {void}
 	 */
-	component.handleWidgetAdded = function handleWidgetAdded( event, widgetContainer ) {
+	component.handleWidgetAdded = function handleWidgetAdded( Event, widgetContainer ) {
 		var fieldContainer, syncContainer, widgetForm, idBase, ControlConstructor, ModelConstructor, modelAttributes, widgetControl, widgetModel, widgetId, animatedCheckDelay = 50, renderWhenAnimationDone;
 		widgetForm = widgetContainer.find( '> .widget-inside > .form, > .widget-inside > form' ); // Note: '.form' appears in the customizer, whereas 'form' on the widgets admin screen.
 		idBase = widgetForm.find( '> .id_base' ).val();
 		widgetId = widgetForm.find( '> .widget-id' ).val();
 
-		// Prevent initializing already-added widgets.
+		// PrEvent initializing already-added widgets.
 		if ( component.widgetControls[ widgetId ] ) {
 			return;
 		}
@@ -1130,7 +1130,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * by PHP, where each widget update cause the entire element to be emptied
 		 * and replaced with the rendered output of WP_Widget::form() which is
 		 * sent back in Ajax request made to save/update the widget instance.
-		 * To prevent a "flash of replaced DOM elements and re-initialized JS
+		 * To prEvent a "flash of replaced DOM elements and re-initialized JS
 		 * components", the JS template is rendered outside of the normal form
 		 * container.
 		 */
@@ -1160,7 +1160,7 @@ wp.mediaWidgets = ( function( $ ) {
 
 		/*
 		 * Render the widget once the widget parent's container finishes animating,
-		 * as the widget-added event fires with a slideDown of the container.
+		 * as the widget-added Event fires with a slideDown of the container.
 		 * This ensures that the container's dimensions are fixed so that ME.js
 		 * can initialize with the proper dimensions.
 		 */
@@ -1175,7 +1175,7 @@ wp.mediaWidgets = ( function( $ ) {
 
 		/*
 		 * Note that the model and control currently won't ever get garbage-collected
-		 * when a widget gets removed/deleted because there is no widget-removed event.
+		 * when a widget gets removed/deleted because there is no widget-removed Event.
 		 */
 		component.modelCollection.add( [ widgetModel ] );
 		component.widgetControls[ widgetModel.get( 'widget_id' ) ] = widgetControl;
@@ -1229,15 +1229,15 @@ wp.mediaWidgets = ( function( $ ) {
 	/**
 	 * Sync widget instance data sanitized from server back onto widget model.
 	 *
-	 * This gets called via the 'widget-updated' event when saving a widget from
-	 * the widgets admin screen and also via the 'widget-synced' event when making
+	 * This gets called via the 'widget-updated' Event when saving a widget from
+	 * the widgets admin screen and also via the 'widget-synced' Event when making
 	 * a change to a widget in the customizer.
 	 *
-	 * @param {jQuery.Event} event - Event.
+	 * @param {jQuery.Event} Event - Event.
 	 * @param {jQuery}       widgetContainer - Widget container element.
 	 * @returns {void}
 	 */
-	component.handleWidgetUpdated = function handleWidgetUpdated( event, widgetContainer ) {
+	component.handleWidgetUpdated = function handleWidgetUpdated( Event, widgetContainer ) {
 		var widgetForm, widgetContent, widgetId, widgetControl, attributes = {};
 		widgetForm = widgetContainer.find( '> .widget-inside > .form, > .widget-inside > form' );
 		widgetId = widgetForm.find( '> .widget-id' ).val();
@@ -1254,7 +1254,7 @@ wp.mediaWidgets = ( function( $ ) {
 			attributes[ property ] = $( this ).val();
 		});
 
-		// Suspend syncing model back to inputs when syncing from inputs to model, preventing infinite loop.
+		// Suspend syncing model back to inputs when syncing from inputs to model, prEventing infinite loop.
 		widgetControl.stopListening( widgetControl.model, 'change', widgetControl.syncModelToInputs );
 		widgetControl.model.set( attributes );
 		widgetControl.listenTo( widgetControl.model, 'change', widgetControl.syncModelToInputs );
@@ -1263,7 +1263,7 @@ wp.mediaWidgets = ( function( $ ) {
 	/**
 	 * Initialize functionality.
 	 *
-	 * This function exists to prevent the JS file from having to boot itself.
+	 * This function exists to prEvent the JS file from having to boot itself.
 	 * When WordPress enqueues this script, it should have an inline script
 	 * attached which calls wp.mediaWidgets.init().
 	 *
@@ -1275,8 +1275,8 @@ wp.mediaWidgets = ( function( $ ) {
 		$document.on( 'widget-synced widget-updated', component.handleWidgetUpdated );
 
 		/*
-		 * Manually trigger widget-added events for media widgets on the admin
-		 * screen once they are expanded. The widget-added event is not triggered
+		 * Manually trigger widget-added Events for media widgets on the admin
+		 * screen once they are expanded. The widget-added Event is not triggered
 		 * for each pre-existing widget on the widgets admin screen like it is
 		 * on the customizer. Likewise, the customizer only triggers widget-added
 		 * when the widget is expanded to just-in-time construct the widget form

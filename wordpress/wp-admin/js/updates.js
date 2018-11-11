@@ -1450,16 +1450,16 @@
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param {Event=} event Optional. Event interface.
+	 * @param {Event=} Event Optional. Event interface.
 	 */
-	wp.updates.requestFilesystemCredentials = function( event ) {
+	wp.updates.requestFilesystemCredentials = function( Event ) {
 		if ( false === wp.updates.filesystemCredentials.available ) {
 			/*
 			 * After exiting the credentials request modal,
 			 * return the focus to the element triggering the request.
 			 */
-			if ( event && ! wp.updates.$elToReturnFocusToFromCredentialsModal ) {
-				wp.updates.$elToReturnFocusToFromCredentialsModal = $( event.target );
+			if ( Event && ! wp.updates.$elToReturnFocusToFromCredentialsModal ) {
+				wp.updates.$elToReturnFocusToFromCredentialsModal = $( Event.target );
 			}
 
 			wp.updates.ajaxLocked = true;
@@ -1472,11 +1472,11 @@
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param {Event=} event Optional. Event interface.
+	 * @param {Event=} Event Optional. Event interface.
 	 */
-	wp.updates.maybeRequestFilesystemCredentials = function( event ) {
+	wp.updates.maybeRequestFilesystemCredentials = function( Event ) {
 		if ( wp.updates.shouldRequestFilesystemCredentials && ! wp.updates.ajaxLocked ) {
-			wp.updates.requestFilesystemCredentials( event );
+			wp.updates.requestFilesystemCredentials( Event );
 		}
 	};
 
@@ -1488,22 +1488,22 @@
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param {Event} event Event interface.
+	 * @param {Event} Event Event interface.
 	 */
-	wp.updates.keydown = function( event ) {
-		if ( 27 === event.keyCode ) {
+	wp.updates.keydown = function( Event ) {
+		if ( 27 === Event.keyCode ) {
 			wp.updates.requestForCredentialsModalCancel();
-		} else if ( 9 === event.keyCode ) {
+		} else if ( 9 === Event.keyCode ) {
 
 			// #upgrade button must always be the last focus-able element in the dialog.
-			if ( 'upgrade' === event.target.id && ! event.shiftKey ) {
+			if ( 'upgrade' === Event.target.id && ! Event.shiftKey ) {
 				$( '#hostname' ).focus();
 
-				event.preventDefault();
-			} else if ( 'hostname' === event.target.id && event.shiftKey ) {
+				Event.prEventDefault();
+			} else if ( 'hostname' === Event.target.id && Event.shiftKey ) {
 				$( '#upgrade' ).focus();
 
-				event.preventDefault();
+				Event.prEventDefault();
 			}
 		}
 	};
@@ -1540,7 +1540,7 @@
 	 * Takes care of the steps that need to happen when the modal is canceled out.
 	 *
 	 * @since 4.2.0
-	 * @since 4.6.0 Triggers an event for callbacks to listen to and add their actions.
+	 * @since 4.6.0 Triggers an Event for callbacks to listen to and add their actions.
 	 */
 	wp.updates.requestForCredentialsModalCancel = function() {
 
@@ -1576,7 +1576,7 @@
 	};
 
 	/**
-	 * Handles credential errors and runs events that need to happen in that case.
+	 * Handles credential errors and runs Events that need to happen in that case.
 	 *
 	 * @since 4.2.0
 	 *
@@ -1747,8 +1747,8 @@
 		 *
 		 * @since 4.2.0
 		 */
-		$filesystemModal.on( 'submit', 'form', function( event ) {
-			event.preventDefault();
+		$filesystemModal.on( 'submit', 'form', function( Event ) {
+			Event.prEventDefault();
 
 			// Persist the credentials input by the user for the duration of the page load.
 			wp.updates.filesystemCredentials.ftp.hostname       = $( '#hostname' ).val();
@@ -1784,14 +1784,14 @@
 		} ).change();
 
 		/**
-		 * Handles events after the credential modal was closed.
+		 * Handles Events after the credential modal was closed.
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param {Event}  event Event interface.
+		 * @param {Event}  Event Event interface.
 		 * @param {string} job   The install/update.delete request.
 		 */
-		$document.on( 'credential-modal-cancel', function( event, job ) {
+		$document.on( 'credential-modal-cancel', function( Event, job ) {
 			var $updatingMessage = $( '.updating-message' ),
 				$message, originalText;
 
@@ -1843,19 +1843,19 @@
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param {Event} event Event interface.
+		 * @param {Event} Event Event interface.
 		 */
-		$bulkActionForm.on( 'click', '[data-plugin] .update-link', function( event ) {
-			var $message   = $( event.target ),
+		$bulkActionForm.on( 'click', '[data-plugin] .update-link', function( Event ) {
+			var $message   = $( Event.target ),
 				$pluginRow = $message.parents( 'tr' );
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			if ( $message.hasClass( 'updating-message' ) || $message.hasClass( 'button-disabled' ) ) {
 				return;
 			}
 
-			wp.updates.maybeRequestFilesystemCredentials( event );
+			wp.updates.maybeRequestFilesystemCredentials( Event );
 
 			// Return the user to the input box of the plugin's table row after closing the modal.
 			wp.updates.$elToReturnFocusToFromCredentialsModal = $pluginRow.find( '.check-column input' );
@@ -1870,17 +1870,17 @@
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param {Event} event Event interface.
+		 * @param {Event} Event Event interface.
 		 */
-		$pluginFilter.on( 'click', '.update-now', function( event ) {
-			var $button = $( event.target );
-			event.preventDefault();
+		$pluginFilter.on( 'click', '.update-now', function( Event ) {
+			var $button = $( Event.target );
+			Event.prEventDefault();
 
 			if ( $button.hasClass( 'updating-message' ) || $button.hasClass( 'button-disabled' ) ) {
 				return;
 			}
 
-			wp.updates.maybeRequestFilesystemCredentials( event );
+			wp.updates.maybeRequestFilesystemCredentials( Event );
 
 			wp.updates.updatePlugin( {
 				plugin: $button.data( 'plugin' ),
@@ -1893,18 +1893,18 @@
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param {Event} event Event interface.
+		 * @param {Event} Event Event interface.
 		 */
-		$pluginFilter.on( 'click', '.install-now', function( event ) {
-			var $button = $( event.target );
-			event.preventDefault();
+		$pluginFilter.on( 'click', '.install-now', function( Event ) {
+			var $button = $( Event.target );
+			Event.prEventDefault();
 
 			if ( $button.hasClass( 'updating-message' ) || $button.hasClass( 'button-disabled' ) ) {
 				return;
 			}
 
 			if ( wp.updates.shouldRequestFilesystemCredentials && ! wp.updates.ajaxLocked ) {
-				wp.updates.requestFilesystemCredentials( event );
+				wp.updates.requestFilesystemCredentials( Event );
 
 				$document.on( 'credential-modal-cancel', function() {
 					var $message = $( '.install-now.updating-message' );
@@ -1927,20 +1927,20 @@
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param {Event} event Event interface.
+		 * @param {Event} Event Event interface.
 		 */
-		$document.on( 'click', '.importer-item .install-now', function( event ) {
-			var $button = $( event.target ),
+		$document.on( 'click', '.importer-item .install-now', function( Event ) {
+			var $button = $( Event.target ),
 				pluginName = $( this ).data( 'name' );
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			if ( $button.hasClass( 'updating-message' ) ) {
 				return;
 			}
 
 			if ( wp.updates.shouldRequestFilesystemCredentials && ! wp.updates.ajaxLocked ) {
-				wp.updates.requestFilesystemCredentials( event );
+				wp.updates.requestFilesystemCredentials( Event );
 
 				$document.on( 'credential-modal-cancel', function() {
 
@@ -1966,18 +1966,18 @@
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param {Event} event Event interface.
+		 * @param {Event} Event Event interface.
 		 */
-		$bulkActionForm.on( 'click', '[data-plugin] a.delete', function( event ) {
-			var $pluginRow = $( event.target ).parents( 'tr' );
+		$bulkActionForm.on( 'click', '[data-plugin] a.delete', function( Event ) {
+			var $pluginRow = $( Event.target ).parents( 'tr' );
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			if ( ! window.confirm( wp.updates.l10n.aysDeleteUninstall.replace( '%s', $pluginRow.find( '.plugin-title strong' ).text() ) ) ) {
 				return;
 			}
 
-			wp.updates.maybeRequestFilesystemCredentials( event );
+			wp.updates.maybeRequestFilesystemCredentials( Event );
 
 			wp.updates.deletePlugin( {
 				plugin: $pluginRow.data( 'plugin' ),
@@ -1991,19 +1991,19 @@
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param {Event} event Event interface.
+		 * @param {Event} Event Event interface.
 		 */
-		$document.on( 'click', '.themes-php.network-admin .update-link', function( event ) {
-			var $message  = $( event.target ),
+		$document.on( 'click', '.themes-php.network-admin .update-link', function( Event ) {
+			var $message  = $( Event.target ),
 				$themeRow = $message.parents( 'tr' );
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			if ( $message.hasClass( 'updating-message' ) || $message.hasClass( 'button-disabled' ) ) {
 				return;
 			}
 
-			wp.updates.maybeRequestFilesystemCredentials( event );
+			wp.updates.maybeRequestFilesystemCredentials( Event );
 
 			// Return the user to the input box of the theme's table row after closing the modal.
 			wp.updates.$elToReturnFocusToFromCredentialsModal = $themeRow.find( '.check-column input' );
@@ -2017,18 +2017,18 @@
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param {Event} event Event interface.
+		 * @param {Event} Event Event interface.
 		 */
-		$document.on( 'click', '.themes-php.network-admin a.delete', function( event ) {
-			var $themeRow = $( event.target ).parents( 'tr' );
+		$document.on( 'click', '.themes-php.network-admin a.delete', function( Event ) {
+			var $themeRow = $( Event.target ).parents( 'tr' );
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			if ( ! window.confirm( wp.updates.l10n.aysDelete.replace( '%s', $themeRow.find( '.theme-title strong' ).text() ) ) ) {
 				return;
 			}
 
-			wp.updates.maybeRequestFilesystemCredentials( event );
+			wp.updates.maybeRequestFilesystemCredentials( Event );
 
 			wp.updates.deleteTheme( {
 				slug: $themeRow.data( 'slug' )
@@ -2042,10 +2042,10 @@
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param {Event} event Event interface.
+		 * @param {Event} Event Event interface.
 		 */
-		$bulkActionForm.on( 'click', '[type="submit"]:not([name="clear-recent-list"])', function( event ) {
-			var bulkAction    = $( event.target ).siblings( 'select' ).val(),
+		$bulkActionForm.on( 'click', '[type="submit"]:not([name="clear-recent-list"])', function( Event ) {
+			var bulkAction    = $( Event.target ).siblings( 'select' ).val(),
 				itemsSelected = $bulkActionForm.find( 'input[name="checked[]"]:checked' ),
 				success       = 0,
 				error         = 0,
@@ -2069,7 +2069,7 @@
 
 			// Bail if there were no items selected.
 			if ( ! itemsSelected.length ) {
-				event.preventDefault();
+				Event.prEventDefault();
 				$( 'html, body' ).animate( { scrollTop: 0 } );
 
 				return wp.updates.addAdminNotice( {
@@ -2087,7 +2087,7 @@
 
 				case 'delete-selected':
 					if ( ! window.confirm( 'plugin' === type ? wp.updates.l10n.aysBulkDelete : wp.updates.l10n.aysBulkDeleteThemes ) ) {
-						event.preventDefault();
+						Event.prEventDefault();
 						return;
 					}
 
@@ -2098,9 +2098,9 @@
 					return;
 			}
 
-			wp.updates.maybeRequestFilesystemCredentials( event );
+			wp.updates.maybeRequestFilesystemCredentials( Event );
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			// Un-check the bulk checkboxes.
 			$bulkActionForm.find( '.manage-column [type="checkbox"]' ).prop( 'checked', false );
@@ -2131,11 +2131,11 @@
 			} );
 
 			// Display bulk notification for updates of any kind.
-			$document.on( 'wp-plugin-update-success wp-plugin-update-error wp-theme-update-success wp-theme-update-error', function( event, response ) {
+			$document.on( 'wp-plugin-update-success wp-plugin-update-error wp-theme-update-success wp-theme-update-error', function( Event, response ) {
 				var $itemRow = $( '[data-slug="' + response.slug + '"]' ),
 					$bulkActionNotice, itemName;
 
-				if ( 'wp-' + response.update + '-update-success' === event.type ) {
+				if ( 'wp-' + response.update + '-update-success' === Event.type ) {
 					success++;
 				} else {
 					itemName = response.pluginName ? response.pluginName : $itemRow.find( '.column-primary strong' ).text();
@@ -2176,7 +2176,7 @@
 				wp.updates.adminNotice = wp.template( 'wp-updates-admin-notice' );
 			} );
 
-			// Check the queue, now that the event handlers have been added.
+			// Check the queue, now that the Event handlers have been added.
 			wp.updates.queueChecker();
 		} );
 
@@ -2190,12 +2190,12 @@
 		 *
 		 * @since 4.6.0
 		 */
-		$pluginInstallSearch.on( 'keyup input', _.debounce( function( event, eventtype ) {
+		$pluginInstallSearch.on( 'keyup input', _.debounce( function( Event, Eventtype ) {
 			var $searchTab = $( '.plugin-install-search' ), data, searchLocation;
 
 			data = {
 				_ajax_nonce: wp.updates.ajaxNonce,
-				s:           event.target.value,
+				s:           Event.target.value,
 				tab:         'search',
 				type:        $( '#typeselector' ).val(),
 				pagenow:     pagenow
@@ -2203,11 +2203,11 @@
 			searchLocation = location.href.split( '?' )[ 0 ] + '?' + $.param( _.omit( data, [ '_ajax_nonce', 'pagenow' ] ) );
 
 			// Clear on escape.
-			if ( 'keyup' === event.type && 27 === event.which ) {
-				event.target.value = '';
+			if ( 'keyup' === Event.type && 27 === Event.which ) {
+				Event.target.value = '';
 			}
 
-			if ( wp.updates.searchTerm === data.s && 'typechange' !== eventtype ) {
+			if ( wp.updates.searchTerm === data.s && 'typechange' !== Eventtype ) {
 				return;
 			} else {
 				$pluginFilter.empty();
@@ -2263,18 +2263,18 @@
 		 *
 		 * @since 4.6.0
 		 */
-		$pluginSearch.on( 'keyup input', _.debounce( function( event ) {
+		$pluginSearch.on( 'keyup input', _.debounce( function( Event ) {
 			var data = {
 				_ajax_nonce:   wp.updates.ajaxNonce,
-				s:             event.target.value,
+				s:             Event.target.value,
 				pagenow:       pagenow,
 				plugin_status: 'all'
 			},
 			queryArgs;
 
 			// Clear on escape.
-			if ( 'keyup' === event.type && 27 === event.which ) {
-				event.target.value = '';
+			if ( 'keyup' === Event.type && 27 === Event.which ) {
+				Event.target.value = '';
 			}
 
 			if ( wp.updates.searchTerm === data.s ) {
@@ -2329,28 +2329,28 @@
 		}, 500 ) );
 
 		/**
-		 * Trigger a search event when the search form gets submitted.
+		 * Trigger a search Event when the search form gets submitted.
 		 *
 		 * @since 4.6.0
 		 */
-		$document.on( 'submit', '.search-plugins', function( event ) {
-			event.preventDefault();
+		$document.on( 'submit', '.search-plugins', function( Event ) {
+			Event.prEventDefault();
 
 			$( 'input.wp-filter-search' ).trigger( 'input' );
 		} );
 
 		/**
-		 * Trigger a search event when the "Try Again" button is clicked.
+		 * Trigger a search Event when the "Try Again" button is clicked.
 		 *
 		 * @since 4.9.0
 		 */
-		$document.on( 'click', '.try-again', function( event ) {
-			event.preventDefault();
+		$document.on( 'click', '.try-again', function( Event ) {
+			Event.prEventDefault();
 			$pluginInstallSearch.trigger( 'input' );
 		} );
 
 		/**
-		 * Trigger a search event when the search type gets changed.
+		 * Trigger a search Event when the search type gets changed.
 		 *
 		 * @since 4.6.0
 		 */
@@ -2367,9 +2367,9 @@
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param {Event} event Event interface.
+		 * @param {Event} Event Event interface.
 		 */
-		$( '#plugin_update_from_iframe' ).on( 'click', function( event ) {
+		$( '#plugin_update_from_iframe' ).on( 'click', function( Event ) {
 			var target = window.parent === window ? null : window.parent,
 				update;
 
@@ -2379,7 +2379,7 @@
 				return;
 			}
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			update = {
 				action: 'update-plugin',
@@ -2397,9 +2397,9 @@
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param {Event} event Event interface.
+		 * @param {Event} Event Event interface.
 		 */
-		$( '#plugin_install_from_iframe' ).on( 'click', function( event ) {
+		$( '#plugin_install_from_iframe' ).on( 'click', function( Event ) {
 			var target = window.parent === window ? null : window.parent,
 				install;
 
@@ -2409,7 +2409,7 @@
 				return;
 			}
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			install = {
 				action: 'install-plugin',
@@ -2422,15 +2422,15 @@
 		} );
 
 		/**
-		 * Handles postMessage events.
+		 * Handles postMessage Events.
 		 *
 		 * @since 4.2.0
 		 * @since 4.6.0 Switched `update-plugin` action to use the queue.
 		 *
-		 * @param {Event} event Event interface.
+		 * @param {Event} Event Event interface.
 		 */
-		$( window ).on( 'message', function( event ) {
-			var originalEvent  = event.originalEvent,
+		$( window ).on( 'message', function( Event ) {
+			var originalEvent  = Event.originalEvent,
 				expectedOrigin = document.location.protocol + '//' + document.location.hostname,
 				message;
 

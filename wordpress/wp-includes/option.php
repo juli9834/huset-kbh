@@ -48,7 +48,7 @@ function get_option( $option, $default = false ) {
 	 *
 	 *
 	 * @param bool|mixed $pre_option The value to return instead of the option value. This differs from
-	 *                               `$default`, which is used as the fallback value in the event the option
+	 *                               `$default`, which is used as the fallback value in the Event the option
 	 *                               doesn't exist elsewhere in get_option(). Default false (to skip past the
 	 *                               short-circuit).
 	 * @param string     $option     Option name.
@@ -67,7 +67,7 @@ function get_option( $option, $default = false ) {
 	$passed_default = func_num_args() > 1;
 
 	if ( ! wp_installing() ) {
-		// prevent non-existent options from triggering multiple queries
+		// prEvent non-existent options from triggering multiple queries
 		$notoptions = wp_cache_get( 'notoptions', 'options' );
 		if ( isset( $notoptions[ $option ] ) ) {
 			/**
@@ -520,7 +520,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 }
 
 /**
- * Removes option by name. Prevents removal of protected WordPress options.
+ * Removes option by name. PrEvents removal of protected WordPress options.
  *
  * @since 1.2.0
  *
@@ -1201,7 +1201,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 	 * @since 4.9.0 The `$default` parameter was added.
 	 *
 	 * @param mixed  $pre_option The value to return instead of the option value. This differs from
-	 *                           `$default`, which is used as the fallback value in the event the
+	 *                           `$default`, which is used as the fallback value in the Event the
 	 *                           option doesn't exist elsewhere in get_network_option(). Default
 	 *                           is false (to skip past the short-circuit).
 	 * @param string $option     Option name.
@@ -1215,7 +1215,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 		return $pre;
 	}
 
-	// prevent non-existent options from triggering multiple queries
+	// prEvent non-existent options from triggering multiple queries
 	$notoptions_key = "$network_id:notoptions";
 	$notoptions = wp_cache_get( $notoptions_key, 'site-options' );
 

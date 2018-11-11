@@ -889,11 +889,11 @@ var lists = (function () {
     editor.on('keydown', function (e) {
       if (e.keyCode === global$3.BACKSPACE) {
         if (backspaceDelete(editor, false)) {
-          e.preventDefault();
+          e.prEventDefault();
         }
       } else if (e.keyCode === global$3.DELETE) {
         if (backspaceDelete(editor, true)) {
-          e.preventDefault();
+          e.prEventDefault();
         }
       }
     });
@@ -994,7 +994,7 @@ var lists = (function () {
       }
       if (isHandled) {
         editor.fire('ExecCommand', { command: e.command });
-        e.preventDefault();
+        e.prEventDefault();
         return true;
       }
     });
@@ -1024,7 +1024,7 @@ var lists = (function () {
         return;
       }
       if (editor.dom.getParent(editor.selection.getStart(), 'LI,DT,DD')) {
-        e.preventDefault();
+        e.prEventDefault();
         if (e.shiftKey) {
           $_6pbactghjjgweckp.outdentSelection(editor);
         } else {

@@ -110,7 +110,7 @@ endif;
 
 if ( !function_exists('cache_users') ) :
 /**
- * Retrieve info for user lists to prevent multiple queries by get_userdata()
+ * Retrieve info for user lists to prEvent multiple queries by get_userdata()
  *
  * @since 3.0.0
  *
@@ -907,7 +907,7 @@ function wp_set_auth_cookie( $user_id, $remember = false, $secure = '', $token =
 	do_action( 'set_logged_in_cookie', $logged_in_cookie, $expire, $expiration, $user_id, 'logged_in', $token );
 
 	/**
-	 * Allows preventing auth cookies from actually being sent to the client.
+	 * Allows prEventing auth cookies from actually being sent to the client.
 	 *
 	 * @since 4.7.4
 	 *
@@ -1108,7 +1108,7 @@ endif;
 
 if ( !function_exists('check_ajax_referer') ) :
 /**
- * Verifies the Ajax request to prevent processing requests external of the blog.
+ * Verifies the Ajax request to prEvent processing requests external of the blog.
  *
  * @since 2.0.3
  *
@@ -1279,7 +1279,7 @@ if ( !function_exists('wp_safe_redirect') ) :
  * list.
  *
  * If the host is not allowed, then the redirect defaults to wp-admin on the siteurl
- * instead. This prevents malicious redirects which redirect to another host,
+ * instead. This prEvents malicious redirects which redirect to another host,
  * but only used in a few places.
  *
  * @since 2.3.0
@@ -1331,7 +1331,7 @@ function wp_validate_redirect($location, $default = '') {
 	// In php 5 parse_url may fail if the URL query part contains http://, bug #38143
 	$test = ( $cut = strpos($location, '?') ) ? substr( $location, 0, $cut ) : $location;
 
-	// @-operator is used to prevent possible warnings in PHP < 5.3.3.
+	// @-operator is used to prEvent possible warnings in PHP < 5.3.3.
 	$lp = @parse_url($test);
 
 	// Give up if malformed URL

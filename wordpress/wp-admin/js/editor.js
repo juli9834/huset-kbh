@@ -18,15 +18,15 @@ window.wp = window.wp || {};
 				$$ = tinymce.$;
 
 				/**
-				 * @summary Handles onclick events for the Visual/Text tabs.
+				 * @summary Handles onclick Events for the Visual/Text tabs.
 				 *
 				 * @since 4.3.0
 				 *
 				 * @returns {void}
 				 */
-				$$( document ).on( 'click', function( event ) {
+				$$( document ).on( 'click', function( Event ) {
 					var id, mode,
-						target = $$( event.target );
+						target = $$( Event.target );
 
 					if ( target.hasClass( 'wp-switch-editor' ) ) {
 						id = target.attr( 'data-wp-editor-id' );
@@ -186,10 +186,10 @@ window.wp = window.wp || {};
 		/**
 		 * @summary Checks if a cursor is inside an HTML tag.
 		 *
-		 * In order to prevent breaking HTML tags when selecting text, the cursor
+		 * In order to prEvent breaking HTML tags when selecting text, the cursor
 		 * must be moved to either the start or end of the tag.
 		 *
-		 * This will prevent the selection marker to be inserted in the middle of an HTML tag.
+		 * This will prEvent the selection marker to be inserted in the middle of an HTML tag.
 		 *
 		 * This function gives information whether the cursor is inside a tag or not, as well as
 		 * the tag type, if it is a closing tag and check if the HTML tag is inside a shortcode tag,
@@ -636,11 +636,11 @@ window.wp = window.wp || {};
 		 *
 		 * It's needed here, since the method changes the content a bit, which confuses the cursor position.
 		 *
-		 * @param {Object} event TinyMCE event object.
+		 * @param {Object} Event TinyMCE Event object.
 		 */
-		function fixTextAreaContent( event ) {
+		function fixTextAreaContent( Event ) {
 			// Keep empty paragraphs :(
-			event.content = event.content.replace( /<p>(?:<br ?\/?>|\u00a0|\uFEFF| )*<\/p>/g, '<p>&nbsp;</p>' );
+			Event.content = Event.content.replace( /<p>(?:<br ?\/?>|\u00a0|\uFEFF| )*<\/p>/g, '<p>&nbsp;</p>' );
 		}
 
 		/**
@@ -845,7 +845,7 @@ window.wp = window.wp || {};
 		}
 
 		// Restore the selection when the editor is initialized. Needed when the Text editor is the default.
-		$( document ).on( 'tinymce-editor-init.keep-scroll-position', function( event, editor ) {
+		$( document ).on( 'tinymce-editor-init.keep-scroll-position', function( Event, editor ) {
 			if ( editor.$( '.mce_SELRES_start' ).length ) {
 				focusHTMLBookmarkInVisualEditor( editor );
 			}
@@ -1120,7 +1120,7 @@ window.wp = window.wp || {};
 		}
 
 		/**
-		 * @summary Fires custom jQuery events `beforePreWpautop` and `afterPreWpautop` when jQuery is available.
+		 * @summary Fires custom jQuery Events `beforePreWpautop` and `afterPreWpautop` when jQuery is available.
 		 *
 		 * @since 2.9.0
 		 *
@@ -1146,7 +1146,7 @@ window.wp = window.wp || {};
 		}
 
 		/**
-		 * @summary Fires custom jQuery events `beforeWpautop` and `afterWpautop` when jQuery is available.
+		 * @summary Fires custom jQuery Events `beforeWpautop` and `afterWpautop` when jQuery is available.
 		 *
 		 * @since 2.9.0
 		 *
@@ -1212,7 +1212,7 @@ window.wp = window.wp || {};
 	 * The editor width will be the width of the textarea container, height will be adjustable.
 	 *
 	 * Settings for both TinyMCE and Quicktags can be passed on initialization, and are "filtered"
-	 * with custom jQuery events on the document element, wp-before-tinymce-init and wp-before-quicktags-init.
+	 * with custom jQuery Events on the document element, wp-before-tinymce-init and wp-before-quicktags-init.
 	 *
 	 * @since 4.8.0
 	 *

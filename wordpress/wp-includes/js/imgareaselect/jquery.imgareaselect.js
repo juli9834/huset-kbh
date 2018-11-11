@@ -7,7 +7,7 @@
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  *
- * http://odyniec.net/projects/imgareaselect/
+ * http://odyniec.net/Events/imgareaselect/
  *
  */
 
@@ -177,41 +177,41 @@ $.imgAreaSelect = function (img, options) {
     }
 
     /*
-     * Translate event coordinates (relative to document) to viewport
+     * Translate Event coordinates (relative to document) to viewport
      * coordinates
      */
 
     /**
-     * Get event X and translate it to viewport X
+     * Get Event X and translate it to viewport X
      *
-     * @param event
-     *            The event object
+     * @param Event
+     *            The Event object
      * @return Viewport X
      */
-    function evX(event) {
-        return max(event.pageX || 0, touchCoords(event).x) - parOfs.left;
+    function evX(Event) {
+        return max(Event.pageX || 0, touchCoords(Event).x) - parOfs.left;
     }
 
     /**
-     * Get event Y and translate it to viewport Y
+     * Get Event Y and translate it to viewport Y
      *
-     * @param event
-     *            The event object
+     * @param Event
+     *            The Event object
      * @return Viewport Y
      */
-    function evY(event) {
-        return max(event.pageY || 0, touchCoords(event).y) - parOfs.top;
+    function evY(Event) {
+        return max(Event.pageY || 0, touchCoords(Event).y) - parOfs.top;
     }
 
     /**
-     * Get X and Y coordinates of a touch event
+     * Get X and Y coordinates of a touch Event
      *
-     * @param event
-     *            The event object
+     * @param Event
+     *            The Event object
      * @return Coordinates object
      */
-    function touchCoords(event) {
-        var oev = event.originalEvent || {};
+    function touchCoords(Event) {
+        var oev = Event.originalEvent || {};
 
         if (oev.touches && oev.touches.length)
             return { x: oev.touches[0].pageX, y: oev.touches[0].pageY };
@@ -333,7 +333,7 @@ $.imgAreaSelect = function (img, options) {
      *
      * @param resetKeyPress
      *            If set to <code>false</code>, this instance's keypress
-     *            event handler is not activated
+     *            Event handler is not activated
      */
     function update(resetKeyPress) {
         /* If plugin elements are hidden, do nothing */
@@ -384,7 +384,7 @@ $.imgAreaSelect = function (img, options) {
 
         if (resetKeyPress !== false) {
             /*
-             * Need to reset the document keypress event handler -- unbind the
+             * Need to reset the document keypress Event handler -- unbind the
              * current handler
              */
             if ($.imgAreaSelect.onKeyPress != docKeyPress)
@@ -393,7 +393,7 @@ $.imgAreaSelect = function (img, options) {
 
             if (options.keys)
                 /*
-                 * Set the document keypress event handler to this instance's
+                 * Set the document keypress Event handler to this instance's
                  * docKeyPress() function
                  */
                 $(document)[$.imgAreaSelect.keyPress](
@@ -424,7 +424,7 @@ $.imgAreaSelect = function (img, options) {
      *
      * @param resetKeyPress
      *            If set to <code>false</code>, this instance's keypress
-     *            event handler is not activated
+     *            Event handler is not activated
      */
     function doUpdate(resetKeyPress) {
         adjust();
@@ -446,14 +446,14 @@ $.imgAreaSelect = function (img, options) {
     }
 
     /**
-     * Selection area mousemove event handler
+     * Selection area mousemove Event handler
      *
-     * @param event
-     *            The event object
+     * @param Event
+     *            The Event object
      */
-    function areaMouseMove(event) {
-        var x = selX(evX(event)) - selection.x1,
-            y = selY(evY(event)) - selection.y1;
+    function areaMouseMove(Event) {
+        var x = selX(evX(Event)) - selection.x1,
+            y = selY(evY(Event)) - selection.y1;
 
         if (!adjusted) {
             adjust();
@@ -487,12 +487,12 @@ $.imgAreaSelect = function (img, options) {
     }
 
     /**
-     * Document mouseup event handler
+     * Document mouseup Event handler
      *
-     * @param event
-     *            The event object
+     * @param Event
+     *            The Event object
      */
-    function docMouseUp(event) {
+    function docMouseUp(Event) {
         /* Set back the default cursor */
         $('body').css('cursor', '');
         /*
@@ -509,21 +509,21 @@ $.imgAreaSelect = function (img, options) {
     }
 
     /**
-     * Selection area mousedown event handler
+     * Selection area mousedown Event handler
      *
-     * @param event
-     *            The event object
+     * @param Event
+     *            The Event object
      * @return false
      */
-    function areaMouseDown(event) {
-        if (event.type == 'mousedown' && event.which != 1) return false;
+    function areaMouseDown(Event) {
+        if (Event.type == 'mousedown' && Event.which != 1) return false;
 
     	/*
     	 * With mobile browsers, there is no "moving the pointer over" action,
-    	 * so we need to simulate one mousemove event happening prior to
+    	 * so we need to simulate one mousemove Event happening prior to
     	 * mousedown/touchstart.
     	 */
-    	areaMouseMove(event);
+    	areaMouseMove(Event);
 
         adjust();
 
@@ -539,8 +539,8 @@ $.imgAreaSelect = function (img, options) {
             $box.off('mousemove touchmove', areaMouseMove);
         }
         else if (options.movable) {
-            startX = left + selection.x1 - evX(event);
-            startY = top + selection.y1 - evY(event);
+            startX = left + selection.x1 - evX(Event);
+            startY = top + selection.y1 - evY(Event);
 
             $box.off('mousemove touchmove', areaMouseMove);
 
@@ -553,7 +553,7 @@ $.imgAreaSelect = function (img, options) {
                 });
         }
         else
-            $img.mousedown(event);
+            $img.mousedown(Event);
 
         return false;
     }
@@ -643,15 +643,15 @@ $.imgAreaSelect = function (img, options) {
     }
 
     /**
-     * Mousemove event handler triggered when the user is selecting an area
+     * Mousemove Event handler triggered when the user is selecting an area
      *
-     * @param event
-     *            The event object
+     * @param Event
+     *            The Event object
      * @return false
      */
-    function selectingMouseMove(event) {
-        x2 = /w|e|^$/.test(resize) || aspectRatio ? evX(event) : viewX(selection.x2);
-        y2 = /n|s|^$/.test(resize) || aspectRatio ? evY(event) : viewY(selection.y2);
+    function selectingMouseMove(Event) {
+        x2 = /w|e|^$/.test(resize) || aspectRatio ? evX(Event) : viewX(selection.x2);
+        y2 = /n|s|^$/.test(resize) || aspectRatio ? evY(Event) : viewY(selection.y2);
 
         doResize();
 
@@ -679,19 +679,19 @@ $.imgAreaSelect = function (img, options) {
     }
 
     /**
-     * Mousemove event handler triggered when the selection area is being moved
+     * Mousemove Event handler triggered when the selection area is being moved
      *
-     * @param event
-     *            The event object
+     * @param Event
+     *            The Event object
      * @return false
      */
-    function movingMouseMove(event) {
-        x1 = max(left, min(startX + evX(event), left + imgWidth - selection.width));
-        y1 = max(top, min(startY + evY(event), top + imgHeight - selection.height));
+    function movingMouseMove(Event) {
+        x1 = max(left, min(startX + evX(Event), left + imgWidth - selection.width));
+        y1 = max(top, min(startY + evY(Event), top + imgHeight - selection.height));
 
         doMove(x1, y1);
 
-        event.preventDefault();
+        Event.prEventDefault();
         return false;
     }
 
@@ -740,19 +740,19 @@ $.imgAreaSelect = function (img, options) {
     }
 
     /**
-     * Image mousedown event handler
+     * Image mousedown Event handler
      *
-     * @param event
-     *            The event object
+     * @param Event
+     *            The Event object
      * @return false
      */
-    function imgMouseDown(event) {
-        /* Ignore the event if animation is in progress */
-        if (event.which > 1 || $outer.is(':animated')) return false;
+    function imgMouseDown(Event) {
+        /* Ignore the Event if animation is in progress */
+        if (Event.which > 1 || $outer.is(':animated')) return false;
 
         adjust();
-        startX = x1 = evX(event);
-        startY = y1 = evY(event);
+        startX = x1 = evX(Event);
+        startY = y1 = evY(Event);
 
         /* Selection will start when the mouse is moved */
         $(document).on({ 'mousemove touchmove': startSelection,
@@ -762,14 +762,14 @@ $.imgAreaSelect = function (img, options) {
     }
 
     /**
-     * Window resize event handler
+     * Window resize Event handler
      */
     function windowResize() {
         doUpdate(false);
     }
 
     /**
-     * Image load event handler. This is the final part of the initialization
+     * Image load Event handler. This is the final part of the initialization
      * process.
      */
     function imgLoad() {
@@ -806,23 +806,23 @@ $.imgAreaSelect = function (img, options) {
     }
 
     /**
-     * Document keypress event handler
+     * Document keypress Event handler
      *
-     * @param event
-     *            The event object
+     * @param Event
+     *            The Event object
      * @return false
      */
-    var docKeyPress = function(event) {
-        var k = options.keys, d, t, key = event.keyCode;
+    var docKeyPress = function(Event) {
+        var k = options.keys, d, t, key = Event.keyCode;
 
-        d = !isNaN(k.alt) && (event.altKey || event.originalEvent.altKey) ? k.alt :
-            !isNaN(k.ctrl) && event.ctrlKey ? k.ctrl :
-            !isNaN(k.shift) && event.shiftKey ? k.shift :
+        d = !isNaN(k.alt) && (Event.altKey || Event.originalEvent.altKey) ? k.alt :
+            !isNaN(k.ctrl) && Event.ctrlKey ? k.ctrl :
+            !isNaN(k.shift) && Event.shiftKey ? k.shift :
             !isNaN(k.arrows) ? k.arrows : 10;
 
-        if (k.arrows == 'resize' || (k.shift == 'resize' && event.shiftKey) ||
-            (k.ctrl == 'resize' && event.ctrlKey) ||
-            (k.alt == 'resize' && (event.altKey || event.originalEvent.altKey)))
+        if (k.arrows == 'resize' || (k.shift == 'resize' && Event.shiftKey) ||
+            (k.ctrl == 'resize' && Event.ctrlKey) ||
+            (k.alt == 'resize' && (Event.altKey || Event.originalEvent.altKey)))
         {
             /* Resize selection */
 
@@ -1040,7 +1040,7 @@ $.imgAreaSelect = function (img, options) {
      */
     this.remove = function () {
         /*
-         * Call setOptions with { disable: true } to unbind the event handlers
+         * Call setOptions with { disable: true } to unbind the Event handlers
          */
         setOptions({ disable: true });
         $box.add($outer).remove();
@@ -1102,7 +1102,7 @@ $.imgAreaSelect = function (img, options) {
      *
      * @param resetKeyPress
      *            If set to <code>false</code>, this instance's keypress
-     *            event handler is not activated
+     *            Event handler is not activated
      */
     this.update = doUpdate;
 
@@ -1137,15 +1137,15 @@ $.imgAreaSelect = function (img, options) {
         $img.attr('unselectable', 'on');
 
     /*
-     * In MSIE and WebKit, we need to use the keydown event instead of keypress
+     * In MSIE and WebKit, we need to use the keydown Event instead of keypress
      */
     $.imgAreaSelect.keyPress = msie || safari ? 'keydown' : 'keypress';
 
     /*
      * There is a bug affecting the CSS cursor property in Opera (observed in
-     * versions up to 10.00) that prevents the cursor from being updated unless
+     * versions up to 10.00) that prEvents the cursor from being updated unless
      * the mouse leaves and enters the element again. To trigger the mouseover
-     * event, we're adding an additional div to $box and we're going to toggle
+     * Event, we're adding an additional div to $box and we're going to toggle
      * it when mouse moves inside the selection area.
      */
     if (opera)
@@ -1167,13 +1167,13 @@ $.imgAreaSelect = function (img, options) {
     /*
      * If the image has been fully loaded, or if it is not really an image (eg.
      * a div), call imgLoad() immediately; otherwise, bind it to be called once
-     * on image load event.
+     * on image load Event.
      */
     img.complete || img.readyState == 'complete' || !$img.is('img') ?
         imgLoad() : $img.one('load', imgLoad);
 
     /*
-     * MSIE 9.0 doesn't always fire the image load event -- resetting the src
+     * MSIE 9.0 doesn't always fire the image load Event -- resetting the src
      * attribute seems to trigger it. The check is for version 7 and above to
      * accommodate for MSIE 9 running in compatibility mode.
      */

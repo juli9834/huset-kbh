@@ -55,7 +55,7 @@ var tinyMCEPopup = {
     // Setup local DOM
     self.dom = self.editor.windowManager.createInstance('tinymce.dom.DOMUtils', document, {
       ownEvents: true,
-      proxy: tinyMCEPopup._eventProxy
+      proxy: tinyMCEPopup._EventProxy
     });
 
     self.dom.bind(window, 'ready', self._onDOMLoaded, self);
@@ -71,7 +71,7 @@ var tinyMCEPopup = {
     /**
      * Fires when the popup is initialized.
      *
-     * @event onInit
+     * @Event onInit
      * @param {tinymce.Editor} editor Editor instance.
      * @example
      * // Alerts the selected contents when the dialog is loaded
@@ -245,7 +245,7 @@ var tinyMCEPopup = {
    * then selects a color it will be set as the value of the specified element.
    *
    * @method pickColor
-   * @param {DOMEvent} e DOM event object.
+   * @param {DOMEvent} e DOM Event object.
    * @param {string} element_id Element id to be filled with the color value from the picker.
    */
   pickColor: function (e, element_id) {
@@ -258,7 +258,7 @@ var tinyMCEPopup = {
           try {
             el.onchange();
           } catch (ex) {
-            // Try fire event, ignore errors
+            // Try fire Event, ignore errors
           }
         },
         el.value
@@ -330,7 +330,7 @@ var tinyMCEPopup = {
   // Internal functions
 
   _restoreSelection: function () {
-    var e = window.event.srcElement;
+    var e = window.Event.srcElement;
 
     if (e.nodeName == 'INPUT' && (e.type == 'submit' || e.type == 'button')) {
       tinyMCEPopup.restoreSelection();
@@ -338,7 +338,7 @@ var tinyMCEPopup = {
   },
 
   /* _restoreSelection : function() {
-      var e = window.event.srcElement;
+      var e = window.Event.srcElement;
 
       // If user focus a non text input or textarea
       if ((e.nodeName != 'INPUT' && e.nodeName != 'TEXTAREA') || e.type != 'text')
@@ -452,7 +452,7 @@ var tinyMCEPopup = {
   },
 
   _accessHandler: function (e) {
-    e = e || window.event;
+    e = e || window.Event;
 
     if (e.keyCode == 13 || e.keyCode == 32) {
       var elm = e.target || e.srcElement;
@@ -466,16 +466,16 @@ var tinyMCEPopup = {
   },
 
   _closeWinKeyHandler: function (e) {
-    e = e || window.event;
+    e = e || window.Event;
 
     if (e.keyCode == 27) {
       tinyMCEPopup.close();
     }
   },
 
-  _eventProxy: function (id) {
+  _EventProxy: function (id) {
     return function (evt) {
-      tinyMCEPopup.dom.events.callNativeHandler(id, evt);
+      tinyMCEPopup.dom.Events.callNativeHandler(id, evt);
     };
   }
 };

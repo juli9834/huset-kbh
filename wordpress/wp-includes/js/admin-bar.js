@@ -21,18 +21,18 @@ if ( typeof(jQuery) != 'undefined' ) {
 				var el = $(this);
 
 				if ( el.parent().is('#wp-admin-bar-root-default') && !el.hasClass('hover') ) {
-					e.preventDefault();
+					e.prEventDefault();
 					adminbar.find('li.menupop.hover').removeClass('hover');
 					el.addClass('hover');
 				} else if ( !el.hasClass('hover') ) {
 					e.stopPropagation();
-					e.preventDefault();
+					e.prEventDefault();
 					el.addClass('hover');
 				} else if ( ! $( e.target ).closest( 'div' ).hasClass( 'ab-sub-wrapper' ) ) {
 					// We're dealing with an already-touch-opened menu genericon (we know el.hasClass('hover')),
-					// so close it on a second tap and prevent propag and defaults. See #29906
+					// so close it on a second tap and prEvent propag and defaults. See #29906
 					e.stopPropagation();
-					e.preventDefault();
+					e.prEventDefault();
 					el.removeClass('hover');
 				}
 
@@ -87,7 +87,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 			window.scrollBy( 0, -32 );
 
 		$('#wp-admin-bar-get-shortlink').click(function(e){
-			e.preventDefault();
+			e.prEventDefault();
 			$(this).addClass('selected').children('.shortlink-input').blur(function(){
 				$(this).parents('#wp-admin-bar-get-shortlink').removeClass('selected');
 			}).focus().select();
@@ -102,7 +102,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 				parentHasHover = target.parent().hasClass('hover');
 
 			e.stopPropagation();
-			e.preventDefault();
+			e.prEventDefault();
 
 			if ( !wrap.length )
 				wrap = $('#wpadminbar .quicklinks');
@@ -123,7 +123,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 			var target = $(e.target);
 
 			e.stopPropagation();
-			e.preventDefault();
+			e.prEventDefault();
 
 			target.closest('.hover').removeClass('hover').children('.ab-item').focus();
 			target.siblings('.ab-sub-wrapper').find('.ab-item').each(refresh);
@@ -136,7 +136,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 
 			adminbar.find( 'li.menupop.hover' ).removeClass( 'hover' );
 			$( 'html, body' ).animate( { scrollTop: 0 }, 'fast' );
-			e.preventDefault();
+			e.prEventDefault();
 		});
 
 		// fix focus bug in WebKit
@@ -189,7 +189,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 			if ( obj.addEventListener )
 				obj.addEventListener(type, fn, false);
 			else if ( obj.attachEvent )
-				obj.attachEvent('on' + type, function() { return fn.call(obj, window.event);});
+				obj.attachEvent('on' + type, function() { return fn.call(obj, window.Event);});
 		},
 
 		aB, hc = new RegExp('\\bhover\\b', 'g'), q = [],
@@ -282,9 +282,9 @@ if ( typeof(jQuery) != 'undefined' ) {
 				t = t.parentNode;
 			}
 
-			// IE doesn't support preventDefault, and does support returnValue
-			if ( e.preventDefault )
-				e.preventDefault();
+			// IE doesn't support prEventDefault, and does support returnValue
+			if ( e.prEventDefault )
+				e.prEventDefault();
 			e.returnValue = false;
 
 			if ( -1 == t.className.indexOf('selected') )

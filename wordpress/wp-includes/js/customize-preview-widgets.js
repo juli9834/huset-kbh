@@ -191,7 +191,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 				api( settingId ).bind( _.bind( sidebarPartial.handleSettingChange, sidebarPartial ) );
 			} );
 
-			// Trigger an event for this sidebar being updated whenever a widget inside is rendered.
+			// Trigger an Event for this sidebar being updated whenever a widget inside is rendered.
 			api.selectiveRefresh.bind( 'partial-content-rendered', function( placement ) {
 				var isAssignedWidgetPartial = (
 					placement.partial.extended( self.WidgetPartial ) &&
@@ -560,7 +560,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 			widgetSelector = emptyWidget.prop( 'tagName' ) || '';
 			widgetClasses = emptyWidget.prop( 'className' ) || '';
 
-			// Prevent a rare case when before_widget, before_title, after_title and after_widget is empty.
+			// PrEvent a rare case when before_widget, before_title, after_title and after_widget is empty.
 			if ( ! widgetClasses ) {
 				return;
 			}
@@ -623,7 +623,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 			if ( ! e.shiftKey ) {
 				return;
 			}
-			e.preventDefault();
+			e.prEventDefault();
 
 			self.preview.send( 'focus-widget-control', $( this ).prop( 'id' ) );
 		});

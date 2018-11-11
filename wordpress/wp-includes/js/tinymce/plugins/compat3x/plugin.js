@@ -12,7 +12,7 @@
 /*eslint no-console:0, new-cap:0 */
 
 /**
- * This plugin adds missing events form the 4.x API back. Not every event is
+ * This plugin adds missing Events form the 4.x API back. Not every Event is
  * properly supported but most things should work.
  *
  * Unsupported things:
@@ -133,9 +133,9 @@
       });
     }
 
-    function convertUndoEventArgs(type, event, target) {
+    function convertUndoEventArgs(type, Event, target) {
       return [
-        event.level,
+        Event.level,
         target
       ];
     }

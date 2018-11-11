@@ -319,7 +319,7 @@ function create_initial_post_types() {
  *
  * The function works by getting the single post meta name, named
  * '_wp_attached_file' and returning it. This is a convenience function to
- * prevent looking up the meta name and provide a mechanism for sending the
+ * prEvent looking up the meta name and provide a mechanism for sending the
  * attached filename through a filter.
  *
  * @since 2.0.0
@@ -1144,7 +1144,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                              archive slug to use. Will generate the proper rewrite rules if
  *                                              $rewrite is enabled. Default false.
  *     @type bool|array  $rewrite              {
- *         Triggers the handling of rewrites for this post type. To prevent rewrite, set to false.
+ *         Triggers the handling of rewrites for this post type. To prEvent rewrite, set to false.
  *         Defaults to true, using $post_type as slug. To specify rewrite rules, an array can be
  *         passed with any of these keys:
  *
@@ -3375,7 +3375,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	}
 
 	/**
-	 * Filters the post parent -- used to check for and prevent hierarchy loops.
+	 * Filters the post parent -- used to check for and prEvent hierarchy loops.
 	 *
 	 * @since 3.1.0
 	 *
@@ -3788,7 +3788,7 @@ function wp_publish_post( $post ) {
 /**
  * Publish future post and make sure post ID has future post status.
  *
- * Invoked by cron 'publish_future_post' event. This safeguard prevents cron
+ * Invoked by cron 'publish_future_post' Event. This safeguard prEvents cron
  * from publishing drafts, etc.
  *
  * @since 2.5.0
@@ -3809,7 +3809,7 @@ function check_and_publish_future_post( $post_id ) {
 	// Uh oh, someone jumped the gun!
 	if ( $time > time() ) {
 		wp_clear_scheduled_hook( 'publish_future_post', array( $post_id ) ); // clear anything else in the system
-		wp_schedule_single_event( $time, 'publish_future_post', array( $post_id ) );
+		wp_schedule_single_Event( $time, 'publish_future_post', array( $post_id ) );
 		return;
 	}
 
@@ -3901,7 +3901,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d LIMIT 1";
 		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_ID ) );
 
-		// Prevent new post slugs that could result in URLs that conflict with date archives.
+		// PrEvent new post slugs that could result in URLs that conflict with date archives.
 		$post = get_post( $post_ID );
 		$conflicts_with_date_archive = false;
 		if ( 'post' === $post_type && ( ! $post || $post->post_name !== $slug ) && preg_match( '/^[0-9]+$/', $slug ) && $slug_num = intval( $slug ) ) {
@@ -6156,7 +6156,7 @@ function _transition_post_status( $new_status, $old_status, $post ) {
  */
 function _future_post_hook( $deprecated, $post ) {
 	wp_clear_scheduled_hook( 'publish_future_post', array( $post->ID ) );
-	wp_schedule_single_event( strtotime( get_gmt_from_date( $post->post_date ) . ' GMT') , 'publish_future_post', array( $post->ID ) );
+	wp_schedule_single_Event( strtotime( get_gmt_from_date( $post->post_date ) . ' GMT') , 'publish_future_post', array( $post->ID ) );
 }
 
 /**
@@ -6189,7 +6189,7 @@ function _publish_post_hook( $post_id ) {
 	add_post_meta( $post_id, '_encloseme', '1' );
 
 	if ( ! wp_next_scheduled( 'do_pings' ) ) {
-		wp_schedule_single_event( time(), 'do_pings' );
+		wp_schedule_single_Event( time(), 'do_pings' );
 	}
 }
 
@@ -6212,7 +6212,7 @@ function wp_get_post_parent_id( $post_ID ) {
 /**
  * Check the given subset of the post hierarchy for hierarchy loops.
  *
- * Prevents loops from forming and breaks those that it finds. Attached
+ * PrEvents loops from forming and breaks those that it finds. Attached
  * to the {@see 'wp_insert_post_parent'} filter.
  *
  * @since 3.1.0

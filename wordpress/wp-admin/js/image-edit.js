@@ -102,7 +102,7 @@
 
 			// The key code 13 is the enter key.
 			if ( 13 === k ) {
-				e.preventDefault();
+				e.prEventDefault();
 				e.stopPropagation();
 				return false;
 			}
@@ -296,7 +296,7 @@
 		return '';
 	},
 	/**
-	 * @summary Binds the necessary events to the image.
+	 * @summary Binds the necessary Events to the image.
 	 *
 	 * When the image source is reloaded the image will be reloaded.
 	 *
@@ -322,15 +322,15 @@
 		};
 
 		img = $( '<img id="image-preview-' + postid + '" alt="" />' )
-			.on( 'load', { history: data.history }, function( event ) {
+			.on( 'load', { history: data.history }, function( Event ) {
 				var max1, max2,
 					parent = $( '#imgedit-crop-' + postid ),
 					t = imageEdit,
 					historyObj;
 
 				// Checks if there already is some image-edit history.
-				if ( '' !== event.data.history ) {
-					historyObj = JSON.parse( event.data.history );
+				if ( '' !== Event.data.history ) {
+					historyObj = JSON.parse( Event.data.history );
 					// If last executed action in history is a crop action.
 					if ( historyObj[historyObj.length - 1].hasOwnProperty( 'c' ) ) {
 						/*
@@ -612,7 +612,7 @@
 			minHeight: 3,
 
 			/**
-			 * @summary Sets the CSS styles and binds events for locking the aspect ratio.
+			 * @summary Sets the CSS styles and binds Events for locking the aspect ratio.
 			 *
 			 * @param {jQuery} img The preview image.
 			 */
@@ -623,7 +623,7 @@
 				$img.next().css( 'position', 'absolute' )
 					.nextAll( '.imgareaselect-outer' ).css( 'position', 'absolute' );
 				/**
-				 * @summary Binds mouse down event to the cropping container.
+				 * @summary Binds mouse down Event to the cropping container.
 				 *
 				 * @returns {void}
 				 */

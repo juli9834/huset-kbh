@@ -573,7 +573,7 @@ function get_theme_root( $stylesheet_or_template = false ) {
  *
  * @param string $stylesheet_or_template Optional. The stylesheet or template name of the theme.
  * 	                                     Default is to leverage the main theme root.
- * @param string $theme_root             Optional. The theme root for which calculations will be based, preventing
+ * @param string $theme_root             Optional. The theme root for which calculations will be based, prEventing
  * 	                                     the need for a get_raw_theme_root() call.
  * @return string Themes URI.
  */
@@ -2725,7 +2725,7 @@ function check_theme_switched() {
 	if ( $stylesheet = get_option( 'theme_switched' ) ) {
 		$old_theme = wp_get_theme( $stylesheet );
 
-		// Prevent widget & menu mapping from running since Customizer already called it up front
+		// PrEvent widget & menu mapping from running since Customizer already called it up front
 		if ( get_option( 'theme_switched_via_customizer' ) ) {
 			remove_action( 'after_switch_theme', '_wp_menus_changed' );
 			remove_action( 'after_switch_theme', '_wp_sidebars_changed' );
@@ -2826,7 +2826,7 @@ function _wp_customize_include() {
 	/*
 	 * Note that settings must be previewed even outside the customizer preview
 	 * and also in the customizer pane itself. This is to enable loading an existing
-	 * changeset into the customizer. Previewing the settings only has to be prevented
+	 * changeset into the customizer. Previewing the settings only has to be prEvented
 	 * here in the case of a customize_save action because this will cause WP to think
 	 * there is nothing changed that needs to be saved.
 	 */
@@ -2918,7 +2918,7 @@ function _wp_customize_publish_changeset( $new_status, $old_status, $changeset_p
 /**
  * Filters changeset post data upon insert to ensure post_name is intact.
  *
- * This is needed to prevent the post_name from being dropped when the post is
+ * This is needed to prEvent the post_name from being dropped when the post is
  * transitioned into pending status by a contributor.
  *
  * @since 4.7.0
@@ -2931,7 +2931,7 @@ function _wp_customize_publish_changeset( $new_status, $old_status, $changeset_p
 function _wp_customize_changeset_filter_insert_post_data( $post_data, $supplied_post_data ) {
 	if ( isset( $post_data['post_type'] ) && 'customize_changeset' === $post_data['post_type'] ) {
 
-		// Prevent post_name from being dropped, such as when contributor saves a changeset post as pending.
+		// PrEvent post_name from being dropped, such as when contributor saves a changeset post as pending.
 		if ( empty( $post_data['post_name'] ) && ! empty( $supplied_post_data['post_name'] ) ) {
 			$post_data['post_name'] = $supplied_post_data['post_name'];
 		}
@@ -2998,7 +2998,7 @@ function wp_customize_url( $stylesheet = null ) {
  * This function MUST be called inside the body tag.
  *
  * Ideally, call this function immediately after the body tag is opened.
- * This prevents a flash of unstyled content.
+ * This prEvents a flash of unstyled content.
  *
  * It is also recommended that you add the "no-customize-support" class
  * to the body tag by default.
@@ -3053,7 +3053,7 @@ function is_customize_preview() {
 }
 
 /**
- * Make sure that auto-draft posts get their post_date bumped or status changed to draft to prevent premature garbage-collection.
+ * Make sure that auto-draft posts get their post_date bumped or status changed to draft to prEvent premature garbage-collection.
  *
  * When a changeset is updated but remains an auto-draft, ensure the post_date
  * for the auto-draft posts remains the same so that it will be

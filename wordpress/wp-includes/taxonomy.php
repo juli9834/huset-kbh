@@ -348,7 +348,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  *         @type string $assign_terms Default 'edit_posts'.
  *     }
  *     @type bool|array    $rewrite {
- *         Triggers the handling of rewrites for this taxonomy. Default true, using $taxonomy as slug. To prevent
+ *         Triggers the handling of rewrites for this taxonomy. Default true, using $taxonomy as slug. To prEvent
  *         rewrite, set to false. To specify rewrite rules, an array can be passed with any of these keys:
  *
  *         @type string $slug         Customize the permastruct slug. Default `$taxonomy` key.
@@ -2101,7 +2101,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	}
 
 	/*
-	 * Prevent the creation of terms with duplicate names at the same level of a taxonomy hierarchy,
+	 * PrEvent the creation of terms with duplicate names at the same level of a taxonomy hierarchy,
 	 * unless a unique slug has been explicitly provided.
 	 */
 	$name_matches = get_terms( $taxonomy, array(
@@ -3299,7 +3299,7 @@ function _get_term_hierarchy( $taxonomy ) {
  * @param string $taxonomy  The taxonomy which determines the hierarchy of the terms.
  * @param array  $ancestors Optional. Term ancestors that have already been identified. Passed by reference, to keep
  *                          track of found terms when recursing the hierarchy. The array of located ancestors is used
- *                          to prevent infinite recursion loops. For performance, `term_ids` are used as array keys,
+ *                          to prEvent infinite recursion loops. For performance, `term_ids` are used as array keys,
  *                          with 1 as value. Default empty array.
  * @return array|WP_Error The subset of $terms that are descendants of $term_id.
  */
@@ -3696,7 +3696,7 @@ function _wp_batch_split_terms() {
 
 		// Bail if we were unable to create a lock, or if the existing lock is still valid.
 		if ( ! $lock_result || ( $lock_result > ( time() - HOUR_IN_SECONDS ) ) ) {
-			wp_schedule_single_event( time() + ( 5 * MINUTE_IN_SECONDS ), 'wp_split_shared_term_batch' );
+			wp_schedule_single_Event( time() + ( 5 * MINUTE_IN_SECONDS ), 'wp_split_shared_term_batch' );
 			return;
 		}
 	}
@@ -3721,7 +3721,7 @@ function _wp_batch_split_terms() {
 	}
 
 	// Shared terms found? We'll need to run this script again.
-	wp_schedule_single_event( time() + ( 2 * MINUTE_IN_SECONDS ), 'wp_split_shared_term_batch' );
+	wp_schedule_single_Event( time() + ( 2 * MINUTE_IN_SECONDS ), 'wp_split_shared_term_batch' );
 
 	// Rekey shared term array for faster lookups.
 	$_shared_terms = array();
@@ -3780,7 +3780,7 @@ function _wp_batch_split_terms() {
  */
 function _wp_check_for_scheduled_split_terms() {
 	if ( ! get_option( 'finished_splitting_shared_terms' ) && ! wp_next_scheduled( 'wp_split_shared_term_batch' ) ) {
-		wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'wp_split_shared_term_batch' );
+		wp_schedule_single_Event( time() + MINUTE_IN_SECONDS, 'wp_split_shared_term_batch' );
 	}
 }
 
@@ -4306,7 +4306,7 @@ function wp_get_term_taxonomy_parent_id( $term_id, $taxonomy ) {
 
 /**
  * Checks the given subset of the term hierarchy for hierarchy loops.
- * Prevents loops from forming and breaks those that it finds.
+ * PrEvents loops from forming and breaks those that it finds.
  *
  * Attached to the {@see 'wp_update_term_parent'} filter.
  *

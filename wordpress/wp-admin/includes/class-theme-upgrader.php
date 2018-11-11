@@ -383,7 +383,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 			$results[$theme] = $this->result;
 
-			// Prevent credentials auth screen from displaying multiple times
+			// PrEvent credentials auth screen from displaying multiple times
 			if ( false === $result )
 				break;
 		} //end foreach $plugins
@@ -435,7 +435,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Check the folder contains a valid theme
 		$working_directory = str_replace( $wp_filesystem->wp_content_dir(), trailingslashit(WP_CONTENT_DIR), $source);
-		if ( ! is_dir($working_directory) ) // Sanity check, if the above fails, let's not prevent installation.
+		if ( ! is_dir($working_directory) ) // Sanity check, if the above fails, let's not prEvent installation.
 			return $source;
 
 		// A proper archive should have a style.css file in the single subdirectory

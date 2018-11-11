@@ -65,7 +65,7 @@ function wp_dashboard_setup() {
 	}
 
 	// WordPress Events and News
-	wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress Events and News' ), 'wp_dashboard_events_news' );
+	wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress Events and News' ), 'wp_dashboard_Events_news' );
 
 	if ( is_network_admin() ) {
 
@@ -1088,8 +1088,8 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
  *
  * @since 4.8.0
  */
-function wp_dashboard_events_news() {
-	wp_print_community_events_markup();
+function wp_dashboard_Events_news() {
+	wp_print_community_Events_markup();
 
 	?>
 
@@ -1097,7 +1097,7 @@ function wp_dashboard_events_news() {
 		<?php wp_dashboard_primary(); ?>
 	</div>
 
-	<p class="community-events-footer">
+	<p class="community-Events-footer">
 		<?php
 			printf(
 				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
@@ -1142,22 +1142,22 @@ function wp_dashboard_events_news() {
  *
  * @since 4.8.0
  */
-function wp_print_community_events_markup() {
+function wp_print_community_Events_markup() {
 	?>
 
-	<div class="community-events-errors notice notice-error inline hide-if-js">
+	<div class="community-Events-errors notice notice-error inline hide-if-js">
 		<p class="hide-if-js">
 			<?php _e( 'This widget requires JavaScript.' ); ?>
 		</p>
 
-		<p class="community-events-error-occurred" aria-hidden="true">
+		<p class="community-Events-error-occurred" aria-hidden="true">
 			<?php _e( 'An error occurred. Please try again.' ); ?>
 		</p>
 
-		<p class="community-events-could-not-locate" aria-hidden="true"></p>
+		<p class="community-Events-could-not-locate" aria-hidden="true"></p>
 	</div>
 
-	<div class="community-events-loading hide-if-no-js">
+	<div class="community-Events-loading hide-if-no-js">
 		<?php _e( 'Loading&hellip;' ); ?>
 	</div>
 
@@ -1167,35 +1167,35 @@ function wp_print_community_events_markup() {
 	 * won't be ready until wp.communityEvents.renderEventsTemplate() has run.
 	 */
 	?>
-	<div id="community-events" class="community-events" aria-hidden="true">
+	<div id="community-Events" class="community-Events" aria-hidden="true">
 		<div class="activity-block">
 			<p>
-				<span id="community-events-location-message"></span>
+				<span id="community-Events-location-message"></span>
 
-				<button class="button-link community-events-toggle-location" aria-label="<?php esc_attr_e( 'Edit city' ); ?>" aria-expanded="false">
+				<button class="button-link community-Events-toggle-location" aria-label="<?php esc_attr_e( 'Edit city' ); ?>" aria-expanded="false">
 					<span class="dashicons dashicons-edit"></span>
 				</button>
 			</p>
 
-			<form class="community-events-form" aria-hidden="true" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
-				<label for="community-events-location">
+			<form class="community-Events-form" aria-hidden="true" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
+				<label for="community-Events-location">
 					<?php _e( 'City:' ); ?>
 				</label>
 				<?php
 				/* translators: Replace with a city related to your locale.
 				 * Test that it matches the expected location and has upcoming
-				 * events before including it. If no cities related to your
-				 * locale have events, then use a city related to your locale
+				 * Events before including it. If no cities related to your
+				 * locale have Events, then use a city related to your locale
 				 * that would be recognizable to most users. Use only the city
 				 * name itself, without any region or country. Use the endonym
 				 * (native locale name) instead of the English name if possible.
 				 */
 				?>
-				<input id="community-events-location" class="regular-text" type="text" name="community-events-location" placeholder="<?php esc_attr_e( 'Cincinnati' ); ?>" />
+				<input id="community-Events-location" class="regular-text" type="text" name="community-Events-location" placeholder="<?php esc_attr_e( 'Cincinnati' ); ?>" />
 
-				<?php submit_button( __( 'Submit' ), 'secondary', 'community-events-submit', false ); ?>
+				<?php submit_button( __( 'Submit' ), 'secondary', 'community-Events-submit', false ); ?>
 
-				<button class="community-events-cancel button-link" type="button" aria-expanded="false">
+				<button class="community-Events-cancel button-link" type="button" aria-expanded="false">
 					<?php _e( 'Cancel' ); ?>
 				</button>
 
@@ -1203,29 +1203,29 @@ function wp_print_community_events_markup() {
 			</form>
 		</div>
 
-		<ul class="community-events-results activity-block last"></ul>
+		<ul class="community-Events-results activity-block last"></ul>
 	</div>
 
 	<?php
 }
 
 /**
- * Renders the events templates for the Event and News widget.
+ * Renders the Events templates for the Event and News widget.
  *
  * @since 4.8.0
  */
-function wp_print_community_events_templates() {
+function wp_print_community_Events_templates() {
 	?>
 
-	<script id="tmpl-community-events-attend-event-near" type="text/template">
+	<script id="tmpl-community-Events-attend-Event-near" type="text/template">
 		<?php printf(
 			/* translators: %s: the name of a city */
-			__( 'Attend an upcoming event near %s.' ),
+			__( 'Attend an upcoming Event near %s.' ),
 			'<strong>{{ data.location.description }}</strong>'
 		); ?>
 	</script>
 
-	<script id="tmpl-community-events-could-not-locate" type="text/template">
+	<script id="tmpl-community-Events-could-not-locate" type="text/template">
 		<?php printf(
 			/* translators: %s is the name of the city we couldn't locate.
 			 * Replace the examples with cities in your locale, but test
@@ -1237,33 +1237,33 @@ function wp_print_community_events_templates() {
 		); ?>
 	</script>
 
-	<script id="tmpl-community-events-event-list" type="text/template">
-		<# _.each( data.events, function( event ) { #>
-			<li class="event event-{{ event.type }} wp-clearfix">
-				<div class="event-info">
-					<div class="dashicons event-icon" aria-hidden="true"></div>
-					<div class="event-info-inner">
-						<a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
-						<span class="event-city">{{ event.location.location }}</span>
+	<script id="tmpl-community-Events-Event-list" type="text/template">
+		<# _.each( data.Events, function( Event ) { #>
+			<li class="Event Event-{{ Event.type }} wp-clearfix">
+				<div class="Event-info">
+					<div class="dashicons Event-icon" aria-hidden="true"></div>
+					<div class="Event-info-inner">
+						<a class="Event-title" href="{{ Event.url }}">{{ Event.title }}</a>
+						<span class="Event-city">{{ Event.location.location }}</span>
 					</div>
 				</div>
 
-				<div class="event-date-time">
-					<span class="event-date">{{ event.formatted_date }}</span>
-					<# if ( 'meetup' === event.type ) { #>
-						<span class="event-time">{{ event.formatted_time }}</span>
+				<div class="Event-date-time">
+					<span class="Event-date">{{ Event.formatted_date }}</span>
+					<# if ( 'meetup' === Event.type ) { #>
+						<span class="Event-time">{{ Event.formatted_time }}</span>
 					<# } #>
 				</div>
 			</li>
 		<# } ) #>
 	</script>
 
-	<script id="tmpl-community-events-no-upcoming-events" type="text/template">
-		<li class="event-none">
+	<script id="tmpl-community-Events-no-upcoming-Events" type="text/template">
+		<li class="Event-none">
 			<# if ( data.location.description ) { #>
 				<?php printf(
 					/* translators: 1: the city the user searched for, 2: meetup organization documentation URL */
-					__( 'There aren&#8217;t any events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize one</a>?' ),
+					__( 'There aren&#8217;t any Events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize one</a>?' ),
 					'{{ data.location.description }}',
 					__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
 				); ?>
@@ -1271,7 +1271,7 @@ function wp_print_community_events_templates() {
 			<# } else { #>
 				<?php printf(
 					/* translators: %s: meetup organization documentation URL */
-					__( 'There aren&#8217;t any events scheduled near you at the moment. Would you like to <a href="%s">organize one</a>?' ),
+					__( 'There aren&#8217;t any Events scheduled near you at the moment. Would you like to <a href="%s">organize one</a>?' ),
 					__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
 				); ?>
 			<# } #>

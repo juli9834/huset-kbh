@@ -763,7 +763,7 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
  * Setting any query variable's value to boolean false removes the key (see remove_query_arg()).
  *
  * Important: The return value of add_query_arg() is not escaped by default. Output should be
- * late-escaped with esc_url() or similar to help prevent vulnerability to cross-site scripting
+ * late-escaped with esc_url() or similar to help prEvent vulnerability to cross-site scripting
  * (XSS) attacks.
  *
  * @since 1.5.0
@@ -1092,9 +1092,9 @@ function status_header( $code, $description = '' ) {
 }
 
 /**
- * Get the header information to prevent caching.
+ * Get the header information to prEvent caching.
  *
- * The several different headers cover the different ways cache prevention
+ * The several different headers cover the different ways cache prEvention
  * is handled by different browsers
  *
  * @since 2.8.0
@@ -1129,7 +1129,7 @@ function wp_get_nocache_headers() {
 }
 
 /**
- * Set the headers to prevent caching for the different browsers.
+ * Set the headers to prEvent caching for the different browsers.
  *
  * Different browsers support different nocache headers, so several
  * headers must be sent so that all of them get the point that no
@@ -1394,7 +1394,7 @@ function is_blog_installed() {
 	 */
 	$wp_tables = $wpdb->tables();
 	foreach ( $wp_tables as $table ) {
-		// The existence of custom user tables shouldn't suggest an insane state or prevent a clean installation.
+		// The existence of custom user tables shouldn't suggest an insane state or prEvent a clean installation.
 		if ( defined( 'CUSTOM_USER_TABLE' ) && CUSTOM_USER_TABLE == $table )
 			continue;
 		if ( defined( 'CUSTOM_USER_META_TABLE' ) && CUSTOM_USER_META_TABLE == $table )
@@ -1737,7 +1737,7 @@ function wp_normalize_path( $path ) {
  * followed by your PHP temporary upload directory, followed by WP_CONTENT_DIR,
  * before finally defaulting to /tmp/
  *
- * In the event that this function does not find a writable location,
+ * In the Event that this function does not find a writable location,
  * It may be overridden by the WP_TEMP_DIR constant in your wp-config.php file.
  *
  * @since 2.5.0
@@ -1972,7 +1972,7 @@ function _wp_upload_dir( $time = null ) {
 			/*
 			 * If ms-files rewriting is disabled (networks created post-3.5), it is fairly
 			 * straightforward: Append sites/%d if we're not on the main site (for post-MU
-			 * networks). (The extra directory prevents a four-digit ID from conflicting with
+			 * networks). (The extra directory prEvents a four-digit ID from conflicting with
 			 * a year-based directory for the main site. But if a MU-era network has disabled
 			 * ms-files rewriting manually, they don't need the extra directory, as they never
 			 * had wp-content/uploads for the main site.)
@@ -2488,7 +2488,7 @@ function wp_get_mime_types() {
 	'wri' => 'application/vnd.ms-write',
 	'xla|xls|xlt|xlw' => 'application/vnd.ms-excel',
 	'mdb' => 'application/vnd.ms-access',
-	'mpp' => 'application/vnd.ms-project',
+	'mpp' => 'application/vnd.ms-Event',
 	'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 	'docm' => 'application/vnd.ms-word.document.macroEnabled.12',
 	'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
@@ -3750,7 +3750,7 @@ function wp_ob_end_flush_all() {
  * be loaded instead of displaying the WordPress DB error. If it is not found,
  * then the WordPress DB error will be displayed instead.
  *
- * The WordPress DB error sets the HTTP status header to 500 to try to prevent
+ * The WordPress DB error sets the HTTP status header to 500 to try to prEvent
  * search engines from caching the message. Custom DB messages should do the
  * same.
  *
@@ -5547,7 +5547,7 @@ function wp_delete_file_from_directory( $file, $directory ) {
 /**
  * Outputs a small JS snippet on preview tabs/windows to remove `window.name` on unload.
  *
- * This prevents reusing the same tab for a preview when the user has navigated away.
+ * This prEvents reusing the same tab for a preview when the user has navigated away.
  *
  * @since 4.3.0
  *
@@ -5601,7 +5601,7 @@ function mysql_to_rfc3339( $date_string ) {
 /**
  * Attempts to raise the PHP memory limit for memory intensive processes.
  *
- * Only allows raising the existing limit and prevents lowering it.
+ * Only allows raising the existing limit and prEvents lowering it.
  *
  * @since 4.6.0
  *
@@ -6034,7 +6034,7 @@ function wp_schedule_delete_old_privacy_export_files() {
 	}
 
 	if ( ! wp_next_scheduled( 'wp_privacy_delete_old_export_files' ) ) {
-		wp_schedule_event( time(), 'hourly', 'wp_privacy_delete_old_export_files' );
+		wp_schedule_Event( time(), 'hourly', 'wp_privacy_delete_old_export_files' );
 	}
 }
 

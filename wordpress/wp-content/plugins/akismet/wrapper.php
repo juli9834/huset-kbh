@@ -154,8 +154,8 @@ function akismet_result_hold( $approved ) {
 function akismet_get_user_comments_approved( $user_id, $comment_author_email, $comment_author, $comment_author_url ) {
 	return Akismet::get_user_comments_approved( $user_id, $comment_author_email, $comment_author, $comment_author_url );
 }
-function akismet_update_comment_history( $comment_id, $message, $event = null ) {
-	return Akismet::update_comment_history( $comment_id, $message, $event );
+function akismet_update_comment_history( $comment_id, $message, $Event = null ) {
+	return Akismet::update_comment_history( $comment_id, $message, $Event );
 }
 function akismet_get_comment_history( $comment_id ) {
 	return Akismet::get_comment_history( $comment_id );

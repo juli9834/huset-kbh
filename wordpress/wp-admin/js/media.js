@@ -46,8 +46,8 @@ var findPosts;
 			$( '#find-posts' ).show();
 
 			// Close the dialog when the escape key is pressed.
-			$('#find-posts-input').focus().keyup( function( event ){
-				if ( event.which == 27 ) {
+			$('#find-posts-input').focus().keyup( function( Event ){
+				if ( Event.which == 27 ) {
 					findPosts.close();
 				}
 			});
@@ -74,7 +74,7 @@ var findPosts;
 		},
 
 		/**
-		 * @summary Binds a click event listener to the overlay which closes the attach media dialog.
+		 * @summary Binds a click Event listener to the overlay which closes the attach media dialog.
 		 *
 		 * @since 3.5.0
 		 *
@@ -133,7 +133,7 @@ var findPosts;
 	};
 
 	/**
-	 * @summary Initializes the file once the DOM is fully loaded and attaches events to the various form elements.
+	 * @summary Initializes the file once the DOM is fully loaded and attaches Events to the various form elements.
 	 *
 	 * @returns {void}
 	 */
@@ -151,28 +151,28 @@ var findPosts;
 			}).open();
 		}
 
-		// Prevents form submission if no post has been selected.
-		$( '#find-posts-submit' ).click( function( event ) {
+		// PrEvents form submission if no post has been selected.
+		$( '#find-posts-submit' ).click( function( Event ) {
 			if ( ! $( '#find-posts-response input[type="radio"]:checked' ).length )
-				event.preventDefault();
+				Event.prEventDefault();
 		});
 
 		// Submits the search query when hitting the enter key in the search input.
-		$( '#find-posts .find-box-search :input' ).keypress( function( event ) {
-			if ( 13 == event.which ) {
+		$( '#find-posts .find-box-search :input' ).keypress( function( Event ) {
+			if ( 13 == Event.which ) {
 				findPosts.send();
 				return false;
 			}
 		});
 
-		// Binds the click event to the search button.
+		// Binds the click Event to the search button.
 		$( '#find-posts-search' ).click( findPosts.send );
 
-		// Binds the close dialog click event.
+		// Binds the close dialog click Event.
 		$( '#find-posts-close' ).click( findPosts.close );
 
-		// Binds the bulk action events to the submit buttons.
-		$( '#doaction, #doaction2' ).click( function( event ) {
+		// Binds the bulk action Events to the submit buttons.
+		$( '#doaction, #doaction2' ).click( function( Event ) {
 
 			/*
 			 * Retrieves all select elements for bulk actions that have a name starting with `action`
@@ -182,11 +182,11 @@ var findPosts;
 				var optionValue = $( this ).val();
 
 				if ( 'attach' === optionValue ) {
-					event.preventDefault();
+					Event.prEventDefault();
 					findPosts.open();
 				} else if ( 'delete' === optionValue ) {
 					if ( ! showNotice.warn() ) {
-						event.preventDefault();
+						Event.prEventDefault();
 					}
 				}
 			});

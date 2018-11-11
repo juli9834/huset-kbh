@@ -61,21 +61,21 @@
 		});
 
 		// Scan new content for matching view patterns and replace them with markers.
-		editor.on( 'beforesetcontent', function( event ) {
+		editor.on( 'beforesetcontent', function( Event ) {
 			var node;
 
-			if ( ! event.selection ) {
+			if ( ! Event.selection ) {
 				wp.mce.views.unbind();
 			}
 
-			if ( ! event.content ) {
+			if ( ! Event.content ) {
 				return;
 			}
 
-			if ( ! event.load ) {
+			if ( ! Event.load ) {
 				node = editor.selection.getNode();
 
-				if ( node && node !== editor.getBody() && /^\s*https?:\/\/\S+\s*$/i.test( event.content ) ) {
+				if ( node && node !== editor.getBody() && /^\s*https?:\/\/\S+\s*$/i.test( Event.content ) ) {
 					// When a url is pasted or inserted, only try to embed it when it is in an empty paragrapgh.
 					node = editor.dom.getParent( node, 'p' );
 
@@ -88,7 +88,7 @@
 				}
 			}
 
-			event.content = wp.mce.views.setMarkers( event.content, editor );
+			Event.content = wp.mce.views.setMarkers( Event.content, editor );
 		} );
 
 		// Replace any new markers nodes with views.
@@ -97,49 +97,49 @@
 		} );
 
 		// Empty view nodes for easier processing.
-		editor.on( 'preprocess hide', function( event ) {
-			editor.$( 'div[data-wpview-text], p[data-wpview-marker]', event.node ).each( function( i, node ) {
+		editor.on( 'preprocess hide', function( Event ) {
+			editor.$( 'div[data-wpview-text], p[data-wpview-marker]', Event.node ).each( function( i, node ) {
 				node.innerHTML = '.';
 			} );
 		}, true );
 
 		// Replace views with their text.
-		editor.on( 'postprocess', function( event ) {
-			event.content = resetViews( event.content );
+		editor.on( 'postprocess', function( Event ) {
+			Event.content = resetViews( Event.content );
 		} );
 
 		// Replace views with their text inside undo levels.
-		// This also prevents that new levels are added when there are changes inside the views.
-		editor.on( 'beforeaddundo', function( event ) {
-			event.level.content = resetViews( event.level.content );
+		// This also prEvents that new levels are added when there are changes inside the views.
+		editor.on( 'beforeaddundo', function( Event ) {
+			Event.level.content = resetViews( Event.level.content );
 		} );
 
 		// Make sure views are copied as their text.
-		editor.on( 'drop objectselected', function( event ) {
-			if ( isView( event.targetClone ) ) {
-				event.targetClone = editor.getDoc().createTextNode(
-					window.decodeURIComponent( editor.dom.getAttrib( event.targetClone, 'data-wpview-text' ) )
+		editor.on( 'drop objectselected', function( Event ) {
+			if ( isView( Event.targetClone ) ) {
+				Event.targetClone = editor.getDoc().createTextNode(
+					window.decodeURIComponent( editor.dom.getAttrib( Event.targetClone, 'data-wpview-text' ) )
 				);
 			}
 		} );
 
 		// Clean up URLs for easier processing.
-		editor.on( 'pastepreprocess', function( event ) {
-			var content = event.content;
+		editor.on( 'pastepreprocess', function( Event ) {
+			var content = Event.content;
 
 			if ( content ) {
 				content = tinymce.trim( content.replace( /<[^>]+>/g, '' ) );
 
 				if ( /^https?:\/\/\S+$/i.test( content ) ) {
-					event.content = content;
+					Event.content = content;
 				}
 			}
 		} );
 
 		// Show the view type in the element path.
-		editor.on( 'resolvename', function( event ) {
-			if ( isView( event.target ) ) {
-				event.name = editor.dom.getAttrib( event.target, 'data-wpview-type' ) || 'object';
+		editor.on( 'resolvename', function( Event ) {
+			if ( isView( Event.target ) ) {
+				Event.name = editor.dom.getAttrib( Event.target, 'data-wpview-type' ) || 'object';
 			}
 		} );
 
@@ -183,9 +183,9 @@
 					'wp_view_remove'
 				] );
 
-				editor.on( 'wptoolbar', function( event ) {
-					if ( ! event.collapsed && isView( event.element ) ) {
-						event.toolbar = toolbar;
+				editor.on( 'wptoolbar', function( Event ) {
+					if ( ! Event.collapsed && isView( Event.element ) ) {
+						Event.toolbar = toolbar;
 					}
 				} );
 			}

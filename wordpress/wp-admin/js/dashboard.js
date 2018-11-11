@@ -20,7 +20,7 @@ jQuery(document).ready( function($) {
 	}
 
 	$('.welcome-panel-close, .welcome-panel-dismiss a', welcomePanel).click( function(e) {
-		e.preventDefault();
+		e.prEventDefault();
 		welcomePanel.addClass('hidden');
 		updateWelcomePanel( 0 );
 		$('#wp_welcome_panel-hide').prop('checked', false);
@@ -54,7 +54,7 @@ jQuery(document).ready( function($) {
 	}
 
 	$( '.try-gutenberg-panel-close, .try-gutenberg-panel-dismiss a', tryGutenbergPanel ).click( function( e ) {
-		e.preventDefault();
+		e.prEventDefault();
 		tryGutenbergPanel.addClass( 'hidden' );
 		updateTryGutenbergPanel( 0 );
 		$('#wp_try_gutenberg_panel-hide').prop( 'checked', false );
@@ -66,7 +66,7 @@ jQuery(document).ready( function($) {
 	});
 
 	tryGutenbergPanel.on( 'click', '.install-now', function( e ) {
-		e.preventDefault();
+		e.prEventDefault();
 		var args = {
 			slug: $( e.target ).data( 'slug' ),
 			success: installGutenbergSuccess
@@ -112,7 +112,7 @@ jQuery(document).ready( function($) {
 		$( '#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]' ).prop( 'disabled' , false );
 
 		t = $('#quick-press').submit( function( e ) {
-			e.preventDefault();
+			e.prEventDefault();
 			$('#dashboard_quick_press #publishing-action .spinner').show();
 			$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').prop('disabled', true);
 
@@ -252,7 +252,7 @@ jQuery( function( $ ) {
 				return;
 			}
 
-			var $container = $( '#community-events' );
+			var $container = $( '#community-Events' );
 
 			/*
 			 * When JavaScript is disabled, the errors container is shown, so
@@ -267,19 +267,19 @@ jQuery( function( $ ) {
 			 * that key off of `aria-hidden` to determine their visibility.
 			 * `aria-hidden` can't be used initially, because there would be no
 			 * way to set it to false when JavaScript is disabled, which would
-			 * prevent people from seeing the "This widget requires JavaScript"
+			 * prEvent people from seeing the "This widget requires JavaScript"
 			 * message.
 			 */
-			$( '.community-events-errors' )
+			$( '.community-Events-errors' )
 				.attr( 'aria-hidden', 'true' )
 				.removeClass( 'hide-if-js' );
 
-			$container.on( 'click', '.community-events-toggle-location, .community-events-cancel', app.toggleLocationForm );
+			$container.on( 'click', '.community-Events-toggle-location, .community-Events-cancel', app.toggleLocationForm );
 
-			$container.on( 'submit', '.community-events-form', function( event ) {
-				var location = $.trim( $( '#community-events-location' ).val() );
+			$container.on( 'submit', '.community-Events-form', function( Event ) {
+				var location = $.trim( $( '#community-Events-location' ).val() );
 
-				event.preventDefault();
+				Event.prEventDefault();
 
 				/*
 				 * Don't trigger a search if the search field is empty or the
@@ -294,7 +294,7 @@ jQuery( function( $ ) {
 				});
 			});
 
-			if ( communityEventsData && communityEventsData.cache && communityEventsData.cache.location && communityEventsData.cache.events ) {
+			if ( communityEventsData && communityEventsData.cache && communityEventsData.cache.location && communityEventsData.cache.Events ) {
 				app.renderEventsTemplate( communityEventsData.cache, 'app' );
 			} else {
 				app.getEvents();
@@ -308,17 +308,17 @@ jQuery( function( $ ) {
 		 *
 		 * @since 4.8.0
 		 *
-		 * @param {event|string} action 'show' or 'hide' to specify a state;
-		 *                              or an event object to flip between states.
+		 * @param {Event|string} action 'show' or 'hide' to specify a state;
+		 *                              or an Event object to flip between states.
 		 */
 		toggleLocationForm: function( action ) {
-			var $toggleButton = $( '.community-events-toggle-location' ),
-				$cancelButton = $( '.community-events-cancel' ),
-				$form         = $( '.community-events-form' ),
+			var $toggleButton = $( '.community-Events-toggle-location' ),
+				$cancelButton = $( '.community-Events-cancel' ),
+				$form         = $( '.community-Events-form' ),
 				$target       = $();
 
 			if ( 'object' === typeof action ) {
-				// The action is the event object: get the clicked element.
+				// The action is the Event object: get the clicked element.
 				$target = $( action.target );
 				/*
 				 * Strict comparison doesn't work in this case because sometimes
@@ -337,7 +337,7 @@ jQuery( function( $ ) {
 				 * to the toggle button so users relying on screen readers don't
 				 * lose their place.
 				 */
-				if ( $target.hasClass( 'community-events-cancel' ) ) {
+				if ( $target.hasClass( 'community-Events-cancel' ) ) {
 					$toggleButton.focus();
 				}
 			} else {
@@ -348,7 +348,7 @@ jQuery( function( $ ) {
 		},
 
 		/**
-		 * Sends REST API requests to fetch events for the widget.
+		 * Sends REST API requests to fetch Events for the widget.
 		 *
 		 * @since 4.8.0
 		 *
@@ -357,7 +357,7 @@ jQuery( function( $ ) {
 		getEvents: function( requestParams ) {
 			var initiatedBy,
 				app = this,
-				$spinner = $( '.community-events-form' ).children( '.spinner' );
+				$spinner = $( '.community-Events-form' ).children( '.spinner' );
 
 			requestParams          = requestParams || {};
 			requestParams._wpnonce = communityEventsData.nonce;
@@ -367,7 +367,7 @@ jQuery( function( $ ) {
 
 			$spinner.addClass( 'is-active' );
 
-			wp.ajax.post( 'get-community-events', requestParams )
+			wp.ajax.post( 'get-community-Events', requestParams )
 				.always( function() {
 					$spinner.removeClass( 'is-active' );
 				})
@@ -410,28 +410,28 @@ jQuery( function( $ ) {
 			var template,
 				elementVisibility,
 				l10nPlaceholder  = /%(?:\d\$)?s/g, // Match `%s`, `%1$s`, `%2$s`, etc.
-				$toggleButton    = $( '.community-events-toggle-location' ),
-				$locationMessage = $( '#community-events-location-message' ),
-				$results         = $( '.community-events-results' );
+				$toggleButton    = $( '.community-Events-toggle-location' ),
+				$locationMessage = $( '#community-Events-location-message' ),
+				$results         = $( '.community-Events-results' );
 
 			/*
 			 * Hide all toggleable elements by default, to keep the logic simple.
 			 * Otherwise, each block below would have to turn hide everything that
 			 * could have been shown at an earlier point.
 			 *
-			 * The exception to that is that the .community-events container is hidden
+			 * The exception to that is that the .community-Events container is hidden
 			 * when the page is first loaded, because the content isn't ready yet,
 			 * but once we've reached this point, it should always be shown.
 			 */
 			elementVisibility = {
-				'.community-events'                  : true,
-				'.community-events-loading'          : false,
-				'.community-events-errors'           : false,
-				'.community-events-error-occurred'   : false,
-				'.community-events-could-not-locate' : false,
-				'#community-events-location-message' : false,
-				'.community-events-toggle-location'  : false,
-				'.community-events-results'          : false
+				'.community-Events'                  : true,
+				'.community-Events-loading'          : false,
+				'.community-Events-errors'           : false,
+				'.community-Events-error-occurred'   : false,
+				'.community-Events-could-not-locate' : false,
+				'#community-Events-location-message' : false,
+				'.community-Events-toggle-location'  : false,
+				'.community-Events-results'          : false
 			};
 
 			/*
@@ -441,31 +441,31 @@ jQuery( function( $ ) {
 			if ( templateParams.location.ip ) {
 				/*
 				 * If the API determined the location by geolocating an IP, it will
-				 * provide events, but not a specific location.
+				 * provide Events, but not a specific location.
 				 */
-				$locationMessage.text( communityEventsData.l10n.attend_event_near_generic );
+				$locationMessage.text( communityEventsData.l10n.attend_Event_near_generic );
 
-				if ( templateParams.events.length ) {
-					template = wp.template( 'community-events-event-list' );
+				if ( templateParams.Events.length ) {
+					template = wp.template( 'community-Events-Event-list' );
 					$results.html( template( templateParams ) );
 				} else {
-					template = wp.template( 'community-events-no-upcoming-events' );
+					template = wp.template( 'community-Events-no-upcoming-Events' );
 					$results.html( template( templateParams ) );
 				}
 
-				elementVisibility['#community-events-location-message'] = true;
-				elementVisibility['.community-events-toggle-location']  = true;
-				elementVisibility['.community-events-results']          = true;
+				elementVisibility['#community-Events-location-message'] = true;
+				elementVisibility['.community-Events-toggle-location']  = true;
+				elementVisibility['.community-Events-results']          = true;
 
 			} else if ( templateParams.location.description ) {
-				template = wp.template( 'community-events-attend-event-near' );
+				template = wp.template( 'community-Events-attend-Event-near' );
 				$locationMessage.html( template( templateParams ) );
 
-				if ( templateParams.events.length ) {
-					template = wp.template( 'community-events-event-list' );
+				if ( templateParams.Events.length ) {
+					template = wp.template( 'community-Events-Event-list' );
 					$results.html( template( templateParams ) );
 				} else {
-					template = wp.template( 'community-events-no-upcoming-events' );
+					template = wp.template( 'community-Events-no-upcoming-Events' );
 					$results.html( template( templateParams ) );
 				}
 
@@ -473,34 +473,34 @@ jQuery( function( $ ) {
 					wp.a11y.speak( communityEventsData.l10n.city_updated.replace( l10nPlaceholder, templateParams.location.description ), 'assertive' );
 				}
 
-				elementVisibility['#community-events-location-message'] = true;
-				elementVisibility['.community-events-toggle-location']  = true;
-				elementVisibility['.community-events-results']          = true;
+				elementVisibility['#community-Events-location-message'] = true;
+				elementVisibility['.community-Events-toggle-location']  = true;
+				elementVisibility['.community-Events-results']          = true;
 
 			} else if ( templateParams.unknownCity ) {
-				template = wp.template( 'community-events-could-not-locate' );
-				$( '.community-events-could-not-locate' ).html( template( templateParams ) );
+				template = wp.template( 'community-Events-could-not-locate' );
+				$( '.community-Events-could-not-locate' ).html( template( templateParams ) );
 				wp.a11y.speak( communityEventsData.l10n.could_not_locate_city.replace( l10nPlaceholder, templateParams.unknownCity ) );
 
-				elementVisibility['.community-events-errors']           = true;
-				elementVisibility['.community-events-could-not-locate'] = true;
+				elementVisibility['.community-Events-errors']           = true;
+				elementVisibility['.community-Events-could-not-locate'] = true;
 
 			} else if ( templateParams.error && 'user' === initiatedBy ) {
 				/*
 				 * Errors messages are only shown for requests that were initiated
 				 * by the user, not for ones that were initiated by the app itself.
-				 * Showing error messages for an event that user isn't aware of
+				 * Showing error messages for an Event that user isn't aware of
 				 * could be confusing or unnecessarily distracting.
 				 */
 				wp.a11y.speak( communityEventsData.l10n.error_occurred_please_try_again );
 
-				elementVisibility['.community-events-errors']         = true;
-				elementVisibility['.community-events-error-occurred'] = true;
+				elementVisibility['.community-Events-errors']         = true;
+				elementVisibility['.community-Events-error-occurred'] = true;
 			} else {
 				$locationMessage.text( communityEventsData.l10n.enter_closest_city );
 
-				elementVisibility['#community-events-location-message'] = true;
-				elementVisibility['.community-events-toggle-location']  = true;
+				elementVisibility['#community-Events-location-message'] = true;
+				elementVisibility['.community-Events-toggle-location']  = true;
 			}
 
 			// Set the visibility of toggleable elements.
@@ -508,7 +508,7 @@ jQuery( function( $ ) {
 				$( element ).attr( 'aria-hidden', ! isVisible );
 			});
 
-			$toggleButton.attr( 'aria-expanded', elementVisibility['.community-events-toggle-location'] );
+			$toggleButton.attr( 'aria-expanded', elementVisibility['.community-Events-toggle-location'] );
 
 			if ( templateParams.location && ( templateParams.location.ip || templateParams.location.latitude ) ) {
 				// Hide the form when there's a valid location.
@@ -531,7 +531,7 @@ jQuery( function( $ ) {
 	if ( $( '#dashboard_primary' ).is( ':visible' ) ) {
 		app.init();
 	} else {
-		$( document ).on( 'postbox-toggled', function( event, postbox ) {
+		$( document ).on( 'postbox-toggled', function( Event, postbox ) {
 			var $postbox = $( postbox );
 
 			if ( 'dashboard_primary' === $postbox.attr( 'id' ) && $postbox.is( ':visible' ) ) {

@@ -86,7 +86,7 @@ img[class*="align"],
 img[class*="wp-image-"],
 img[class*="attachment-"] {
 	height: auto;
-	width: auto; /* Prevent stretching of full-size and large-size images with height and width attributes in IE8 */
+	width: auto; /* PrEvent stretching of full-size and large-size images with height and width attributes in IE8 */
 }
 
 button,

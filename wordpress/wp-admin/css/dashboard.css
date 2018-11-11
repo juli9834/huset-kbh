@@ -352,79 +352,79 @@
 	content: "\f153";
 }
 
-/* Dashboard WordPress events */
+/* Dashboard WordPress Events */
 
-.community-events-errors {
+.community-Events-errors {
 	margin: 0;
 }
 
-.community-events-loading {
+.community-Events-loading {
 	padding: 10px 12px 8px;
 }
 
-.community-events {
+.community-Events {
 	margin-bottom: 6px;
 	padding: 0 12px;
 }
 
-.community-events .spinner {
+.community-Events .spinner {
 	float: none;
 	margin: 5px 2px 0;
 	vertical-align: top;
 }
 
-.community-events-errors[aria-hidden="true"],
-.community-events-errors [aria-hidden="true"],
-.community-events-loading[aria-hidden="true"],
-.community-events[aria-hidden="true"],
-.community-events [aria-hidden="true"] {
+.community-Events-errors[aria-hidden="true"],
+.community-Events-errors [aria-hidden="true"],
+.community-Events-loading[aria-hidden="true"],
+.community-Events[aria-hidden="true"],
+.community-Events [aria-hidden="true"] {
 	display: none;
 }
 
-.community-events .activity-block:first-child,
-.community-events h2 {
+.community-Events .activity-block:first-child,
+.community-Events h2 {
 	padding-top: 12px;
 	padding-bottom: 10px;
 }
 
-.community-events-form {
+.community-Events-form {
 	margin: 15px 0 5px;
 }
 
-.community-events-form .regular-text {
+.community-Events-form .regular-text {
 	width: 40%;
 	height: 29px;
 	margin: 0;
 	vertical-align: top;
 }
 
-.community-events li.event-none {
+.community-Events li.Event-none {
 	border-left: 4px solid #00a0d2;
 }
 
-.community-events-form label {
+.community-Events-form label {
 	display: inline-block;
 	vertical-align: top;
 	line-height: 28px;
 	height: 28px;
 }
 
-.community-events .activity-block > p {
+.community-Events .activity-block > p {
 	margin-bottom: 0;
 	display: inline;
 }
 
-.community-events-toggle-location {
+.community-Events-toggle-location {
 	vertical-align: middle;
 }
 
-#community-events-submit {
+#community-Events-submit {
 	margin-left: 3px;
 	margin-right: 3px;
 }
 
 /* Needs higher specificity than #dashboard-widgets .button-link */
-#dashboard-widgets .community-events-cancel.button-link {
+#dashboard-widgets .community-Events-cancel.button-link {
 	vertical-align: top;
 	/* Same properties as the submit button for cross-browsers alignment. */
 	line-height: 26px;
@@ -432,65 +432,65 @@
 	text-decoration: underline;
 }
 
-.community-events ul {
+.community-Events ul {
 	background-color: #fafafa;
 	padding-left: 0;
 	padding-right: 0;
 	padding-bottom: 0;
 }
 
-.community-events li {
+.community-Events li {
 	margin: 0;
 	padding: 8px 12px;
 	color: #72777c;
 }
-.community-events li:first-child {
+.community-Events li:first-child {
 	border-top: 1px solid #eee;
 }
 
-.community-events li ~ li {
+.community-Events li ~ li {
 	border-top: 1px solid #eee;
 }
 
-.community-events .activity-block.last {
+.community-Events .activity-block.last {
 	border-bottom: 1px solid #eee;
 	padding-top: 0;
 	margin-top: -1px;
 }
 
-.community-events .event-info {
+.community-Events .Event-info {
 	display: block;
 }
 
-.event-icon {
+.Event-icon {
 	height: 18px;
 	padding-right: 10px;
 	width: 18px;
 	display: none; /* Hide on smaller screens */
 }
 
-.event-icon:before {
+.Event-icon:before {
 	color: #82878C;
 	font-size: 18px;
 }
-.event-meetup .event-icon:before {
+.Event-meetup .Event-icon:before {
 	content: "\f484";
 }
-.event-wordcamp .event-icon:before {
+.Event-wordcamp .Event-icon:before {
 	content: "\f486";
 }
 
-.community-events .event-title {
+.community-Events .Event-title {
 	font-weight: 600;
 	display: block;
 }
 
-.community-events .event-date,
-.community-events .event-time {
+.community-Events .Event-date,
+.community-Events .Event-time {
 	display: block;
 }
 
-.community-events-footer {
+.community-Events-footer {
 	margin-top: 0;
 	margin-bottom: 0;
 	padding: 12px;
@@ -499,7 +499,7 @@
 }
 
 /* Safari 10 + VoiceOver specific: without this, the hidden text gets read out before the link. */
-.community-events-footer .screen-reader-text {
+.community-Events-footer .screen-reader-text {
 	height: inherit;
 	white-space: nowrap;
 }
@@ -1301,23 +1301,23 @@ a.rsswidget {
 		margin: 4px 10px 5px 0;
 	}
 
-	.community-events-toggle-location {
+	.community-Events-toggle-location {
 		height: 38px;
 		vertical-align: baseline;
 	}
 
-	.community-events-form .regular-text {
+	.community-Events-form .regular-text {
 		height: 32px;
 	}
 
-	#community-events-submit {
+	#community-Events-submit {
 		margin-bottom: 0;
 		/* Override .wp-core-ui .button */
 		vertical-align: top;
 	}
 
-	.community-events-form label,
-	#dashboard-widgets .community-events-cancel.button-link {
+	.community-Events-form label,
+	#dashboard-widgets .community-Events-cancel.button-link {
 		/* Same properties as the submit button for cross-browsers alignment. */
 		font-size: 14px;
 		line-height: normal;
@@ -1326,7 +1326,7 @@ a.rsswidget {
 		border: 1px solid transparent;
 	}
 
-	.community-events .spinner {
+	.community-Events .spinner {
 		margin-top: 7px;
 	}
 }
@@ -1356,28 +1356,28 @@ a.rsswidget {
 }
 
 @media screen and (min-width: 355px) {
-	.community-events .event-info {
+	.community-Events .Event-info {
 		display: table-row;
 		float: left;
 		max-width: 59%;
 	}
 
-	.event-icon,
-	.event-icon[aria-hidden="true"] {
+	.Event-icon,
+	.Event-icon[aria-hidden="true"] {
 		display: table-cell;
 	}
 
-	.event-info-inner {
+	.Event-info-inner {
 		display: table-cell;
 	}
 
-	.community-events .event-date-time {
+	.community-Events .Event-date-time {
 		float: right;
 		max-width: 39%;
 	}
 
-	.community-events .event-date,
-	.community-events .event-time {
+	.community-Events .Event-date,
+	.community-Events .Event-time {
 		text-align: right;
 	}
 }

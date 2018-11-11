@@ -25,11 +25,11 @@
 	ImageWidgetControl = component.MediaWidgetControl.extend({
 
 		/**
-		 * View events.
+		 * View Events.
 		 *
 		 * @type {object}
 		 */
-		events: _.extend( {}, component.MediaWidgetControl.prototype.events, {
+		Events: _.extend( {}, component.MediaWidgetControl.prototype.Events, {
 			'click .media-widget-preview.populated': 'editMedia'
 		} ),
 
@@ -131,7 +131,7 @@
 		/**
 		 * Get the instance props from the media selection frame.
 		 *
-		 * Prevent the image_title attribute from being initially set when adding an image from the media library.
+		 * PrEvent the image_title attribute from being initially set when adding an image from the media library.
 		 *
 		 * @param {wp.media.view.MediaFrame.Select} mediaFrame - Select frame.
 		 * @returns {Object} Props.

@@ -177,7 +177,7 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 	 * Note: If the caption text is empty, the caption shortcode will not be appended
 	 * to the image HTML when inserted into the editor.
 	 *
-	 * Passing an empty value also prevents the {@see 'image_add_caption_shortcode'}
+	 * Passing an empty value also prEvents the {@see 'image_add_caption_shortcode'}
 	 * Filters from being evaluated at the end of image_add_caption().
 	 *
 	 * @since 4.1.0
@@ -190,7 +190,7 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 	/**
 	 * Filters whether to disable captions.
 	 *
-	 * Prevents image captions from being appended to image HTML when inserted into the editor.
+	 * PrEvents image captions from being appended to image HTML when inserted into the editor.
 	 *
 	 * @since 2.6.0
 	 *
@@ -1885,7 +1885,7 @@ $plupload_init = array(
 	'multipart_params'    => $post_params,
 );
 
-// Currently only iOS Safari supports multiple files uploading but iOS 7.x has a bug that prevents uploading of videos
+// Currently only iOS Safari supports multiple files uploading but iOS 7.x has a bug that prEvents uploading of videos
 // when enabled. See #29602.
 if ( wp_is_mobile() && strpos( $_SERVER['HTTP_USER_AGENT'], 'OS 7_' ) !== false &&
 	strpos( $_SERVER['HTTP_USER_AGENT'], 'like Mac OS X' ) !== false ) {

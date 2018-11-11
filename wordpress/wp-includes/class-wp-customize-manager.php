@@ -937,7 +937,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Prevents Ajax requests from following redirects when previewing a theme
+	 * PrEvents Ajax requests from following redirects when previewing a theme
 	 * by issuing a 200 response instead of a 30x.
 	 *
 	 * Instead, the JS will sniff out the location header.
@@ -1931,7 +1931,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Prevent sending a 404 status when returning the response for the customize
+	 * PrEvent sending a 404 status when returning the response for the customize
 	 * preview, since it causes the jQuery Ajax to fail. Send 200 instead.
 	 *
 	 * @since 4.0.0
@@ -1975,7 +1975,7 @@ final class WP_Customize_Manager {
 				transition: opacity 0.5s;
 			}
 			body.wp-customizer-unloading * {
-				pointer-events: none !important;
+				pointer-Events: none !important;
 			}
 			form.customize-unpreviewable,
 			form.customize-unpreviewable input,
@@ -2514,7 +2514,7 @@ final class WP_Customize_Manager {
 		 * @since 4.2.0
 		 *
 		 * @param array                $response Additional information passed back to the 'saved'
-		 *                                       event on `wp.customize`.
+		 *                                       Event on `wp.customize`.
 		 * @param WP_Customize_Manager $this     WP_Customize_Manager instance.
 		 */
 		$response = apply_filters( 'customize_save_response', $response, $this );
@@ -2645,9 +2645,9 @@ final class WP_Customize_Manager {
 		/*
 		 * Get list of IDs for settings that have values different from what is currently
 		 * saved in the changeset. By skipping any values that are already the same, the
-		 * subset of changed settings can be passed into validate_setting_values to prevent
+		 * subset of changed settings can be passed into validate_setting_values to prEvent
 		 * an underprivileged modifying a single setting for which they have the capability
-		 * from being blocked from saving. This also prevents a user from touching of the
+		 * from being blocked from saving. This also prEvents a user from touching of the
 		 * previous saved settings and overriding the associated user_id if they made no change.
 		 */
 		$changed_setting_ids = array();
@@ -2862,7 +2862,7 @@ final class WP_Customize_Manager {
 		// Update the changeset post. The publish_customize_changeset action will cause the settings in the changeset to be saved via WP_Customize_Setting::save().
 		$has_kses = ( false !== has_filter( 'content_save_pre', 'wp_filter_post_kses' ) );
 		if ( $has_kses ) {
-			kses_remove_filters(); // Prevent KSES from corrupting JSON in post_content.
+			kses_remove_filters(); // PrEvent KSES from corrupting JSON in post_content.
 		}
 
 		// Note that updating a post with publish status will trigger WP_Customize_Manager::publish_changeset_values().
@@ -2875,7 +2875,7 @@ final class WP_Customize_Manager {
 				$r = wp_create_post_autosave( wp_slash( $post_array ) );
 				remove_filter( 'map_meta_cap', array( $this, 'grant_edit_post_capability_for_changeset' ), 10 );
 			} else {
-				$post_array['edit_date'] = true; // Prevent date clearing.
+				$post_array['edit_date'] = true; // PrEvent date clearing.
 				$r = wp_update_post( wp_slash( $post_array ), true );
 
 				// Delete autosave revision for user when the changeset is updated.
@@ -5498,7 +5498,7 @@ final class WP_Customize_Manager {
 				$theme->id           = $theme->slug;
 				$theme->screenshot   = array( $theme->screenshot_url );
 				$theme->authorAndUri = $theme->author;
-				// The .org API can return the full parent theme details if passed the 'parent' arg, or if passed the 'template' option it'll return that in the event it's a child theme.
+				// The .org API can return the full parent theme details if passed the 'parent' arg, or if passed the 'template' option it'll return that in the Event it's a child theme.
 				if ( isset( $theme->parent ) ) {
 					$theme->parent = $theme->parent['slug'];
 				} else {

@@ -1,7 +1,7 @@
 ( function($) {
 	$.widget('wp.wpdialog', $.ui.dialog, {
 		open: function() {
-			// Add beforeOpen event.
+			// Add beforeOpen Event.
 			if ( this.isOpen() || false === this._trigger('beforeOpen') ) {
 				return;
 			}

@@ -350,7 +350,7 @@ class Custom_Image_Header {
 		var text_color = $('#text-color');
 		header_text_fields = $('.displaying-header-text');
 		text_color.wpColorPicker({
-			change: function( event, ui ) {
+			change: function( Event, ui ) {
 				pickColor( text_color.wpColorPicker('color') );
 			},
 			clear: function() {

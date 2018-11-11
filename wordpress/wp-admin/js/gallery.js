@@ -39,28 +39,28 @@ jQuery(document).ready(function($) {
 	};
 
 	$('#asc').click( function( e ) {
-		e.preventDefault();
+		e.prEventDefault();
 		desc = false;
 		sortIt();
 	});
 	$('#desc').click( function( e ) {
-		e.preventDefault();
+		e.prEventDefault();
 		desc = true;
 		sortIt();
 	});
 	$('#clear').click( function( e ) {
-		e.preventDefault();
+		e.prEventDefault();
 		clearAll(1);
 	});
 	$('#showall').click( function( e ) {
-		e.preventDefault();
+		e.prEventDefault();
 		$('#sort-buttons span a').toggle();
 		$('a.describe-toggle-on').hide();
 		$('a.describe-toggle-off, table.slidetoggle').show();
 		$('img.pinkynail').toggle(false);
 	});
 	$('#hideall').click( function( e ) {
-		e.preventDefault();
+		e.prEventDefault();
 		$('#sort-buttons span a').toggle();
 		$('a.describe-toggle-on').show();
 		$('a.describe-toggle-off, table.slidetoggle').hide();

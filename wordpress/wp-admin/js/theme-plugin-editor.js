@@ -57,7 +57,7 @@ wp.themePluginEditor = (function( $ ) {
 		if ( false !== component.codeEditor ) {
 			/*
 			 * Defer adding notices until after DOM ready as workaround for WP Admin injecting
-			 * its own managed dismiss buttons and also to prevent the editor from showing a notice
+			 * its own managed dismiss buttons and also to prEvent the editor from showing a notice
 			 * when the file had linting errors to begin with.
 			 */
 			_.defer( function() {
@@ -96,7 +96,7 @@ wp.themePluginEditor = (function( $ ) {
 			.find( '.file-editor-warning-go-back' ).focus();
 		// Get the links and buttons within the modal.
 		component.warningTabbables = component.warning.find( 'a, button' );
-		// Attach event handlers.
+		// Attach Event handlers.
 		component.warningTabbables.on( 'keydown', component.constrainTabbing );
 		component.warning.on( 'click', '.file-editor-warning-dismiss', component.dismissWarning );
 		// Make screen readers announce the warning message after a short delay (necessary for some screen readers).
@@ -109,25 +109,25 @@ wp.themePluginEditor = (function( $ ) {
 	 * Constrain tabbing within the warning modal.
 	 *
 	 * @since 4.9.0
-	 * @param {object} event jQuery event object.
+	 * @param {object} Event jQuery Event object.
 	 * @returns {void}
 	 */
-	component.constrainTabbing = function( event ) {
+	component.constrainTabbing = function( Event ) {
 		var firstTabbable, lastTabbable;
 
-		if ( 9 !== event.which ) {
+		if ( 9 !== Event.which ) {
 			return;
 		}
 
 		firstTabbable = component.warningTabbables.first()[0];
 		lastTabbable = component.warningTabbables.last()[0];
 
-		if ( lastTabbable === event.target && ! event.shiftKey ) {
+		if ( lastTabbable === Event.target && ! Event.shiftKey ) {
 			firstTabbable.focus();
-			event.preventDefault();
-		} else if ( firstTabbable === event.target && event.shiftKey ) {
+			Event.prEventDefault();
+		} else if ( firstTabbable === Event.target && Event.shiftKey ) {
 			lastTabbable.focus();
-			event.preventDefault();
+			Event.prEventDefault();
 		}
 	};
 
@@ -164,12 +164,12 @@ wp.themePluginEditor = (function( $ ) {
 	 * Submit file via Ajax.
 	 *
 	 * @since 4.9.0
-	 * @param {jQuery.Event} event - Event.
+	 * @param {jQuery.Event} Event - Event.
 	 * @returns {void}
 	 */
-	component.submit = function( event ) {
+	component.submit = function( Event ) {
 		var data = {}, request;
-		event.preventDefault(); // Prevent form submission in favor of Ajax below.
+		Event.prEventDefault(); // PrEvent form submission in favor of Ajax below.
 		$.each( component.form.serializeArray(), function() {
 			data[ this.name ] = this.value;
 		} );
@@ -559,12 +559,12 @@ wp.themePluginEditor = (function( $ ) {
 
 		};
 
-		/* EVENT HANDLERS */
+		/* Event HANDLERS */
 
-		TreeitemLink.prototype.handleKeydown = function (event) {
-			var tgt = event.currentTarget,
+		TreeitemLink.prototype.handleKeydown = function (Event) {
+			var tgt = Event.currentTarget,
 				flag = false,
-				_char = event.key,
+				_char = Event.key,
 				clickEvent;
 
 			function isPrintableCharacter(str) {
@@ -586,13 +586,13 @@ wp.themePluginEditor = (function( $ ) {
 
 			this.stopDefaultClick = false;
 
-			if (event.altKey || event.ctrlKey || event.metaKey) {
+			if (Event.altKey || Event.ctrlKey || Event.metaKey) {
 				return;
 			}
 
-			if (event.shift) {
-				if (event.keyCode == this.keyCode.SPACE || event.keyCode == this.keyCode.RETURN) {
-					event.stopPropagation();
+			if (Event.shift) {
+				if (Event.keyCode == this.keyCode.SPACE || Event.keyCode == this.keyCode.RETURN) {
+					Event.stopPropagation();
 					this.stopDefaultClick = true;
 				}
 				else {
@@ -602,7 +602,7 @@ wp.themePluginEditor = (function( $ ) {
 				}
 			}
 			else {
-				switch (event.keyCode) {
+				switch (Event.keyCode) {
 					case this.keyCode.SPACE:
 					case this.keyCode.RETURN:
 						if (this.isExpandable) {
@@ -615,7 +615,7 @@ wp.themePluginEditor = (function( $ ) {
 							flag = true;
 						}
 						else {
-							event.stopPropagation();
+							Event.stopPropagation();
 							this.stopDefaultClick = true;
 						}
 						break;
@@ -674,15 +674,15 @@ wp.themePluginEditor = (function( $ ) {
 			}
 
 			if (flag) {
-				event.stopPropagation();
-				event.preventDefault();
+				Event.stopPropagation();
+				Event.prEventDefault();
 			}
 		};
 
-		TreeitemLink.prototype.handleClick = function (event) {
+		TreeitemLink.prototype.handleClick = function (Event) {
 
-			// only process click events that directly happened on this treeitem
-			if (event.target !== this.domNode && event.target !== this.domNode.firstElementChild) {
+			// only process click Events that directly happened on this treeitem
+			if (Event.target !== this.domNode && Event.target !== this.domNode.firstElementChild) {
 				return;
 			}
 
@@ -693,11 +693,11 @@ wp.themePluginEditor = (function( $ ) {
 				else {
 					this.tree.expandTreeitem(this);
 				}
-				event.stopPropagation();
+				Event.stopPropagation();
 			}
 		};
 
-		TreeitemLink.prototype.handleFocus = function (event) {
+		TreeitemLink.prototype.handleFocus = function (Event) {
 			var node = this.domNode;
 			if (this.isExpandable) {
 				node = node.firstElementChild;
@@ -705,7 +705,7 @@ wp.themePluginEditor = (function( $ ) {
 			node.classList.add('focus');
 		};
 
-		TreeitemLink.prototype.handleBlur = function (event) {
+		TreeitemLink.prototype.handleBlur = function (Event) {
 			var node = this.domNode;
 			if (this.isExpandable) {
 				node = node.firstElementChild;
@@ -713,12 +713,12 @@ wp.themePluginEditor = (function( $ ) {
 			node.classList.remove('focus');
 		};
 
-		TreeitemLink.prototype.handleMouseOver = function (event) {
-			event.currentTarget.classList.add('hover');
+		TreeitemLink.prototype.handleMouseOver = function (Event) {
+			Event.currentTarget.classList.add('hover');
 		};
 
-		TreeitemLink.prototype.handleMouseOut = function (event) {
-			event.currentTarget.classList.remove('hover');
+		TreeitemLink.prototype.handleMouseOut = function (Event) {
+			Event.currentTarget.classList.remove('hover');
 		};
 
 		return TreeitemLink;

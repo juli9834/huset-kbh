@@ -93,9 +93,9 @@
       return {
         bindType: TRANSITION_END,
         delegateType: TRANSITION_END,
-        handle: function handle(event) {
-          if ($$$1(event.target).is(this)) {
-            return event.handleObj.handler.apply(this, arguments); // eslint-disable-line prefer-rest-params
+        handle: function handle(Event) {
+          if ($$$1(Event.target).is(this)) {
+            return Event.handleObj.handler.apply(this, arguments); // eslint-disable-line prefer-rest-params
           }
 
           return undefined; // eslint-disable-line no-undefined
@@ -120,7 +120,7 @@
 
     function setTransitionEndSupport() {
       $$$1.fn.emulateTransitionEnd = transitionEndEmulator;
-      $$$1.event.special[Util.TRANSITION_END] = getSpecialTransitionEndEvent();
+      $$$1.Event.special[Util.TRANSITION_END] = getSpecialTransitionEndEvent();
     }
     /**
      * --------------------------------------------------------------------------
@@ -217,16 +217,16 @@
     var NAME = 'alert';
     var VERSION = '4.1.1';
     var DATA_KEY = 'bs.alert';
-    var EVENT_KEY = "." + DATA_KEY;
+    var Event_KEY = "." + DATA_KEY;
     var DATA_API_KEY = '.data-api';
     var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
     var Selector = {
       DISMISS: '[data-dismiss="alert"]'
     };
     var Event = {
-      CLOSE: "close" + EVENT_KEY,
-      CLOSED: "closed" + EVENT_KEY,
-      CLICK_DATA_API: "click" + EVENT_KEY + DATA_API_KEY
+      CLOSE: "close" + Event_KEY,
+      CLOSED: "closed" + Event_KEY,
+      CLICK_DATA_API: "click" + Event_KEY + DATA_API_KEY
     };
     var ClassName = {
       ALERT: 'alert',
@@ -260,7 +260,7 @@
 
         var customEvent = this._triggerCloseEvent(rootElement);
 
-        if (customEvent.isDefaultPrevented()) {
+        if (customEvent.isDefaultPrEvented()) {
           return;
         }
 
@@ -306,8 +306,8 @@
         }
 
         var transitionDuration = Util.getTransitionDurationFromElement(element);
-        $$$1(element).one(Util.TRANSITION_END, function (event) {
-          return _this._destroyElement(element, event);
+        $$$1(element).one(Util.TRANSITION_END, function (Event) {
+          return _this._destroyElement(element, Event);
         }).emulateTransitionEnd(transitionDuration);
       };
 
@@ -333,9 +333,9 @@
       };
 
       Alert._handleDismiss = function _handleDismiss(alertInstance) {
-        return function (event) {
-          if (event) {
-            event.preventDefault();
+        return function (Event) {
+          if (Event) {
+            Event.prEventDefault();
           }
 
           alertInstance.close(this);
@@ -392,7 +392,7 @@
     var NAME = 'button';
     var VERSION = '4.1.1';
     var DATA_KEY = 'bs.button';
-    var EVENT_KEY = "." + DATA_KEY;
+    var Event_KEY = "." + DATA_KEY;
     var DATA_API_KEY = '.data-api';
     var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
     var ClassName = {
@@ -408,8 +408,8 @@
       BUTTON: '.btn'
     };
     var Event = {
-      CLICK_DATA_API: "click" + EVENT_KEY + DATA_API_KEY,
-      FOCUS_BLUR_DATA_API: "focus" + EVENT_KEY + DATA_API_KEY + " " + ("blur" + EVENT_KEY + DATA_API_KEY)
+      CLICK_DATA_API: "click" + Event_KEY + DATA_API_KEY,
+      FOCUS_BLUR_DATA_API: "focus" + Event_KEY + DATA_API_KEY + " " + ("blur" + Event_KEY + DATA_API_KEY)
       /**
        * ------------------------------------------------------------------------
        * Class Definition
@@ -510,18 +510,18 @@
      */
 
 
-    $$$1(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE_CARROT, function (event) {
-      event.preventDefault();
-      var button = event.target;
+    $$$1(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE_CARROT, function (Event) {
+      Event.prEventDefault();
+      var button = Event.target;
 
       if (!$$$1(button).hasClass(ClassName.BUTTON)) {
         button = $$$1(button).closest(Selector.BUTTON);
       }
 
       Button._jQueryInterface.call($$$1(button), 'toggle');
-    }).on(Event.FOCUS_BLUR_DATA_API, Selector.DATA_TOGGLE_CARROT, function (event) {
-      var button = $$$1(event.target).closest(Selector.BUTTON)[0];
-      $$$1(button).toggleClass(ClassName.FOCUS, /^focus(in)?$/.test(event.type));
+    }).on(Event.FOCUS_BLUR_DATA_API, Selector.DATA_TOGGLE_CARROT, function (Event) {
+      var button = $$$1(Event.target).closest(Selector.BUTTON)[0];
+      $$$1(button).toggleClass(ClassName.FOCUS, /^focus(in)?$/.test(Event.type));
     });
     /**
      * ------------------------------------------------------------------------
@@ -556,14 +556,14 @@
     var NAME = 'carousel';
     var VERSION = '4.1.1';
     var DATA_KEY = 'bs.carousel';
-    var EVENT_KEY = "." + DATA_KEY;
+    var Event_KEY = "." + DATA_KEY;
     var DATA_API_KEY = '.data-api';
     var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
     var ARROW_LEFT_KEYCODE = 37; // KeyboardEvent.which value for left arrow key
 
     var ARROW_RIGHT_KEYCODE = 39; // KeyboardEvent.which value for right arrow key
 
-    var TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
+    var TOUCHEvent_COMPAT_WAIT = 500; // Time for mouse compat Events to fire after touch
 
     var Default = {
       interval: 5000,
@@ -586,14 +586,14 @@
       RIGHT: 'right'
     };
     var Event = {
-      SLIDE: "slide" + EVENT_KEY,
-      SLID: "slid" + EVENT_KEY,
-      KEYDOWN: "keydown" + EVENT_KEY,
-      MOUSEENTER: "mouseenter" + EVENT_KEY,
-      MOUSELEAVE: "mouseleave" + EVENT_KEY,
-      TOUCHEND: "touchend" + EVENT_KEY,
-      LOAD_DATA_API: "load" + EVENT_KEY + DATA_API_KEY,
-      CLICK_DATA_API: "click" + EVENT_KEY + DATA_API_KEY
+      SLIDE: "slide" + Event_KEY,
+      SLID: "slid" + Event_KEY,
+      KEYDOWN: "keydown" + Event_KEY,
+      MOUSEENTER: "mouseenter" + Event_KEY,
+      MOUSELEAVE: "mouseleave" + Event_KEY,
+      TOUCHEND: "touchend" + Event_KEY,
+      LOAD_DATA_API: "load" + Event_KEY + DATA_API_KEY,
+      CLICK_DATA_API: "click" + Event_KEY + DATA_API_KEY
     };
     var ClassName = {
       CAROUSEL: 'carousel',
@@ -662,8 +662,8 @@
         }
       };
 
-      _proto.pause = function pause(event) {
-        if (!event) {
+      _proto.pause = function pause(Event) {
+        if (!Event) {
           this._isPaused = true;
         }
 
@@ -676,8 +676,8 @@
         this._interval = null;
       };
 
-      _proto.cycle = function cycle(event) {
-        if (!event) {
+      _proto.cycle = function cycle(Event) {
+        if (!Event) {
           this._isPaused = false;
         }
 
@@ -721,7 +721,7 @@
       };
 
       _proto.dispose = function dispose() {
-        $$$1(this._element).off(EVENT_KEY);
+        $$$1(this._element).off(Event_KEY);
         $$$1.removeData(this._element, DATA_KEY);
         this._items = null;
         this._config = null;
@@ -744,26 +744,26 @@
         var _this2 = this;
 
         if (this._config.keyboard) {
-          $$$1(this._element).on(Event.KEYDOWN, function (event) {
-            return _this2._keydown(event);
+          $$$1(this._element).on(Event.KEYDOWN, function (Event) {
+            return _this2._keydown(Event);
           });
         }
 
         if (this._config.pause === 'hover') {
-          $$$1(this._element).on(Event.MOUSEENTER, function (event) {
-            return _this2.pause(event);
-          }).on(Event.MOUSELEAVE, function (event) {
-            return _this2.cycle(event);
+          $$$1(this._element).on(Event.MOUSEENTER, function (Event) {
+            return _this2.pause(Event);
+          }).on(Event.MOUSELEAVE, function (Event) {
+            return _this2.cycle(Event);
           });
 
           if ('ontouchstart' in document.documentElement) {
             // If it's a touch-enabled device, mouseenter/leave are fired as
-            // part of the mouse compatibility events on first tap - the carousel
+            // part of the mouse compatibility Events on first tap - the carousel
             // would stop cycling until user tapped out of it;
             // here, we listen for touchend, explicitly pause the carousel
-            // (as if it's the second time we tap on it, mouseenter compat event
+            // (as if it's the second time we tap on it, mouseenter compat Event
             // is NOT fired) and after a timeout (to allow for mouse compatibility
-            // events to fire) we explicitly restart cycling
+            // Events to fire) we explicitly restart cycling
             $$$1(this._element).on(Event.TOUCHEND, function () {
               _this2.pause();
 
@@ -771,27 +771,27 @@
                 clearTimeout(_this2.touchTimeout);
               }
 
-              _this2.touchTimeout = setTimeout(function (event) {
-                return _this2.cycle(event);
-              }, TOUCHEVENT_COMPAT_WAIT + _this2._config.interval);
+              _this2.touchTimeout = setTimeout(function (Event) {
+                return _this2.cycle(Event);
+              }, TOUCHEvent_COMPAT_WAIT + _this2._config.interval);
             });
           }
         }
       };
 
-      _proto._keydown = function _keydown(event) {
-        if (/input|textarea/i.test(event.target.tagName)) {
+      _proto._keydown = function _keydown(Event) {
+        if (/input|textarea/i.test(Event.target.tagName)) {
           return;
         }
 
-        switch (event.which) {
+        switch (Event.which) {
           case ARROW_LEFT_KEYCODE:
-            event.preventDefault();
+            Event.prEventDefault();
             this.prev();
             break;
 
           case ARROW_RIGHT_KEYCODE:
-            event.preventDefault();
+            Event.prEventDefault();
             this.next();
             break;
 
@@ -822,14 +822,14 @@
         return itemIndex === -1 ? this._items[this._items.length - 1] : this._items[itemIndex];
       };
 
-      _proto._triggerSlideEvent = function _triggerSlideEvent(relatedTarget, eventDirectionName) {
+      _proto._triggerSlideEvent = function _triggerSlideEvent(relatedTarget, EventDirectionName) {
         var targetIndex = this._getItemIndex(relatedTarget);
 
         var fromIndex = this._getItemIndex($$$1(this._element).find(Selector.ACTIVE_ITEM)[0]);
 
         var slideEvent = $$$1.Event(Event.SLIDE, {
           relatedTarget: relatedTarget,
-          direction: eventDirectionName,
+          direction: EventDirectionName,
           from: fromIndex,
           to: targetIndex
         });
@@ -863,16 +863,16 @@
         var isCycling = Boolean(this._interval);
         var directionalClassName;
         var orderClassName;
-        var eventDirectionName;
+        var EventDirectionName;
 
         if (direction === Direction.NEXT) {
           directionalClassName = ClassName.LEFT;
           orderClassName = ClassName.NEXT;
-          eventDirectionName = Direction.LEFT;
+          EventDirectionName = Direction.LEFT;
         } else {
           directionalClassName = ClassName.RIGHT;
           orderClassName = ClassName.PREV;
-          eventDirectionName = Direction.RIGHT;
+          EventDirectionName = Direction.RIGHT;
         }
 
         if (nextElement && $$$1(nextElement).hasClass(ClassName.ACTIVE)) {
@@ -880,9 +880,9 @@
           return;
         }
 
-        var slideEvent = this._triggerSlideEvent(nextElement, eventDirectionName);
+        var slideEvent = this._triggerSlideEvent(nextElement, EventDirectionName);
 
-        if (slideEvent.isDefaultPrevented()) {
+        if (slideEvent.isDefaultPrEvented()) {
           return;
         }
 
@@ -901,7 +901,7 @@
 
         var slidEvent = $$$1.Event(Event.SLID, {
           relatedTarget: nextElement,
-          direction: eventDirectionName,
+          direction: EventDirectionName,
           from: activeElementIndex,
           to: nextElementIndex
         });
@@ -965,7 +965,7 @@
         });
       };
 
-      Carousel._dataApiClickHandler = function _dataApiClickHandler(event) {
+      Carousel._dataApiClickHandler = function _dataApiClickHandler(Event) {
         var selector = Util.getSelectorFromElement(this);
 
         if (!selector) {
@@ -992,7 +992,7 @@
           $$$1(target).data(DATA_KEY).to(slideIndex);
         }
 
-        event.preventDefault();
+        Event.prEventDefault();
       };
 
       _createClass(Carousel, null, [{
@@ -1057,7 +1057,7 @@
     var NAME = 'collapse';
     var VERSION = '4.1.1';
     var DATA_KEY = 'bs.collapse';
-    var EVENT_KEY = "." + DATA_KEY;
+    var Event_KEY = "." + DATA_KEY;
     var DATA_API_KEY = '.data-api';
     var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
     var Default = {
@@ -1069,11 +1069,11 @@
       parent: '(string|element)'
     };
     var Event = {
-      SHOW: "show" + EVENT_KEY,
-      SHOWN: "shown" + EVENT_KEY,
-      HIDE: "hide" + EVENT_KEY,
-      HIDDEN: "hidden" + EVENT_KEY,
-      CLICK_DATA_API: "click" + EVENT_KEY + DATA_API_KEY
+      SHOW: "show" + Event_KEY,
+      SHOWN: "shown" + Event_KEY,
+      HIDE: "hide" + Event_KEY,
+      HIDDEN: "hidden" + Event_KEY,
+      CLICK_DATA_API: "click" + Event_KEY + DATA_API_KEY
     };
     var ClassName = {
       SHOW: 'show',
@@ -1169,7 +1169,7 @@
         var startEvent = $$$1.Event(Event.SHOW);
         $$$1(this._element).trigger(startEvent);
 
-        if (startEvent.isDefaultPrevented()) {
+        if (startEvent.isDefaultPrEvented()) {
           return;
         }
 
@@ -1218,7 +1218,7 @@
         var startEvent = $$$1.Event(Event.HIDE);
         $$$1(this._element).trigger(startEvent);
 
-        if (startEvent.isDefaultPrevented()) {
+        if (startEvent.isDefaultPrEvented()) {
           return;
         }
 
@@ -1368,10 +1368,10 @@
      */
 
 
-    $$$1(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (event) {
-      // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
-      if (event.currentTarget.tagName === 'A') {
-        event.preventDefault();
+    $$$1(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (Event) {
+      // prEventDefault only for <a> elements (which change the URL) not inside the collapsible element
+      if (Event.currentTarget.tagName === 'A') {
+        Event.prEventDefault();
       }
 
       var $trigger = $$$1(this);
@@ -1417,7 +1417,7 @@
     var NAME = 'dropdown';
     var VERSION = '4.1.1';
     var DATA_KEY = 'bs.dropdown';
-    var EVENT_KEY = "." + DATA_KEY;
+    var Event_KEY = "." + DATA_KEY;
     var DATA_API_KEY = '.data-api';
     var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
     var ESCAPE_KEYCODE = 27; // KeyboardEvent.which value for Escape (Esc) key
@@ -1434,14 +1434,14 @@
 
     var REGEXP_KEYDOWN = new RegExp(ARROW_UP_KEYCODE + "|" + ARROW_DOWN_KEYCODE + "|" + ESCAPE_KEYCODE);
     var Event = {
-      HIDE: "hide" + EVENT_KEY,
-      HIDDEN: "hidden" + EVENT_KEY,
-      SHOW: "show" + EVENT_KEY,
-      SHOWN: "shown" + EVENT_KEY,
-      CLICK: "click" + EVENT_KEY,
-      CLICK_DATA_API: "click" + EVENT_KEY + DATA_API_KEY,
-      KEYDOWN_DATA_API: "keydown" + EVENT_KEY + DATA_API_KEY,
-      KEYUP_DATA_API: "keyup" + EVENT_KEY + DATA_API_KEY
+      HIDE: "hide" + Event_KEY,
+      HIDDEN: "hidden" + Event_KEY,
+      SHOW: "show" + Event_KEY,
+      SHOWN: "shown" + Event_KEY,
+      CLICK: "click" + Event_KEY,
+      CLICK_DATA_API: "click" + Event_KEY + DATA_API_KEY,
+      KEYDOWN_DATA_API: "keydown" + Event_KEY + DATA_API_KEY,
+      KEYUP_DATA_API: "keyup" + Event_KEY + DATA_API_KEY
     };
     var ClassName = {
       DISABLED: 'disabled',
@@ -1529,7 +1529,7 @@
         var showEvent = $$$1.Event(Event.SHOW, relatedTarget);
         $$$1(parent).trigger(showEvent);
 
-        if (showEvent.isDefaultPrevented()) {
+        if (showEvent.isDefaultPrEvented()) {
           return;
         } // Disable totally Popper.js for Dropdown in Navbar
 
@@ -1565,8 +1565,8 @@
           this._popper = new Popper(referenceElement, this._menu, this._getPopperConfig());
         } // If this is a touch-enabled device we add extra
         // empty mouseover listeners to the body's immediate children;
-        // only needed because of broken event delegation on iOS
-        // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+        // only needed because of broken Event delegation on iOS
+        // https://www.quirksmode.org/blog/archives/2014/02/mouse_Event_bub.html
 
 
         if ('ontouchstart' in document.documentElement && $$$1(parent).closest(Selector.NAVBAR_NAV).length === 0) {
@@ -1583,7 +1583,7 @@
 
       _proto.dispose = function dispose() {
         $$$1.removeData(this._element, DATA_KEY);
-        $$$1(this._element).off(EVENT_KEY);
+        $$$1(this._element).off(Event_KEY);
         this._element = null;
         this._menu = null;
 
@@ -1606,9 +1606,9 @@
       _proto._addEventListeners = function _addEventListeners() {
         var _this = this;
 
-        $$$1(this._element).on(Event.CLICK, function (event) {
-          event.preventDefault();
-          event.stopPropagation();
+        $$$1(this._element).on(Event.CLICK, function (Event) {
+          Event.prEventDefault();
+          Event.stopPropagation();
 
           _this.toggle();
         });
@@ -1676,7 +1676,7 @@
             flip: {
               enabled: this._config.flip
             },
-            preventOverflow: {
+            prEventOverflow: {
               boundariesElement: this._config.boundary
             }
           } // Disable Popper.js if we have a static display
@@ -1714,8 +1714,8 @@
         });
       };
 
-      Dropdown._clearMenus = function _clearMenus(event) {
-        if (event && (event.which === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.which !== TAB_KEYCODE)) {
+      Dropdown._clearMenus = function _clearMenus(Event) {
+        if (Event && (Event.which === RIGHT_MOUSE_BUTTON_WHICH || Event.type === 'keyup' && Event.which !== TAB_KEYCODE)) {
           return;
         }
 
@@ -1739,14 +1739,14 @@
             continue;
           }
 
-          if (event && (event.type === 'click' && /input|textarea/i.test(event.target.tagName) || event.type === 'keyup' && event.which === TAB_KEYCODE) && $$$1.contains(parent, event.target)) {
+          if (Event && (Event.type === 'click' && /input|textarea/i.test(Event.target.tagName) || Event.type === 'keyup' && Event.which === TAB_KEYCODE) && $$$1.contains(parent, Event.target)) {
             continue;
           }
 
           var hideEvent = $$$1.Event(Event.HIDE, relatedTarget);
           $$$1(parent).trigger(hideEvent);
 
-          if (hideEvent.isDefaultPrevented()) {
+          if (hideEvent.isDefaultPrEvented()) {
             continue;
           } // If this is a touch-enabled device we remove the extra
           // empty mouseover listeners we added for iOS support
@@ -1774,7 +1774,7 @@
       }; // eslint-disable-next-line complexity
 
 
-      Dropdown._dataApiKeydownHandler = function _dataApiKeydownHandler(event) {
+      Dropdown._dataApiKeydownHandler = function _dataApiKeydownHandler(Event) {
         // If not input/textarea:
         //  - And not a key in REGEXP_KEYDOWN => not a dropdown command
         // If input/textarea:
@@ -1782,12 +1782,12 @@
         //  - If key is other than escape
         //    - If key is not up or down => not a dropdown command
         //    - If trigger inside the menu => not a dropdown command
-        if (/input|textarea/i.test(event.target.tagName) ? event.which === SPACE_KEYCODE || event.which !== ESCAPE_KEYCODE && (event.which !== ARROW_DOWN_KEYCODE && event.which !== ARROW_UP_KEYCODE || $$$1(event.target).closest(Selector.MENU).length) : !REGEXP_KEYDOWN.test(event.which)) {
+        if (/input|textarea/i.test(Event.target.tagName) ? Event.which === SPACE_KEYCODE || Event.which !== ESCAPE_KEYCODE && (Event.which !== ARROW_DOWN_KEYCODE && Event.which !== ARROW_UP_KEYCODE || $$$1(Event.target).closest(Selector.MENU).length) : !REGEXP_KEYDOWN.test(Event.which)) {
           return;
         }
 
-        event.preventDefault();
-        event.stopPropagation();
+        Event.prEventDefault();
+        Event.stopPropagation();
 
         if (this.disabled || $$$1(this).hasClass(ClassName.DISABLED)) {
           return;
@@ -1797,8 +1797,8 @@
 
         var isActive = $$$1(parent).hasClass(ClassName.SHOW);
 
-        if (!isActive && (event.which !== ESCAPE_KEYCODE || event.which !== SPACE_KEYCODE) || isActive && (event.which === ESCAPE_KEYCODE || event.which === SPACE_KEYCODE)) {
-          if (event.which === ESCAPE_KEYCODE) {
+        if (!isActive && (Event.which !== ESCAPE_KEYCODE || Event.which !== SPACE_KEYCODE) || isActive && (Event.which === ESCAPE_KEYCODE || Event.which === SPACE_KEYCODE)) {
+          if (Event.which === ESCAPE_KEYCODE) {
             var toggle = $$$1(parent).find(Selector.DATA_TOGGLE)[0];
             $$$1(toggle).trigger('focus');
           }
@@ -1813,14 +1813,14 @@
           return;
         }
 
-        var index = items.indexOf(event.target);
+        var index = items.indexOf(Event.target);
 
-        if (event.which === ARROW_UP_KEYCODE && index > 0) {
+        if (Event.which === ARROW_UP_KEYCODE && index > 0) {
           // Up
           index--;
         }
 
-        if (event.which === ARROW_DOWN_KEYCODE && index < items.length - 1) {
+        if (Event.which === ARROW_DOWN_KEYCODE && index < items.length - 1) {
           // Down
           index++;
         }
@@ -1858,9 +1858,9 @@
      */
 
 
-    $$$1(document).on(Event.KEYDOWN_DATA_API, Selector.DATA_TOGGLE, Dropdown._dataApiKeydownHandler).on(Event.KEYDOWN_DATA_API, Selector.MENU, Dropdown._dataApiKeydownHandler).on(Event.CLICK_DATA_API + " " + Event.KEYUP_DATA_API, Dropdown._clearMenus).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (event) {
-      event.preventDefault();
-      event.stopPropagation();
+    $$$1(document).on(Event.KEYDOWN_DATA_API, Selector.DATA_TOGGLE, Dropdown._dataApiKeydownHandler).on(Event.KEYDOWN_DATA_API, Selector.MENU, Dropdown._dataApiKeydownHandler).on(Event.CLICK_DATA_API + " " + Event.KEYUP_DATA_API, Dropdown._clearMenus).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (Event) {
+      Event.prEventDefault();
+      Event.stopPropagation();
 
       Dropdown._jQueryInterface.call($$$1(this), 'toggle');
     }).on(Event.CLICK_DATA_API, Selector.FORM_CHILD, function (e) {
@@ -1899,7 +1899,7 @@
     var NAME = 'modal';
     var VERSION = '4.1.1';
     var DATA_KEY = 'bs.modal';
-    var EVENT_KEY = "." + DATA_KEY;
+    var Event_KEY = "." + DATA_KEY;
     var DATA_API_KEY = '.data-api';
     var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
     var ESCAPE_KEYCODE = 27; // KeyboardEvent.which value for Escape (Esc) key
@@ -1917,17 +1917,17 @@
       show: 'boolean'
     };
     var Event = {
-      HIDE: "hide" + EVENT_KEY,
-      HIDDEN: "hidden" + EVENT_KEY,
-      SHOW: "show" + EVENT_KEY,
-      SHOWN: "shown" + EVENT_KEY,
-      FOCUSIN: "focusin" + EVENT_KEY,
-      RESIZE: "resize" + EVENT_KEY,
-      CLICK_DISMISS: "click.dismiss" + EVENT_KEY,
-      KEYDOWN_DISMISS: "keydown.dismiss" + EVENT_KEY,
-      MOUSEUP_DISMISS: "mouseup.dismiss" + EVENT_KEY,
-      MOUSEDOWN_DISMISS: "mousedown.dismiss" + EVENT_KEY,
-      CLICK_DATA_API: "click" + EVENT_KEY + DATA_API_KEY
+      HIDE: "hide" + Event_KEY,
+      HIDDEN: "hidden" + Event_KEY,
+      SHOW: "show" + Event_KEY,
+      SHOWN: "shown" + Event_KEY,
+      FOCUSIN: "focusin" + Event_KEY,
+      RESIZE: "resize" + Event_KEY,
+      CLICK_DISMISS: "click.dismiss" + Event_KEY,
+      KEYDOWN_DISMISS: "keydown.dismiss" + Event_KEY,
+      MOUSEUP_DISMISS: "mouseup.dismiss" + Event_KEY,
+      MOUSEDOWN_DISMISS: "mousedown.dismiss" + Event_KEY,
+      CLICK_DATA_API: "click" + Event_KEY + DATA_API_KEY
     };
     var ClassName = {
       SCROLLBAR_MEASURER: 'modal-scrollbar-measure',
@@ -1989,7 +1989,7 @@
         });
         $$$1(this._element).trigger(showEvent);
 
-        if (this._isShown || showEvent.isDefaultPrevented()) {
+        if (this._isShown || showEvent.isDefaultPrEvented()) {
           return;
         }
 
@@ -2007,12 +2007,12 @@
 
         this._setResizeEvent();
 
-        $$$1(this._element).on(Event.CLICK_DISMISS, Selector.DATA_DISMISS, function (event) {
-          return _this.hide(event);
+        $$$1(this._element).on(Event.CLICK_DISMISS, Selector.DATA_DISMISS, function (Event) {
+          return _this.hide(Event);
         });
         $$$1(this._dialog).on(Event.MOUSEDOWN_DISMISS, function () {
-          $$$1(_this._element).one(Event.MOUSEUP_DISMISS, function (event) {
-            if ($$$1(event.target).is(_this._element)) {
+          $$$1(_this._element).one(Event.MOUSEUP_DISMISS, function (Event) {
+            if ($$$1(Event.target).is(_this._element)) {
               _this._ignoreBackdropClick = true;
             }
           });
@@ -2023,11 +2023,11 @@
         });
       };
 
-      _proto.hide = function hide(event) {
+      _proto.hide = function hide(Event) {
         var _this2 = this;
 
-        if (event) {
-          event.preventDefault();
+        if (Event) {
+          Event.prEventDefault();
         }
 
         if (this._isTransitioning || !this._isShown) {
@@ -2037,7 +2037,7 @@
         var hideEvent = $$$1.Event(Event.HIDE);
         $$$1(this._element).trigger(hideEvent);
 
-        if (!this._isShown || hideEvent.isDefaultPrevented()) {
+        if (!this._isShown || hideEvent.isDefaultPrEvented()) {
           return;
         }
 
@@ -2059,8 +2059,8 @@
 
         if (transition) {
           var transitionDuration = Util.getTransitionDurationFromElement(this._element);
-          $$$1(this._element).one(Util.TRANSITION_END, function (event) {
-            return _this2._hideModal(event);
+          $$$1(this._element).one(Util.TRANSITION_END, function (Event) {
+            return _this2._hideModal(Event);
           }).emulateTransitionEnd(transitionDuration);
         } else {
           this._hideModal();
@@ -2069,7 +2069,7 @@
 
       _proto.dispose = function dispose() {
         $$$1.removeData(this._element, DATA_KEY);
-        $$$1(window, document, this._element, this._backdrop).off(EVENT_KEY);
+        $$$1(window, document, this._element, this._backdrop).off(Event_KEY);
         this._config = null;
         this._element = null;
         this._dialog = null;
@@ -2142,8 +2142,8 @@
         var _this4 = this;
 
         $$$1(document).off(Event.FOCUSIN) // Guard against infinite focus loop
-        .on(Event.FOCUSIN, function (event) {
-          if (document !== event.target && _this4._element !== event.target && $$$1(_this4._element).has(event.target).length === 0) {
+        .on(Event.FOCUSIN, function (Event) {
+          if (document !== Event.target && _this4._element !== Event.target && $$$1(_this4._element).has(Event.target).length === 0) {
             _this4._element.focus();
           }
         });
@@ -2153,9 +2153,9 @@
         var _this5 = this;
 
         if (this._isShown && this._config.keyboard) {
-          $$$1(this._element).on(Event.KEYDOWN_DISMISS, function (event) {
-            if (event.which === ESCAPE_KEYCODE) {
-              event.preventDefault();
+          $$$1(this._element).on(Event.KEYDOWN_DISMISS, function (Event) {
+            if (Event.which === ESCAPE_KEYCODE) {
+              Event.prEventDefault();
 
               _this5.hide();
             }
@@ -2169,8 +2169,8 @@
         var _this6 = this;
 
         if (this._isShown) {
-          $$$1(window).on(Event.RESIZE, function (event) {
-            return _this6.handleUpdate(event);
+          $$$1(window).on(Event.RESIZE, function (Event) {
+            return _this6.handleUpdate(Event);
           });
         } else {
           $$$1(window).off(Event.RESIZE);
@@ -2218,13 +2218,13 @@
           }
 
           $$$1(this._backdrop).appendTo(document.body);
-          $$$1(this._element).on(Event.CLICK_DISMISS, function (event) {
+          $$$1(this._element).on(Event.CLICK_DISMISS, function (Event) {
             if (_this8._ignoreBackdropClick) {
               _this8._ignoreBackdropClick = false;
               return;
             }
 
-            if (event.target !== event.currentTarget) {
+            if (Event.target !== Event.currentTarget) {
               return;
             }
 
@@ -2413,7 +2413,7 @@
      */
 
 
-    $$$1(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (event) {
+    $$$1(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (Event) {
       var _this10 = this;
 
       var target;
@@ -2426,11 +2426,11 @@
       var config = $$$1(target).data(DATA_KEY) ? 'toggle' : _objectSpread({}, $$$1(target).data(), $$$1(this).data());
 
       if (this.tagName === 'A' || this.tagName === 'AREA') {
-        event.preventDefault();
+        Event.prEventDefault();
       }
 
       var $target = $$$1(target).one(Event.SHOW, function (showEvent) {
-        if (showEvent.isDefaultPrevented()) {
+        if (showEvent.isDefaultPrEvented()) {
           // Only register focus restorer if modal will actually get shown
           return;
         }
@@ -2477,7 +2477,7 @@
     var NAME = 'tooltip';
     var VERSION = '4.1.1';
     var DATA_KEY = 'bs.tooltip';
-    var EVENT_KEY = "." + DATA_KEY;
+    var Event_KEY = "." + DATA_KEY;
     var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
     var CLASS_PREFIX = 'bs-tooltip';
     var BSCLS_PREFIX_REGEX = new RegExp("(^|\\s)" + CLASS_PREFIX + "\\S+", 'g');
@@ -2521,16 +2521,16 @@
       OUT: 'out'
     };
     var Event = {
-      HIDE: "hide" + EVENT_KEY,
-      HIDDEN: "hidden" + EVENT_KEY,
-      SHOW: "show" + EVENT_KEY,
-      SHOWN: "shown" + EVENT_KEY,
-      INSERTED: "inserted" + EVENT_KEY,
-      CLICK: "click" + EVENT_KEY,
-      FOCUSIN: "focusin" + EVENT_KEY,
-      FOCUSOUT: "focusout" + EVENT_KEY,
-      MOUSEENTER: "mouseenter" + EVENT_KEY,
-      MOUSELEAVE: "mouseleave" + EVENT_KEY
+      HIDE: "hide" + Event_KEY,
+      HIDDEN: "hidden" + Event_KEY,
+      SHOW: "show" + Event_KEY,
+      SHOWN: "shown" + Event_KEY,
+      INSERTED: "inserted" + Event_KEY,
+      CLICK: "click" + Event_KEY,
+      FOCUSIN: "focusin" + Event_KEY,
+      FOCUSOUT: "focusout" + Event_KEY,
+      MOUSEENTER: "mouseenter" + Event_KEY,
+      MOUSELEAVE: "mouseleave" + Event_KEY
     };
     var ClassName = {
       FADE: 'fade',
@@ -2596,18 +2596,18 @@
         this._isEnabled = !this._isEnabled;
       };
 
-      _proto.toggle = function toggle(event) {
+      _proto.toggle = function toggle(Event) {
         if (!this._isEnabled) {
           return;
         }
 
-        if (event) {
+        if (Event) {
           var dataKey = this.constructor.DATA_KEY;
-          var context = $$$1(event.currentTarget).data(dataKey);
+          var context = $$$1(Event.currentTarget).data(dataKey);
 
           if (!context) {
-            context = new this.constructor(event.currentTarget, this._getDelegateConfig());
-            $$$1(event.currentTarget).data(dataKey, context);
+            context = new this.constructor(Event.currentTarget, this._getDelegateConfig());
+            $$$1(Event.currentTarget).data(dataKey, context);
           }
 
           context._activeTrigger.click = !context._activeTrigger.click;
@@ -2631,7 +2631,7 @@
       _proto.dispose = function dispose() {
         clearTimeout(this._timeout);
         $$$1.removeData(this.element, this.constructor.DATA_KEY);
-        $$$1(this.element).off(this.constructor.EVENT_KEY);
+        $$$1(this.element).off(this.constructor.Event_KEY);
         $$$1(this.element).closest('.modal').off('hide.bs.modal');
 
         if (this.tip) {
@@ -2666,7 +2666,7 @@
           $$$1(this.element).trigger(showEvent);
           var isInTheDom = $$$1.contains(this.element.ownerDocument.documentElement, this.element);
 
-          if (showEvent.isDefaultPrevented() || !isInTheDom) {
+          if (showEvent.isDefaultPrEvented() || !isInTheDom) {
             return;
           }
 
@@ -2705,7 +2705,7 @@
               arrow: {
                 element: Selector.ARROW
               },
-              preventOverflow: {
+              prEventOverflow: {
                 boundariesElement: this.config.boundary
               }
             },
@@ -2720,8 +2720,8 @@
           });
           $$$1(tip).addClass(ClassName.SHOW); // If this is a touch-enabled device we add extra
           // empty mouseover listeners to the body's immediate children;
-          // only needed because of broken event delegation on iOS
-          // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+          // only needed because of broken Event delegation on iOS
+          // https://www.quirksmode.org/blog/archives/2014/02/mouse_Event_bub.html
 
           if ('ontouchstart' in document.documentElement) {
             $$$1(document.body).children().on('mouseover', null, $$$1.noop);
@@ -2778,7 +2778,7 @@
 
         $$$1(this.element).trigger(hideEvent);
 
-        if (hideEvent.isDefaultPrevented()) {
+        if (hideEvent.isDefaultPrEvented()) {
           return;
         }
 
@@ -2867,16 +2867,16 @@
         var triggers = this.config.trigger.split(' ');
         triggers.forEach(function (trigger) {
           if (trigger === 'click') {
-            $$$1(_this3.element).on(_this3.constructor.Event.CLICK, _this3.config.selector, function (event) {
-              return _this3.toggle(event);
+            $$$1(_this3.element).on(_this3.constructor.Event.CLICK, _this3.config.selector, function (Event) {
+              return _this3.toggle(Event);
             });
           } else if (trigger !== Trigger.MANUAL) {
-            var eventIn = trigger === Trigger.HOVER ? _this3.constructor.Event.MOUSEENTER : _this3.constructor.Event.FOCUSIN;
-            var eventOut = trigger === Trigger.HOVER ? _this3.constructor.Event.MOUSELEAVE : _this3.constructor.Event.FOCUSOUT;
-            $$$1(_this3.element).on(eventIn, _this3.config.selector, function (event) {
-              return _this3._enter(event);
-            }).on(eventOut, _this3.config.selector, function (event) {
-              return _this3._leave(event);
+            var EventIn = trigger === Trigger.HOVER ? _this3.constructor.Event.MOUSEENTER : _this3.constructor.Event.FOCUSIN;
+            var EventOut = trigger === Trigger.HOVER ? _this3.constructor.Event.MOUSELEAVE : _this3.constructor.Event.FOCUSOUT;
+            $$$1(_this3.element).on(EventIn, _this3.config.selector, function (Event) {
+              return _this3._enter(Event);
+            }).on(EventOut, _this3.config.selector, function (Event) {
+              return _this3._leave(Event);
             });
           }
 
@@ -2904,17 +2904,17 @@
         }
       };
 
-      _proto._enter = function _enter(event, context) {
+      _proto._enter = function _enter(Event, context) {
         var dataKey = this.constructor.DATA_KEY;
-        context = context || $$$1(event.currentTarget).data(dataKey);
+        context = context || $$$1(Event.currentTarget).data(dataKey);
 
         if (!context) {
-          context = new this.constructor(event.currentTarget, this._getDelegateConfig());
-          $$$1(event.currentTarget).data(dataKey, context);
+          context = new this.constructor(Event.currentTarget, this._getDelegateConfig());
+          $$$1(Event.currentTarget).data(dataKey, context);
         }
 
-        if (event) {
-          context._activeTrigger[event.type === 'focusin' ? Trigger.FOCUS : Trigger.HOVER] = true;
+        if (Event) {
+          context._activeTrigger[Event.type === 'focusin' ? Trigger.FOCUS : Trigger.HOVER] = true;
         }
 
         if ($$$1(context.getTipElement()).hasClass(ClassName.SHOW) || context._hoverState === HoverState.SHOW) {
@@ -2937,17 +2937,17 @@
         }, context.config.delay.show);
       };
 
-      _proto._leave = function _leave(event, context) {
+      _proto._leave = function _leave(Event, context) {
         var dataKey = this.constructor.DATA_KEY;
-        context = context || $$$1(event.currentTarget).data(dataKey);
+        context = context || $$$1(Event.currentTarget).data(dataKey);
 
         if (!context) {
-          context = new this.constructor(event.currentTarget, this._getDelegateConfig());
-          $$$1(event.currentTarget).data(dataKey, context);
+          context = new this.constructor(Event.currentTarget, this._getDelegateConfig());
+          $$$1(Event.currentTarget).data(dataKey, context);
         }
 
-        if (event) {
-          context._activeTrigger[event.type === 'focusout' ? Trigger.FOCUS : Trigger.HOVER] = false;
+        if (Event) {
+          context._activeTrigger[Event.type === 'focusout' ? Trigger.FOCUS : Trigger.HOVER] = false;
         }
 
         if (context._isWithActiveTrigger()) {
@@ -3097,9 +3097,9 @@
           return Event;
         }
       }, {
-        key: "EVENT_KEY",
+        key: "Event_KEY",
         get: function get() {
-          return EVENT_KEY;
+          return Event_KEY;
         }
       }, {
         key: "DefaultType",
@@ -3144,7 +3144,7 @@
     var NAME = 'popover';
     var VERSION = '4.1.1';
     var DATA_KEY = 'bs.popover';
-    var EVENT_KEY = "." + DATA_KEY;
+    var Event_KEY = "." + DATA_KEY;
     var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
     var CLASS_PREFIX = 'bs-popover';
     var BSCLS_PREFIX_REGEX = new RegExp("(^|\\s)" + CLASS_PREFIX + "\\S+", 'g');
@@ -3169,16 +3169,16 @@
       CONTENT: '.popover-body'
     };
     var Event = {
-      HIDE: "hide" + EVENT_KEY,
-      HIDDEN: "hidden" + EVENT_KEY,
-      SHOW: "show" + EVENT_KEY,
-      SHOWN: "shown" + EVENT_KEY,
-      INSERTED: "inserted" + EVENT_KEY,
-      CLICK: "click" + EVENT_KEY,
-      FOCUSIN: "focusin" + EVENT_KEY,
-      FOCUSOUT: "focusout" + EVENT_KEY,
-      MOUSEENTER: "mouseenter" + EVENT_KEY,
-      MOUSELEAVE: "mouseleave" + EVENT_KEY
+      HIDE: "hide" + Event_KEY,
+      HIDDEN: "hidden" + Event_KEY,
+      SHOW: "show" + Event_KEY,
+      SHOWN: "shown" + Event_KEY,
+      INSERTED: "inserted" + Event_KEY,
+      CLICK: "click" + Event_KEY,
+      FOCUSIN: "focusin" + Event_KEY,
+      FOCUSOUT: "focusout" + Event_KEY,
+      MOUSEENTER: "mouseenter" + Event_KEY,
+      MOUSELEAVE: "mouseleave" + Event_KEY
       /**
        * ------------------------------------------------------------------------
        * Class Definition
@@ -3213,7 +3213,7 @@
       };
 
       _proto.setContent = function setContent() {
-        var $tip = $$$1(this.getTipElement()); // We use append for html objects to maintain js events
+        var $tip = $$$1(this.getTipElement()); // We use append for html objects to maintain js Events
 
         this.setElementContent($tip.find(Selector.TITLE), this.getTitle());
 
@@ -3294,9 +3294,9 @@
           return Event;
         }
       }, {
-        key: "EVENT_KEY",
+        key: "Event_KEY",
         get: function get() {
-          return EVENT_KEY;
+          return Event_KEY;
         }
       }, {
         key: "DefaultType",
@@ -3341,7 +3341,7 @@
     var NAME = 'scrollspy';
     var VERSION = '4.1.1';
     var DATA_KEY = 'bs.scrollspy';
-    var EVENT_KEY = "." + DATA_KEY;
+    var Event_KEY = "." + DATA_KEY;
     var DATA_API_KEY = '.data-api';
     var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
     var Default = {
@@ -3355,9 +3355,9 @@
       target: '(string|element)'
     };
     var Event = {
-      ACTIVATE: "activate" + EVENT_KEY,
-      SCROLL: "scroll" + EVENT_KEY,
-      LOAD_DATA_API: "load" + EVENT_KEY + DATA_API_KEY
+      ACTIVATE: "activate" + Event_KEY,
+      SCROLL: "scroll" + Event_KEY,
+      LOAD_DATA_API: "load" + Event_KEY + DATA_API_KEY
     };
     var ClassName = {
       DROPDOWN_ITEM: 'dropdown-item',
@@ -3400,8 +3400,8 @@
         this._targets = [];
         this._activeTarget = null;
         this._scrollHeight = 0;
-        $$$1(this._scrollElement).on(Event.SCROLL, function (event) {
-          return _this._process(event);
+        $$$1(this._scrollElement).on(Event.SCROLL, function (Event) {
+          return _this._process(Event);
         });
         this.refresh();
 
@@ -3453,7 +3453,7 @@
 
       _proto.dispose = function dispose() {
         $$$1.removeData(this._element, DATA_KEY);
-        $$$1(this._scrollElement).off(EVENT_KEY);
+        $$$1(this._scrollElement).off(Event_KEY);
         this._element = null;
         this._scrollElement = null;
         this._config = null;
@@ -3653,15 +3653,15 @@
     var NAME = 'tab';
     var VERSION = '4.1.1';
     var DATA_KEY = 'bs.tab';
-    var EVENT_KEY = "." + DATA_KEY;
+    var Event_KEY = "." + DATA_KEY;
     var DATA_API_KEY = '.data-api';
     var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
     var Event = {
-      HIDE: "hide" + EVENT_KEY,
-      HIDDEN: "hidden" + EVENT_KEY,
-      SHOW: "show" + EVENT_KEY,
-      SHOWN: "shown" + EVENT_KEY,
-      CLICK_DATA_API: "click" + EVENT_KEY + DATA_API_KEY
+      HIDE: "hide" + Event_KEY,
+      HIDDEN: "hidden" + Event_KEY,
+      SHOW: "show" + Event_KEY,
+      SHOWN: "shown" + Event_KEY,
+      CLICK_DATA_API: "click" + Event_KEY + DATA_API_KEY
     };
     var ClassName = {
       DROPDOWN_MENU: 'dropdown-menu',
@@ -3728,7 +3728,7 @@
 
         $$$1(this._element).trigger(showEvent);
 
-        if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) {
+        if (showEvent.isDefaultPrEvented() || hideEvent.isDefaultPrEvented()) {
           return;
         }
 
@@ -3863,8 +3863,8 @@
      */
 
 
-    $$$1(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (event) {
-      event.preventDefault();
+    $$$1(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (Event) {
+      Event.prEventDefault();
 
       Tab._jQueryInterface.call($$$1(this), 'show');
     });

@@ -110,7 +110,7 @@ function wp_import_handle_upload() {
 	 * Schedule a cleanup for one day from now in case of failed
 	 * import or missing wp_import_cleanup() call.
 	 */
-	wp_schedule_single_event( time() + DAY_IN_SECONDS, 'importer_scheduled_cleanup', array( $id ) );
+	wp_schedule_single_Event( time() + DAY_IN_SECONDS, 'importer_scheduled_cleanup', array( $id ) );
 
 	return array( 'file' => $upload['file'], 'id' => $id );
 }

@@ -101,7 +101,7 @@ var tagBox, array_unique_noempty;
 							/*
 							 * When using the keyboard, move focus back to the
 							 * add new tag field. Note: when releasing the pressed
-							 * key this will fire the `keyup` event on the input.
+							 * key this will fire the `keyup` Event on the input.
 							 */
 							if ( 13 === e.keyCode || 32 === e.keyCode ) {
  								$( this ).closest( '.tagsdiv' ).find( 'input.newtag' ).focus();
@@ -134,7 +134,7 @@ var tagBox, array_unique_noempty;
 			/*
 			 * Return if there's no new tag or if the input field is empty.
 			 * Note: when using the keyboard to add tags, focus is moved back to
-			 * the input field and the `keyup` event attached on this field will
+			 * the input field and the `keyup` Event attached on this field will
 			 * fire when releasing the pressed key. Checking also for the field
 			 * emptiness avoids to set the tags and call quickClicks() again.
 			 */
@@ -221,17 +221,17 @@ var tagBox, array_unique_noempty;
 				tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
 			});
 
-			$( 'input.newtag', ajaxtag ).keypress( function( event ) {
-				if ( 13 == event.which ) {
+			$( 'input.newtag', ajaxtag ).keypress( function( Event ) {
+				if ( 13 == Event.which ) {
 					tagBox.userAction = 'add';
 					tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
-					event.preventDefault();
-					event.stopPropagation();
+					Event.prEventDefault();
+					Event.stopPropagation();
 				}
-			}).keypress( function( event ) {
-				if ( 13 == event.which ) {
-					event.preventDefault();
-					event.stopPropagation();
+			}).keypress( function( Event ) {
+				if ( 13 == Event.which ) {
+					Event.prEventDefault();
+					Event.stopPropagation();
 				}
 			}).each( function( i, element ) {
 				$( element ).wpTagsSuggest();
@@ -248,7 +248,7 @@ var tagBox, array_unique_noempty;
 			$('.tagcloud-link').click(function(){
 				// On the first click, fetch the tag cloud and insert it in the DOM.
 				tagBox.get( $( this ).attr( 'id' ) );
-				// Update button state, remove previous click event and attach a new one to toggle the cloud.
+				// Update button state, remove previous click Event and attach a new one to toggle the cloud.
 				$( this )
 					.attr( 'aria-expanded', 'true' )
 					.unbind()

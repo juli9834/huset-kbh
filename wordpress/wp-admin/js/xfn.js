@@ -67,7 +67,7 @@ jQuery( document ).ready( function( $ ) {
 		});
 	}
 
-	$( '.export-personal-data-handle' ).click( function( event ) {
+	$( '.export-personal-data-handle' ).click( function( Event ) {
 
 		var $this          = $( this ),
 			$action        = $this.parents( '.export-personal-data' ),
@@ -77,8 +77,8 @@ jQuery( document ).ready( function( $ ) {
 			exportersCount = $action.data( 'exporters-count' ),
 			sendAsEmail    = $action.data( 'send-as-email' ) ? true : false;
 
-		event.preventDefault();
-		event.stopPropagation();
+		Event.prEventDefault();
+		Event.stopPropagation();
 
 		$action.blur();
 		clearResultsAfterRow( $requestRow );
@@ -144,7 +144,7 @@ jQuery( document ).ready( function( $ ) {
 		doNextExport( 1, 1 );
 	});
 
-	$( '.remove-personal-data-handle' ).click( function( event ) {
+	$( '.remove-personal-data-handle' ).click( function( Event ) {
 
 		var $this         = $( this ),
 			$action       = $this.parents( '.remove-personal-data' ),
@@ -156,7 +156,7 @@ jQuery( document ).ready( function( $ ) {
 			hasRetained   = false,
 			messages      = [];
 
-		event.stopPropagation();
+		Event.stopPropagation();
 
 		$action.blur();
 		clearResultsAfterRow( $requestRow );
@@ -241,8 +241,8 @@ jQuery( document ).ready( function( $ ) {
 ( function( $ ) {
 
 	// Privacy policy page, copy button.
-	$( document ).on( 'click', function( event ) {
-		var $target = $( event.target );
+	$( document ).on( 'click', function( Event ) {
+		var $target = $( Event.target );
 		var $parent, $container, range;
 
 		if ( $target.is( 'button.privacy-text-copy' ) ) {

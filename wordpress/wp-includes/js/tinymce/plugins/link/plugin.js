@@ -580,14 +580,14 @@ var link = (function () {
     editor.on('click', function (e) {
       var link = getLink(editor, e.target);
       if (link && global$1.metaKeyPressed(e)) {
-        e.preventDefault();
+        e.prEventDefault();
         gotoLink(editor, link);
       }
     });
     editor.on('keydown', function (e) {
       var link = getSelectedLink(editor);
       if (link && e.keyCode === 13 && hasOnlyAltModifier(e)) {
-        e.preventDefault();
+        e.prEventDefault();
         gotoLink(editor, link);
       }
     });

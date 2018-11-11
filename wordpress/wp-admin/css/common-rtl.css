@@ -3100,7 +3100,7 @@ img {
 	font-family: dashicons;
 	font-size: 20px;
 	position: absolute;
-	pointer-events: none;
+	pointer-Events: none;
 }
 [role="treeitem"][aria-expanded="false"] > .folder-label .icon:after {
 	content: "\f141";
@@ -3947,7 +3947,7 @@ img {
 }
 
 @media screen and (max-width: 320px) {
-	/* Prevent default center alignment and larger font for the Right Now widget when
+	/* PrEvent default center alignment and larger font for the Right Now widget when
 	   the network dashboard is viewed on a small mobile device. */
 	#network_dashboard_right_now .subsubsub {
 		font-size: 14px;

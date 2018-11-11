@@ -573,7 +573,7 @@ class Akismet_Admin {
 				}
 
 				// If possible, use a current translation.
-				switch ( $row['event'] ) {
+				switch ( $row['Event'] ) {
 					case 'recheck-spam';
 						$message = __( 'Akismet re-checked and caught this comment as spam.', 'akismet' );
 					break;
@@ -622,14 +622,14 @@ class Akismet_Admin {
 						}
 					break;
 					default:
-						if ( preg_match( '/^status-changed/', $row['event'] ) ) {
+						if ( preg_match( '/^status-changed/', $row['Event'] ) ) {
 							// Half of these used to be saved without the dash after 'status-changed'.
 							// See https://plugins.trac.wordpress.org/changeset/1150658/akismet/trunk
-							$new_status = preg_replace( '/^status-changed-?/', '', $row['event'] );
+							$new_status = preg_replace( '/^status-changed-?/', '', $row['Event'] );
 							$message = sprintf( __( 'Comment status was changed to %s', 'akismet' ), $new_status );
 						}
-						else if ( preg_match( '/^status-/', $row['event'] ) ) {
-							$new_status = preg_replace( '/^status-/', '', $row['event'] );
+						else if ( preg_match( '/^status-/', $row['Event'] ) ) {
+							$new_status = preg_replace( '/^status-/', '', $row['Event'] );
 
 							if ( isset( $row['user'] ) ) {
 								$message = sprintf( __( '%1$s changed the comment status to %2$s.', 'akismet' ), $row['user'], $new_status );
@@ -755,7 +755,7 @@ class Akismet_Admin {
 	public static function are_any_comments_waiting_to_be_checked() {
 		return !! get_comments( array(
 			// Exclude comments that are not pending. This would happen if someone manually approved or spammed a comment
-			// that was waiting to be checked. The akismet_error meta entry will eventually be removed by the cron recheck job.
+			// that was waiting to be checked. The akismet_error meta entry will Eventually be removed by the cron recheck job.
 			'status' => 'hold',
 
 			// This is the commentmeta that is saved when a comment couldn't be checked.

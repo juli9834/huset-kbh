@@ -213,8 +213,8 @@ NOTES:
    anchor tag correctly. Do not do <A></A> with no space.
 
 4) When a PopupWindow object is created, a handler for 'onmouseup' is
-   attached to any event handler you may have already defined. Do NOT define
-   an event handler for 'onmouseup' after you define a PopupWindow object or
+   attached to any Event handler you may have already defined. Do NOT define
+   an Event handler for 'onmouseup' after you define a PopupWindow object or
    the autoHide() will not work correctly.
 */
 
@@ -347,7 +347,7 @@ function PopupWindow_hidePopup() {
 			}
 		}
 	}
-// Pass an event and return whether or not it was the popup DIV that was clicked
+// Pass an Event and return whether or not it was the popup DIV that was clicked
 function PopupWindow_isClicked(e) {
 	if (this.divName != null) {
 		if (this.use_layers) {
@@ -360,7 +360,7 @@ function PopupWindow_isClicked(e) {
 			else { return false; }
 			}
 		else if (document.all) { // Need to hard-code this to trap IE for error-handling
-			var t = window.event.srcElement;
+			var t = window.Event.srcElement;
 			while (t.parentElement != null) {
 				if (t.id==this.divName) {
 					return true;
@@ -384,7 +384,7 @@ function PopupWindow_isClicked(e) {
 	return false;
 	}
 
-// Check an onMouseDown event to see if we should hide
+// Check an onMouseDown Event to see if we should hide
 function PopupWindow_hideIfNotClicked(e) {
 	if (this.autoHideEnabled && !this.isClicked(e)) {
 		this.hidePopup();
@@ -403,7 +403,7 @@ function PopupWindow_hidePopupWindows(e) {
 			}
 		}
 	}
-// Run this immediately to attach the event listener
+// Run this immediately to attach the Event listener
 function PopupWindow_attachListener() {
 	if (document.layers) {
 		document.captureEvents(Event.MOUSEUP);
@@ -517,8 +517,8 @@ NOTES:
    anchor tag correctly. Do not do <A></A> with no space.
 
 4) When a ColorPicker object is created, a handler for 'onmouseup' is
-   attached to any event handler you may have already defined. Do NOT define
-   an event handler for 'onmouseup' after you define a ColorPicker object or
+   attached to any Event handler you may have already defined. Do NOT define
+   an Event handler for 'onmouseup' after you define a ColorPicker object or
    the color picker will not hide itself correctly.
 */
 ColorPicker_targetInput = null;

@@ -10,7 +10,7 @@
 /**
  * Class WP_Community_Events.
  *
- * A client for api.wordpress.org/events.
+ * A client for api.wordpress.org/Events.
  *
  * @since 4.8.0
  */
@@ -56,16 +56,16 @@ class WP_Community_Events {
 	}
 
 	/**
-	 * Gets data about events near a particular location.
+	 * Gets data about Events near a particular location.
 	 *
-	 * Cached events will be immediately returned if the `user_location` property
-	 * is set for the current user, and cached events exist for that location.
+	 * Cached Events will be immediately returned if the `user_location` property
+	 * is set for the current user, and cached Events exist for that location.
 	 *
 	 * Otherwise, this method sends a request to the w.org Events API with location
 	 * data. The API will send back a recognized location based on the data, along
-	 * with nearby events.
+	 * with nearby Events.
 	 *
-	 * The browser's request for events is proxied with this method, rather
+	 * The browser's request for Events is proxied with this method, rather
 	 * than having the browser make the request directly to api.wordpress.org,
 	 * because it allows results to be cached server-side and shared with other
 	 * users and sites in the network. This makes the process more efficient,
@@ -82,20 +82,20 @@ class WP_Community_Events {
 	 *                                e.g., "Seattle". Default empty string.
 	 * @param string $timezone        Optional. Timezone to help determine the location.
 	 *                                Default empty string.
-	 * @return array|WP_Error A WP_Error on failure; an array with location and events on
+	 * @return array|WP_Error A WP_Error on failure; an array with location and Events on
 	 *                        success.
 	 */
-	public function get_events( $location_search = '', $timezone = '' ) {
-		$cached_events = $this->get_cached_events();
+	public function get_Events( $location_search = '', $timezone = '' ) {
+		$cached_Events = $this->get_cached_Events();
 
-		if ( ! $location_search && $cached_events ) {
-			return $cached_events;
+		if ( ! $location_search && $cached_Events ) {
+			return $cached_Events;
 		}
 
 		// include an unmodified $wp_version
 		include( ABSPATH . WPINC . '/version.php' );
 
-		$api_url      = 'http://api.wordpress.org/events/1.0/';
+		$api_url      = 'http://api.wordpress.org/Events/1.0/';
 		$request_args = $this->get_request_args( $location_search, $timezone );
 		$request_args['user-agent'] = 'WordPress/' . $wp_version . '; ' . home_url( '/' );
 
@@ -116,7 +116,7 @@ class WP_Community_Events {
 				/* translators: %d: numeric HTTP status code, e.g. 400, 403, 500, 504, etc. */
 				sprintf( __( 'Invalid API response code (%d)' ), $response_code )
 			);
-		} elseif ( ! isset( $response_body['location'], $response_body['events'] ) ) {
+		} elseif ( ! isset( $response_body['location'], $response_body['Events'] ) ) {
 			$response_error = new WP_Error(
 				'api-invalid-response',
 				isset( $response_body['error'] ) ? $response_body['error'] : __( 'Unknown API error.' )
@@ -141,7 +141,7 @@ class WP_Community_Events {
 			 * For example, if the IP sent in the request is private (e.g., 192.168.1.100),
 			 * then the API will ignore that and use the corresponding public IP instead,
 			 * and the public IP will get returned. If the public IP were saved, though,
-			 * then get_cached_events() would always return `false`, because the transient
+			 * then get_cached_Events() would always return `false`, because the transient
 			 * would be generated based on the public IP when saving the cache, but generated
 			 * based on the private IP when retrieving the cache.
 			 */
@@ -158,10 +158,10 @@ class WP_Community_Events {
 				$response_body['location']['description'] = $this->user_location['description'];
 			}
 
-			$this->cache_events( $response_body, $expiration );
+			$this->cache_Events( $response_body, $expiration );
 
-			$response_body = $this->trim_events( $response_body );
-			$response_body = $this->format_event_data_time( $response_body );
+			$response_body = $this->trim_Events( $response_body );
+			$response_body = $this->format_Event_data_time( $response_body );
 
 			return $response_body;
 		}
@@ -303,81 +303,81 @@ class WP_Community_Events {
 	 * @param  array $location Should contain 'latitude' and 'longitude' indexes.
 	 * @return bool|string false on failure, or a string on success.
 	 */
-	protected function get_events_transient_key( $location ) {
+	protected function get_Events_transient_key( $location ) {
 		$key = false;
 
 		if ( isset( $location['ip'] ) ) {
-			$key = 'community-events-' . md5( $location['ip'] );
+			$key = 'community-Events-' . md5( $location['ip'] );
 		} else if ( isset( $location['latitude'], $location['longitude'] ) ) {
-			$key = 'community-events-' . md5( $location['latitude'] . $location['longitude'] );
+			$key = 'community-Events-' . md5( $location['latitude'] . $location['longitude'] );
 		}
 
 		return $key;
 	}
 
 	/**
-	 * Caches an array of events data from the Events API.
+	 * Caches an array of Events data from the Events API.
 	 *
 	 * @since 4.8.0
 	 *
-	 * @param array    $events     Response body from the API request.
-	 * @param int|bool $expiration Optional. Amount of time to cache the events. Defaults to false.
-	 * @return bool true if events were cached; false if not.
+	 * @param array    $Events     Response body from the API request.
+	 * @param int|bool $expiration Optional. Amount of time to cache the Events. Defaults to false.
+	 * @return bool true if Events were cached; false if not.
 	 */
-	protected function cache_events( $events, $expiration = false ) {
+	protected function cache_Events( $Events, $expiration = false ) {
 		$set              = false;
-		$transient_key    = $this->get_events_transient_key( $events['location'] );
+		$transient_key    = $this->get_Events_transient_key( $Events['location'] );
 		$cache_expiration = $expiration ? absint( $expiration ) : HOUR_IN_SECONDS * 12;
 
 		if ( $transient_key ) {
-			$set = set_site_transient( $transient_key, $events, $cache_expiration );
+			$set = set_site_transient( $transient_key, $Events, $cache_expiration );
 		}
 
 		return $set;
 	}
 
 	/**
-	 * Gets cached events.
+	 * Gets cached Events.
 	 *
 	 * @since 4.8.0
 	 *
 	 * @return false|array false on failure; an array containing `location`
-	 *                     and `events` items on success.
+	 *                     and `Events` items on success.
 	 */
-	public function get_cached_events() {
-		$cached_response = get_site_transient( $this->get_events_transient_key( $this->user_location ) );
-		$cached_response = $this->trim_events( $cached_response );
+	public function get_cached_Events() {
+		$cached_response = get_site_transient( $this->get_Events_transient_key( $this->user_location ) );
+		$cached_response = $this->trim_Events( $cached_response );
 
-		return $this->format_event_data_time( $cached_response );
+		return $this->format_Event_data_time( $cached_response );
 	}
 
 	/**
-	 * Adds formatted date and time items for each event in an API response.
+	 * Adds formatted date and time items for each Event in an API response.
 	 *
 	 * This has to be called after the data is pulled from the cache, because
-	 * the cached events are shared by all users. If it was called before storing
-	 * the cache, then all users would see the events in the localized data/time
+	 * the cached Events are shared by all users. If it was called before storing
+	 * the cache, then all users would see the Events in the localized data/time
 	 * of the user who triggered the cache refresh, rather than their own.
 	 *
 	 * @since 4.8.0
 	 *
-	 * @param  array $response_body The response which contains the events.
+	 * @param  array $response_body The response which contains the Events.
 	 * @return array The response with dates and times formatted.
 	 */
-	protected function format_event_data_time( $response_body ) {
-		if ( isset( $response_body['events'] ) ) {
-			foreach ( $response_body['events'] as $key => $event ) {
-				$timestamp = strtotime( $event['date'] );
+	protected function format_Event_data_time( $response_body ) {
+		if ( isset( $response_body['Events'] ) ) {
+			foreach ( $response_body['Events'] as $key => $Event ) {
+				$timestamp = strtotime( $Event['date'] );
 
 				/*
 				 * The `date_format` option is not used because it's important
 				 * in this context to keep the day of the week in the formatted date,
-				 * so that users can tell at a glance if the event is on a day they
+				 * so that users can tell at a glance if the Event is on a day they
 				 * are available, without having to open the link.
 				 */
-				/* translators: Date format for upcoming events on the dashboard. Include the day of the week. See https://secure.php.net/date. */
-				$response_body['events'][ $key ]['formatted_date'] = date_i18n( __( 'l, M j, Y' ), $timestamp );
-				$response_body['events'][ $key ]['formatted_time'] = date_i18n( get_option( 'time_format' ), $timestamp );
+				/* translators: Date format for upcoming Events on the dashboard. Include the day of the week. See https://secure.php.net/date. */
+				$response_body['Events'][ $key ]['formatted_date'] = date_i18n( __( 'l, M j, Y' ), $timestamp );
+				$response_body['Events'][ $key ]['formatted_time'] = date_i18n( get_option( 'time_format' ), $timestamp );
 			}
 		}
 
@@ -385,50 +385,50 @@ class WP_Community_Events {
 	}
 
 	/**
-	 * Prepares the event list for presentation.
+	 * Prepares the Event list for presentation.
 	 *
-	 * Discards expired events, and makes WordCamps "sticky." Attendees need more
+	 * Discards expired Events, and makes WordCamps "sticky." Attendees need more
 	 * advanced notice about WordCamps than they do for meetups, so camps should
 	 * appear in the list sooner. If a WordCamp is coming up, the API will "stick"
 	 * it in the response, even if it wouldn't otherwise appear. When that happens,
-	 * the event will be at the end of the list, and will need to be moved into a
+	 * the Event will be at the end of the list, and will need to be moved into a
 	 * higher position, so that it doesn't get trimmed off.
 	 *
 	 * @since 4.8.0
 	 * @since 4.9.7 Stick a WordCamp to the final list.
 	 *
-	 * @param  array $response_body The response body which contains the events.
-	 * @return array The response body with events trimmed.
+	 * @param  array $response_body The response body which contains the Events.
+	 * @return array The response body with Events trimmed.
 	 */
-	protected function trim_events( $response_body ) {
-		if ( isset( $response_body['events'] ) ) {
+	protected function trim_Events( $response_body ) {
+		if ( isset( $response_body['Events'] ) ) {
 			$wordcamps         = array();
 			$current_timestamp = current_time( 'timestamp' );
 
-			foreach ( $response_body['events'] as $key => $event ) {
+			foreach ( $response_body['Events'] as $key => $Event ) {
 				/*
-				 * Skip WordCamps, because they might be multi-day events.
+				 * Skip WordCamps, because they might be multi-day Events.
 				 * Save a copy so they can be pinned later.
 				 */
-				if ( 'wordcamp' === $event['type'] ) {
-					$wordcamps[] = $event;
+				if ( 'wordcamp' === $Event['type'] ) {
+					$wordcamps[] = $Event;
 					continue;
 				}
 
-				$event_timestamp = strtotime( $event['date'] );
+				$Event_timestamp = strtotime( $Event['date'] );
 
-				if ( $current_timestamp > $event_timestamp && ( $current_timestamp - $event_timestamp ) > DAY_IN_SECONDS ) {
-					unset( $response_body['events'][ $key ] );
+				if ( $current_timestamp > $Event_timestamp && ( $current_timestamp - $Event_timestamp ) > DAY_IN_SECONDS ) {
+					unset( $response_body['Events'][ $key ] );
 				}
 			}
 
-			$response_body['events'] = array_slice( $response_body['events'], 0, 3 );
-			$trimmed_event_types     = wp_list_pluck( $response_body['events'], 'type' );
+			$response_body['Events'] = array_slice( $response_body['Events'], 0, 3 );
+			$trimmed_Event_types     = wp_list_pluck( $response_body['Events'], 'type' );
 
 			// Make sure the soonest upcoming WordCamps is pinned in the list.
-			if ( ! in_array( 'wordcamp', $trimmed_event_types ) && $wordcamps ) {
-				array_pop( $response_body['events'] );
-				array_push( $response_body['events'], $wordcamps[0] );
+			if ( ! in_array( 'wordcamp', $trimmed_Event_types ) && $wordcamps ) {
+				array_pop( $response_body['Events'] );
+				array_push( $response_body['Events'], $wordcamps[0] );
 			}
 		}
 
@@ -445,7 +445,7 @@ class WP_Community_Events {
 	 * @param array  $details Details that provide more context for the
 	 *                        log entry.
 	 */
-	protected function maybe_log_events_response( $message, $details ) {
+	protected function maybe_log_Events_response( $message, $details ) {
 		_deprecated_function( __METHOD__, '4.9.0' );
 
 		if ( ! WP_DEBUG_LOG ) {

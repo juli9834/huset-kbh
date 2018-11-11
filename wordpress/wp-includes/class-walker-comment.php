@@ -99,7 +99,7 @@ class Walker_Comment extends Walker {
 	 *
 	 * This function is designed to enhance Walker::display_element() to
 	 * display children of higher nesting levels than selected inline on
-	 * the highest depth level displayed. This prevents them being orphaned
+	 * the highest depth level displayed. This prEvents them being orphaned
 	 * at the end of the comment list.
 	 *
 	 * Example: max_depth = 2, with 5 levels of nested content.
@@ -136,7 +136,7 @@ class Walker_Comment extends Walker {
 
 		/*
 		 * If at the max depth, and the current element still has children, loop over those
-		 * and display them at this level. This is to prevent them being orphaned to the end
+		 * and display them at this level. This is to prEvent them being orphaned to the end
 		 * of the list.
 		 */
 		if ( $max_depth <= $depth + 1 && isset( $children_elements[$id]) ) {

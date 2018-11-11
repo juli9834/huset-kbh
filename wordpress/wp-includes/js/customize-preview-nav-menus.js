@@ -22,7 +22,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		/*
 		 * Keep track of whether we synced to determine whether or not bindSettingListener
 		 * should also initially fire the listener. This initial firing needs to wait until
-		 * after all of the settings have been synced from the pane in order to prevent
+		 * after all of the settings have been synced from the pane in order to prEvent
 		 * an infinite selective fallback-refresh. Note that this sync handler will be
 		 * added after the sync handler in customize-preview.js, so it will be triggered
 		 * after all of the settings are added.
@@ -139,12 +139,12 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 				}
 
 				/*
-				 * Prevent nav_menu_item changes only containing type_label differences triggering a refresh.
+				 * PrEvent nav_menu_item changes only containing type_label differences triggering a refresh.
 				 * These settings in the preview do not include type_label property, and so if one of these
 				 * nav_menu_item settings is dirty, after a refresh the nav menu instance would do a selective
 				 * refresh immediately because the setting from the pane would have the type_label whereas
-				 * the setting in the preview would not, thus triggering a change event. The following
-				 * condition short-circuits this unnecessary selective refresh and also prevents an infinite
+				 * the setting in the preview would not, thus triggering a change Event. The following
+				 * condition short-circuits this unnecessary selective refresh and also prEvents an infinite
 				 * loop in the case where a nav_menu_instance partial had done a fallback refresh.
 				 * @todo Nav menu item settings should not include a type_label property to begin with.
 				 */
@@ -155,7 +155,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 					delete _newValue.type_label;
 					delete _oldValue.type_label;
 
-					// Normalize URL scheme when parent frame is HTTPS to prevent selective refresh upon initial page load.
+					// Normalize URL scheme when parent frame is HTTPS to prEvent selective refresh upon initial page load.
 					if ( 'https' === api.preview.scheme.get() ) {
 						urlParser = document.createElement( 'a' );
 						urlParser.href = _newValue.url;
@@ -166,7 +166,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 						_oldValue.url = urlParser.href;
 					}
 
-					// Prevent original_title differences from causing refreshes if title is present.
+					// PrEvent original_title differences from causing refreshes if title is present.
 					if ( newValue.title ) {
 						delete _oldValue.original_title;
 						delete _newValue.original_title;
@@ -242,7 +242,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 
 				if ( api.selectiveRefresh.Partial.prototype.renderContent.call( partial, placement ) ) {
 
-					// Trigger deprecated event.
+					// Trigger deprecated Event.
 					$( document ).trigger( 'customize-preview-menu-refreshed', [ {
 						instanceNumber: null, // @deprecated
 						wpNavArgs: placement.context, // @deprecated
@@ -426,7 +426,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 
 			navMenuItemParts = $( this ).attr( 'class' ).match( /(?:^|\s)menu-item-(-?\d+)(?:\s|$)/ );
 			if ( navMenuItemParts ) {
-				e.preventDefault();
+				e.prEventDefault();
 				e.stopPropagation(); // Make sure a sub-nav menu item will get focused instead of parent items.
 				api.preview.send( 'focus-nav-menu-item-control', parseInt( navMenuItemParts[1], 10 ) );
 			}

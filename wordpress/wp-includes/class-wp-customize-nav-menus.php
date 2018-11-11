@@ -713,7 +713,7 @@ final class WP_Customize_Nav_Menus {
 
 		$this->manager->add_setting( new WP_Customize_Filter_Setting( $this->manager, 'nav_menus_created_posts', array(
 			'transport' => 'postMessage',
-			'type' => 'option', // To prevent theme prefix in changeset.
+			'type' => 'option', // To prEvent theme prefix in changeset.
 			'default' => array(),
 			'sanitize_callback' => array( $this, 'sanitize_nav_menus_created_posts' ),
 		) ) );
@@ -1240,7 +1240,7 @@ final class WP_Customize_Nav_Menus {
 		if ( ! empty( $post_ids ) ) {
 			foreach ( $post_ids as $post_id ) {
 
-				// Prevent overriding the status that a user may have prematurely updated the post to.
+				// PrEvent overriding the status that a user may have prematurely updated the post to.
 				$current_status = get_post_status( $post_id );
 				if ( 'auto-draft' !== $current_status && 'draft' !== $current_status ) {
 					continue;

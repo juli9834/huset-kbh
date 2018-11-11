@@ -1,7 +1,7 @@
 /* global postboxes, commentL10n */
 
 /**
- * @summary Binds to the document ready event.
+ * @summary Binds to the document ready Event.
  *
  * @since 2.5.0
  *
@@ -18,14 +18,14 @@ jQuery(document).ready( function($) {
 		$edittimestamp = $timestampdiv.siblings( 'a.edit-timestamp' );
 
 	/**
-	 * @summary Adds event that opens the time stamp form if the form is hidden.
+	 * @summary Adds Event that opens the time stamp form if the form is hidden.
 	 *
 	 * @listens $edittimestamp:click
 	 *
-	 * @param {Event} event The event object.
+	 * @param {Event} Event The Event object.
 	 * @returns {void}
 	 */
-	$edittimestamp.click( function( event ) {
+	$edittimestamp.click( function( Event ) {
 		if ( $timestampdiv.is( ':hidden' ) ) {
 			// Slide down the form and set focus on the first field.
 			$timestampdiv.slideDown( 'fast', function() {
@@ -33,7 +33,7 @@ jQuery(document).ready( function($) {
 			} );
 			$(this).hide();
 		}
-		event.preventDefault();
+		Event.prEventDefault();
 	});
 
 	/**
@@ -41,11 +41,11 @@ jQuery(document).ready( function($) {
 	 *
 	 * @listens .cancel-timestamp:click
 	 *
-	 * @param {Event} event The event object.
+	 * @param {Event} Event The Event object.
 	 * @returns {void}
 	 */
 
-	$timestampdiv.find('.cancel-timestamp').click( function( event ) {
+	$timestampdiv.find('.cancel-timestamp').click( function( Event ) {
 		// Move focus back to the Edit link.
 		$edittimestamp.show().focus();
 		$timestampdiv.slideUp( 'fast' );
@@ -55,7 +55,7 @@ jQuery(document).ready( function($) {
 		$('#hh').val($('#hidden_hh').val());
 		$('#mn').val($('#hidden_mn').val());
 		$timestamp.html( stamp );
-		event.preventDefault();
+		Event.prEventDefault();
 	});
 
 	/**
@@ -63,14 +63,14 @@ jQuery(document).ready( function($) {
 	 *
 	 * @listens .save-timestamp:click
 	 *
-	 * @param {Event} event The event object.
+	 * @param {Event} Event The Event object.
 	 * @returns {void}
 	 */
-	$timestampdiv.find('.save-timestamp').click( function( event ) { // crazyhorse - multiple ok cancels
+	$timestampdiv.find('.save-timestamp').click( function( Event ) { // crazyhorse - multiple ok cancels
 		var aa = $('#aa').val(), mm = $('#mm').val(), jj = $('#jj').val(), hh = $('#hh').val(), mn = $('#mn').val(),
 			newD = new Date( aa, mm - 1, jj, hh, mn );
 
-		event.preventDefault();
+		Event.prEventDefault();
 
 		if ( newD.getFullYear() != aa || (1 + newD.getMonth()) != mm || newD.getDate() != jj || newD.getMinutes() != mn ) {
 			$timestampwrap.addClass( 'form-invalid' );

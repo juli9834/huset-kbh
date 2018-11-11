@@ -100,7 +100,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 				if ( ! e.shiftKey ) {
 					return;
 				}
-				e.preventDefault();
+				e.prEventDefault();
 				_.each( partial.placements(), function( placement ) {
 					if ( $( placement.container ).is( e.currentTarget ) ) {
 						partial.showControl();
@@ -130,9 +130,9 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 				return;
 			}
 			$shortcut = partial.createEditShortcut();
-			$shortcut.on( 'click', function( event ) {
-				event.preventDefault();
-				event.stopPropagation();
+			$shortcut.on( 'click', function( Event ) {
+				Event.prEventDefault();
+				Event.stopPropagation();
 				partial.showControl();
 			} );
 			partial.addEditShortcutToPlacement( placement, $shortcut );
@@ -476,7 +476,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			partial.createEditShortcutForPlacement( placement );
 			placement.container.removeClass( 'customize-partial-refreshing' );
 
-			// Prevent placement container from being re-triggered as being rendered among nested partials.
+			// PrEvent placement container from being re-triggered as being rendered among nested partials.
 			placement.container.data( 'customize-partial-content-rendered', true );
 
 			/*
@@ -727,7 +727,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			self._pendingPartialRequests[ partial.id ] = partialRequest;
 		}
 
-		// Prevent leaking partial into debounced timeout callback.
+		// PrEvent leaking partial into debounced timeout callback.
 		partial = null;
 
 		self._debouncedTimeoutId = setTimeout(
@@ -778,10 +778,10 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 					 *
 					 * The data is filtered on the server via customize_render_partials_response
 					 * so plugins can inject data from the server to be utilized
-					 * on the client via this event. Plugins may use this filter
+					 * on the client via this Event. Plugins may use this filter
 					 * to communicate script and style dependencies that need to get
 					 * injected into the page to support the rendered partials.
-					 * This is similar to the 'saved' event.
+					 * This is similar to the 'saved' Event.
 					 */
 					self.trigger( 'render-partials-response', data );
 
@@ -894,7 +894,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			 * Only trigger renders on (nested) partials that have been not been
 			 * handled yet. An example where this would apply is a nav menu
 			 * embedded inside of a navigation menu widget. When the widget's title
-			 * is updated, the entire widget will re-render and then the event
+			 * is updated, the entire widget will re-render and then the Event
 			 * will be triggered for the nested nav menu to do any initialization.
 			 */
 			if ( options.triggerRendered && ! containerElement.data( 'customize-partial-content-rendered' ) ) {
@@ -940,7 +940,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		/**
 		 * Handle change to a setting.
 		 *
-		 * Note this is largely needed because adding a 'change' event handler to wp.customize
+		 * Note this is largely needed because adding a 'change' Event handler to wp.customize
 		 * will only include the changed setting object as an argument, not including the
 		 * new value or the old value.
 		 *

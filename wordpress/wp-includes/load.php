@@ -288,7 +288,7 @@ function timer_stop( $display = 0, $precision = 3 ) {
  * is true.
  *
  * When `WP_DEBUG_DISPLAY` is true, WordPress will force errors to be displayed.
- * `WP_DEBUG_DISPLAY` defaults to true. Defining it as null prevents WordPress
+ * `WP_DEBUG_DISPLAY` defaults to true. Defining it as null prEvents WordPress
  * from changing the global configuration setting. Defining `WP_DEBUG_DISPLAY`
  * as false will force errors to be hidden.
  *

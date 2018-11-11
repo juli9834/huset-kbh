@@ -29,7 +29,7 @@
 /**
  * Styles for the actual shortcut
  *
- * Note that some properties are overly verbose to prevent theme interference.
+ * Note that some properties are overly verbose to prEvent theme interference.
  */
 .widget .customize-partial-edit-shortcut button,
 .customize-partial-edit-shortcut button {
@@ -57,7 +57,7 @@
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
 	opacity: 0;
-	pointer-events: none;
+	pointer-Events: none;
 	text-shadow: 0 -1px 1px #006799,
 	             -1px 0 1px #006799,
 	             0 1px 1px #006799,
@@ -87,12 +87,12 @@
 body.customize-partial-edit-shortcuts-shown .customize-partial-edit-shortcut button {
 	-webkit-animation-name: customize-partial-edit-shortcut-bounce-appear;
 	animation-name: customize-partial-edit-shortcut-bounce-appear;
-	pointer-events: auto;
+	pointer-Events: auto;
 }
 body.customize-partial-edit-shortcuts-hidden .customize-partial-edit-shortcut button {
 	-webkit-animation-name: customize-partial-edit-shortcut-bounce-disappear;
 	animation-name: customize-partial-edit-shortcut-bounce-disappear;
-	pointer-events: none;
+	pointer-Events: none;
 }
 
 .page-sidebar-collapsed .customize-partial-edit-shortcut button,

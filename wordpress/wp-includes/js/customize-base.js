@@ -29,7 +29,7 @@ window.wp = window.wp || {};
 		} else {
 			child = function() {
 				// Storing the result `super()` before returning the value
-				// prevents a bug in Opera where, if the constructor returns
+				// prEvents a bug in Opera where, if the constructor returns
 				// a function, Opera will reject the return value in favor of
 				// the original object. This causes all sorts of trouble.
 				var result = parent.apply( this, arguments );
@@ -138,7 +138,7 @@ window.wp = window.wp || {};
 	};
 
 	/**
-	 * An events manager object, offering the ability to bind to and trigger events.
+	 * An Events manager object, offering the ability to bind to and trigger Events.
 	 *
 	 * Used as a mixin.
 	 */
@@ -188,7 +188,7 @@ window.wp = window.wp || {};
 
 		/*
 		 * Magic. Returns a function that will become the instance.
-		 * Set to null to prevent the instance from extending a function.
+		 * Set to null to prEvent the instance from extending a function.
 		 */
 		instance: function() {
 			return arguments.length ? this.set.apply( this, arguments ) : this.get();
@@ -400,7 +400,7 @@ window.wp = window.wp || {};
 			collection._value[ id ] = instance;
 			instance.parent = collection;
 
-			// Propagate a 'change' event on an item up to the collection.
+			// Propagate a 'change' Event on an item up to the collection.
 			if ( instance.extended( api.Value ) ) {
 				instance.bind( collection._change );
 			}
@@ -452,7 +452,7 @@ window.wp = window.wp || {};
 
 			if ( value ) {
 
-				// Trigger event right before the element is removed from the collection.
+				// Trigger Event right before the element is removed from the collection.
 				this.trigger( 'remove', value );
 
 				if ( value.extended( api.Value ) ) {
@@ -464,7 +464,7 @@ window.wp = window.wp || {};
 			delete this._value[ id ];
 			delete this._deferreds[ id ];
 
-			// Trigger removed event after the item has been eliminated from the collection.
+			// Trigger removed Event after the item has been eliminated from the collection.
 			if ( value ) {
 				this.trigger( 'removed', value );
 			}
@@ -524,7 +524,7 @@ window.wp = window.wp || {};
 		},
 
 		/**
-		 * A helper function to propagate a 'change' event from an item
+		 * A helper function to propagate a 'change' Event from an item
 		 * to the collection itself.
 		 */
 		_change: function() {
@@ -532,7 +532,7 @@ window.wp = window.wp || {};
 		}
 	});
 
-	// Create a global events bus on the Customizer.
+	// Create a global Events bus on the Customizer.
 	$.extend( api.Values.prototype, api.Events );
 
 
@@ -564,11 +564,11 @@ window.wp = window.wp || {};
 				type, update, refresh;
 
 			this.element = api.ensure( element );
-			this.events = '';
+			this.Events = '';
 
 			if ( this.element.is( 'input, select, textarea' ) ) {
 				type = this.element.prop( 'type' );
-				this.events += ' change input';
+				this.Events += ' change input';
 				synchronizer = api.Element.synchronizer.val;
 
 				if ( this.element.is( 'input' ) && api.Element.synchronizer[ type ] ) {
@@ -592,7 +592,7 @@ window.wp = window.wp || {};
 			};
 
 			this.bind( this.update );
-			this.element.bind( this.events, this.refresh );
+			this.element.bind( this.Events, this.refresh );
 		},
 
 		find: function( selector ) {
@@ -682,7 +682,7 @@ window.wp = window.wp || {};
 			this.add( 'origin', this.url() ).link( this.url ).setter( function( to ) {
 				var urlParser = document.createElement( 'a' );
 				urlParser.href = to;
-				// Port stripping needed by IE since it adds to host but not to event.origin.
+				// Port stripping needed by IE since it adds to host but not to Event.origin.
 				return urlParser.protocol + '//' + urlParser.host.replace( /:(80|443)$/, '' );
 			});
 
@@ -713,7 +713,7 @@ window.wp = window.wp || {};
 			// Since we want jQuery to treat the receive function as unique
 			// to this instance, we give the function a new guid.
 			//
-			// This will prevent every Messenger's receive function from being
+			// This will prEvent every Messenger's receive function from being
 			// unbound when calling $.off( 'message', this.receive );
 			this.receive = $.proxy( this.receive, this );
 			this.receive.guid = $.guid++;
@@ -728,27 +728,27 @@ window.wp = window.wp || {};
 		/**
 		 * Receive data from the other window.
 		 *
-		 * @param  {jQuery.Event} event Event with embedded data.
+		 * @param  {jQuery.Event} Event Event with embedded data.
 		 */
-		receive: function( event ) {
+		receive: function( Event ) {
 			var message;
 
-			event = event.originalEvent;
+			Event = Event.originalEvent;
 
 			if ( ! this.targetWindow || ! this.targetWindow() ) {
 				return;
 			}
 
 			// Check to make sure the origin is valid.
-			if ( this.origin() && event.origin !== this.origin() )
+			if ( this.origin() && Event.origin !== this.origin() )
 				return;
 
 			// Ensure we have a string that's JSON.parse-able
-			if ( typeof event.data !== 'string' || event.data[0] !== '{' ) {
+			if ( typeof Event.data !== 'string' || Event.data[0] !== '{' ) {
 				return;
 			}
 
-			message = JSON.parse( event.data );
+			message = JSON.parse( Event.data );
 
 			// Check required message properties.
 			if ( ! message || ! message.id || typeof message.data === 'undefined' )
@@ -764,7 +764,7 @@ window.wp = window.wp || {};
 		/**
 		 * Send data to the other window.
 		 *
-		 * @param  {string} id   The event name.
+		 * @param  {string} id   The Event name.
 		 * @param  {object} data Data.
 		 */
 		send: function( id, data ) {
@@ -885,8 +885,8 @@ window.wp = window.wp || {};
 			container = $( notification.template( data ) );
 
 			if ( notification.dismissible ) {
-				container.find( '.notice-dismiss' ).on( 'click keydown', function( event ) {
-					if ( 'keydown' === event.type && 13 !== event.which ) {
+				container.find( '.notice-dismiss' ).on( 'click keydown', function( Event ) {
+					if ( 'keydown' === Event.type && 13 !== Event.which ) {
 						return;
 					}
 

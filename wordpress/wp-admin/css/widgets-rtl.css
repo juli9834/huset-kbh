@@ -625,13 +625,13 @@ div#widgets-right .closed .widgets-sortables {
 .widget-liquid-left #widgets-left.chooser .inactive-sidebar {
 	/* -webkit-filter: blur(1px); */
 	opacity: 0.2;
-	pointer-events: none;
+	pointer-Events: none;
 }
 
 .widget-liquid-left #widgets-left.chooser #available-widgets .widget-in-question {
 	/* -webkit-filter: none; */
 	opacity: 1;
-	pointer-events: auto;
+	pointer-Events: auto;
 }
 
 .widgets-chooser ul,

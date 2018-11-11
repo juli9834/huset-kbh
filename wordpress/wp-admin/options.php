@@ -26,7 +26,7 @@ wp_reset_vars(array('action', 'option_page'));
 
 $capability = 'manage_options';
 
-// This is for back compat and will eventually be removed.
+// This is for back compat and will Eventually be removed.
 if ( empty($option_page) ) {
 	$option_page = 'options';
 } else {
@@ -202,7 +202,7 @@ $whitelist_options = apply_filters( 'whitelist_options', $whitelist_options );
  * If $_GET['action'] == 'update' we are saving settings sent from a settings page
  */
 if ( 'update' == $action ) {
-	if ( 'options' == $option_page && !isset( $_POST['option_page'] ) ) { // This is for back compat and will eventually be removed.
+	if ( 'options' == $option_page && !isset( $_POST['option_page'] ) ) { // This is for back compat and will Eventually be removed.
 		$unregistered = true;
 		check_admin_referer( 'update-options' );
 	} else {

@@ -10,7 +10,7 @@
  *
  * POP3 class
  *
- * @copyright 1999-2011 The SquirrelMail Project Team
+ * @copyright 1999-2011 The SquirrelMail Event Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @package plugins
  * @subpackage mail_fetch

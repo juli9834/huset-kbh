@@ -277,12 +277,12 @@ Manage = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Manage.prototype 
 	},
 
 	/**
-	 * Bind region mode activation events to proper handlers.
+	 * Bind region mode activation Events to proper handlers.
 	 */
 	bindRegionModeHandlers: function() {
 		this.on( 'content:create:browse', this.browseContent, this );
 
-		// Handle a frame-level event for editing an attachment.
+		// Handle a frame-level Event for editing an attachment.
 		this.on( 'edit:attachment', this.openEditAttachmentModal, this );
 
 		this.on( 'select:activate', this.bindKeydown, this );
@@ -291,7 +291,7 @@ Manage = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Manage.prototype 
 
 	handleKeydown: function( e ) {
 		if ( 27 === e.which ) {
-			e.preventDefault();
+			e.prEventDefault();
 			this.deactivateMode( 'select' ).activateMode( 'edit' );
 		}
 	},
@@ -326,8 +326,8 @@ Manage = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Manage.prototype 
 	/**
 	 * Click handler for the `Add New` button.
 	 */
-	addNewClickHandler: function( event ) {
-		event.preventDefault();
+	addNewClickHandler: function( Event ) {
+		Event.prEventDefault();
 		this.trigger( 'toggle:upload:attachment' );
 
 		if ( this.uploader ) {
@@ -448,9 +448,9 @@ TwoColumn = Details.extend(/** @lends wp.media.view.Attachment.Details.TowColumn
 		Details.prototype.initialize.apply( this, arguments );
 	},
 
-	editAttachment: function( event ) {
-		if ( event ) {
-			event.preventDefault();
+	editAttachment: function( Event ) {
+		if ( Event ) {
+			Event.prEventDefault();
 		}
 		this.controller.content.mode( 'edit-image' );
 	},
@@ -509,7 +509,7 @@ var Router = Backbone.Router.extend(/** @lends wp.media.view.MediaFrame.Manage.R
 		}
 	},
 
-	// Respond to the search route by filling the search field and trigggering the input event
+	// Respond to the search route by filling the search field and trigggering the input Event
 	search: function( query ) {
 		jQuery( '#media-search-input' ).val( query ).trigger( 'input' );
 	},
@@ -622,7 +622,7 @@ EditAttachments = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.EditAtta
 	template:  wp.template( 'edit-attachment-frame' ),
 	regions:   [ 'title', 'content' ],
 
-	events: {
+	Events: {
 		'click .left':  'previousMediaItem',
 		'click .right': 'nextMediaItem'
 	},
@@ -684,7 +684,7 @@ EditAttachments = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.EditAtta
 
 			// Completely destroy the modal DOM element when closing it.
 			this.modal.on( 'close', _.bind( function() {
-				$( 'body' ).off( 'keydown.media-modal' ); /* remove the keydown event */
+				$( 'body' ).off( 'keydown.media-modal' ); /* remove the keydown Event */
 				// Restore the original focus item if possible
 				$( 'li.attachment[data-id="' + this.model.get( 'id' ) +'"]' ).focus();
 				this.resetRoute();
@@ -824,20 +824,20 @@ EditAttachments = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.EditAtta
 		return ( this.getCurrentIndex() - 1 ) > -1;
 	},
 	/**
-	 * Respond to the keyboard events: right arrow, left arrow, except when
+	 * Respond to the keyboard Events: right arrow, left arrow, except when
 	 * focus is in a textarea or input field.
 	 */
-	keyEvent: function( event ) {
-		if ( ( 'INPUT' === event.target.nodeName || 'TEXTAREA' === event.target.nodeName ) && ! ( event.target.readOnly || event.target.disabled ) ) {
+	keyEvent: function( Event ) {
+		if ( ( 'INPUT' === Event.target.nodeName || 'TEXTAREA' === Event.target.nodeName ) && ! ( Event.target.readOnly || Event.target.disabled ) ) {
 			return;
 		}
 
 		// The right arrow key
-		if ( 39 === event.keyCode ) {
+		if ( 39 === Event.keyCode ) {
 			this.nextMediaItem();
 		}
 		// The left arrow key
-		if ( 37 === event.keyCode ) {
+		if ( 37 === Event.keyCode ) {
 			this.previousMediaItem();
 		}
 	},

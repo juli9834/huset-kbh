@@ -2,7 +2,7 @@
 /**
  * Twenty Sixteen back compat functionality
  *
- * Prevents Twenty Sixteen from running on WordPress versions prior to 4.4,
+ * PrEvents Twenty Sixteen from running on WordPress versions prior to 4.4,
  * since this theme is not meant to be backward compatible beyond that and
  * relies on many newer functions and markup changes introduced in 4.4.
  *
@@ -12,7 +12,7 @@
  */
 
 /**
- * Prevent switching to Twenty Sixteen on old versions of WordPress.
+ * PrEvent switching to Twenty Sixteen on old versions of WordPress.
  *
  * Switches to the default theme.
  *
@@ -43,7 +43,7 @@ function twentysixteen_upgrade_notice() {
 }
 
 /**
- * Prevents the Customizer from being loaded on WordPress versions prior to 4.4.
+ * PrEvents the Customizer from being loaded on WordPress versions prior to 4.4.
  *
  * @since Twenty Sixteen 1.0
  *
@@ -57,7 +57,7 @@ function twentysixteen_customize() {
 add_action( 'load-customize.php', 'twentysixteen_customize' );
 
 /**
- * Prevents the Theme Preview from being loaded on WordPress versions prior to 4.4.
+ * PrEvents the Theme Preview from being loaded on WordPress versions prior to 4.4.
  *
  * @since Twenty Sixteen 1.0
  *

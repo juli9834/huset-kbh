@@ -2,7 +2,7 @@
  * Heartbeat API
  *
  * Heartbeat is a simple server polling API that sends XHR requests to
- * the server every 15 - 60 seconds and triggers events (or callbacks) upon
+ * the server every 15 - 60 seconds and triggers Events (or callbacks) upon
  * receiving data. Currently these 'ticks' handle transports for post locking,
  * login-expiration warnings, autosave, and related tasks while a user is logged in.
  *
@@ -15,7 +15,7 @@
  * - heartbeat_nopriv_tick
  * @see wp_ajax_nopriv_heartbeat(), wp_ajax_heartbeat()
  *
- * Custom jQuery events:
+ * Custom jQuery Events:
  * - heartbeat-send
  * - heartbeat-tick
  * - heartbeat-error
@@ -81,7 +81,7 @@
 				// Timestamp, last time the user was active. Checked every 30 sec.
 				userActivity: 0,
 
-				// Flags whether events tracking user activity were set
+				// Flags whether Events tracking user activity were set
 				userActivityEvents: false,
 
 				checkFocusTimer: 0,
@@ -89,7 +89,7 @@
 			};
 
 		/**
-		 * Set local vars and events, then start
+		 * Set local vars and Events, then start
 		 *
 		 * @access private
 		 *
@@ -271,7 +271,7 @@
 		}
 
 		/**
-		 * Set error state and fire an event on XHR errors or timeout
+		 * Set error state and fire an Event on XHR errors or timeout
 		 *
 		 * @access private
 		 *
@@ -317,7 +317,7 @@
 		}
 
 		/**
-		 * Clear the error state and fire an event
+		 * Clear the error state and fire an Event
 		 *
 		 * @access private
 		 *
@@ -670,8 +670,8 @@
 		 * Enqueue data to send with the next XHR
 		 *
 		 * As the data is send asynchronously, this function doesn't return the XHR response.
-		 * To see the response, use the custom jQuery event 'heartbeat-tick' on the document, example:
-		 *		$(document).on( 'heartbeat-tick.myname', function( event, data, textStatus, jqXHR ) {
+		 * To see the response, use the custom jQuery Event 'heartbeat-tick' on the document, example:
+		 *		$(document).on( 'heartbeat-tick.myname', function( Event, data, textStatus, jqXHR ) {
 		 *			// code
 		 *		});
 		 * If the same 'handle' is used more than once, the data is not overwritten when the third argument is 'true'.

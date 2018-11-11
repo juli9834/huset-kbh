@@ -228,7 +228,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 						<img src="https://s.w.org/images/core/4.9/locking.svg" alt="">
 					</div>
 					<h3><?php _e( 'Design Locking To Guard Your Changes' ); ?></h3>
-					<p><?php _e( 'Ever encounter a scenario where two designers walk into a project and designer A overrides designer B&#8217;s beautiful changes? WordPress 4.9&#8217;s design lock feature (similar to post locking) secures your draft design so that no one can make changes to it or erase all your hard work.' );?></p>
+					<p><?php _e( 'Ever encounter a scenario where two designers walk into a Event and designer A overrides designer B&#8217;s beautiful changes? WordPress 4.9&#8217;s design lock feature (similar to post locking) secures your draft design so that no one can make changes to it or erase all your hard work.' );?></p>
 				</div>
 				<div class="section-item">
 					<div class="inline-svg">
@@ -334,7 +334,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				?>
 			</h2>
 			<p><?php printf(
-				__( 'WordPress is working on a new way to create and control your content and we&#8217;d love to have your help. Interested in being an <a href="%s">early tester</a> or getting involved with the Gutenberg project? <a href="%s">Contribute on GitHub</a>.' ),
+				__( 'WordPress is working on a new way to create and control your content and we&#8217;d love to have your help. Interested in being an <a href="%s">early tester</a> or getting involved with the Gutenberg Event? <a href="%s">Contribute on GitHub</a>.' ),
 				__( 'https://wordpress.org/plugins/gutenberg/' ),
 				'https://github.com/WordPress/gutenberg' ); ?></p>
 		</div>

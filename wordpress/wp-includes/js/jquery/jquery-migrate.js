@@ -15,7 +15,7 @@ var warnedAbout = {};
 // List of warnings already given; public read only
 jQuery.migrateWarnings = [];
 
-// Set to true to prevent console output; migrateWarnings still maintained
+// Set to true to prEvent console output; migrateWarnings still maintained
 // jQuery.migrateMute = false;
 
 // Show a message on the console so devs know we're active
@@ -439,11 +439,11 @@ jQuery.fn.data = function( name ) {
 		elem = this[0];
 
 	// Handles 1.7 which has this behavior and 1.8 which doesn't
-	if ( elem && name === "events" && arguments.length === 1 ) {
+	if ( elem && name === "Events" && arguments.length === 1 ) {
 		ret = jQuery.data( elem, name );
 		evt = jQuery._data( elem, name );
 		if ( ( ret === undefined || ret === evt ) && evt !== undefined ) {
-			migrateWarn("Use of jQuery.fn.data('events') is deprecated");
+			migrateWarn("Use of jQuery.fn.data('Events') is deprecated");
 			return evt;
 		}
 	}
@@ -503,9 +503,9 @@ if ( !jQuery.clean ) {
 	};
 }
 
-var eventAdd = jQuery.event.add,
-	eventRemove = jQuery.event.remove,
-	eventTrigger = jQuery.event.trigger,
+var EventAdd = jQuery.Event.add,
+	EventRemove = jQuery.Event.remove,
+	EventTrigger = jQuery.Event.trigger,
 	oldToggle = jQuery.fn.toggle,
 	oldLive = jQuery.fn.live,
 	oldDie = jQuery.fn.die,
@@ -513,35 +513,35 @@ var eventAdd = jQuery.event.add,
 	ajaxEvents = "ajaxStart|ajaxStop|ajaxSend|ajaxComplete|ajaxError|ajaxSuccess",
 	rajaxEvent = new RegExp( "\\b(?:" + ajaxEvents + ")\\b" ),
 	rhoverHack = /(?:^|\s)hover(\.\S+|)\b/,
-	hoverHack = function( events ) {
-		if ( typeof( events ) !== "string" || jQuery.event.special.hover ) {
-			return events;
+	hoverHack = function( Events ) {
+		if ( typeof( Events ) !== "string" || jQuery.Event.special.hover ) {
+			return Events;
 		}
-		if ( rhoverHack.test( events ) ) {
-			migrateWarn("'hover' pseudo-event is deprecated, use 'mouseenter mouseleave'");
+		if ( rhoverHack.test( Events ) ) {
+			migrateWarn("'hover' pseudo-Event is deprecated, use 'mouseenter mouseleave'");
 		}
-		return events && events.replace( rhoverHack, "mouseenter$1 mouseleave$1" );
+		return Events && Events.replace( rhoverHack, "mouseenter$1 mouseleave$1" );
 	};
 
 // Event props removed in 1.9, put them back if needed; no practical way to warn them
-if ( jQuery.event.props && jQuery.event.props[ 0 ] !== "attrChange" ) {
-	jQuery.event.props.unshift( "attrChange", "attrName", "relatedNode", "srcElement" );
+if ( jQuery.Event.props && jQuery.Event.props[ 0 ] !== "attrChange" ) {
+	jQuery.Event.props.unshift( "attrChange", "attrName", "relatedNode", "srcElement" );
 }
 
-// Undocumented jQuery.event.handle was "deprecated" in jQuery 1.7
-if ( jQuery.event.dispatch ) {
-	migrateWarnProp( jQuery.event, "handle", jQuery.event.dispatch, "jQuery.event.handle is undocumented and deprecated" );
+// Undocumented jQuery.Event.handle was "deprecated" in jQuery 1.7
+if ( jQuery.Event.dispatch ) {
+	migrateWarnProp( jQuery.Event, "handle", jQuery.Event.dispatch, "jQuery.Event.handle is undocumented and deprecated" );
 }
 
-// Support for 'hover' pseudo-event and ajax event warnings
-jQuery.event.add = function( elem, types, handler, data, selector ){
+// Support for 'hover' pseudo-Event and ajax Event warnings
+jQuery.Event.add = function( elem, types, handler, data, selector ){
 	if ( elem !== document && rajaxEvent.test( types ) ) {
-		migrateWarn( "AJAX events should be attached to document: " + types );
+		migrateWarn( "AJAX Events should be attached to document: " + types );
 	}
-	eventAdd.call( this, elem, hoverHack( types || "" ), handler, data, selector );
+	EventAdd.call( this, elem, hoverHack( types || "" ), handler, data, selector );
 };
-jQuery.event.remove = function( elem, types, handler, selector, mappedTypes ){
-	eventRemove.call( this, elem, hoverHack( types ) || "", handler, selector, mappedTypes );
+jQuery.Event.remove = function( elem, types, handler, selector, mappedTypes ){
+	EventRemove.call( this, elem, hoverHack( types ) || "", handler, selector, mappedTypes );
 };
 
 jQuery.each( [ "load", "unload", "error" ], function( _, name ) {
@@ -550,7 +550,7 @@ jQuery.each( [ "load", "unload", "error" ], function( _, name ) {
 		var args = Array.prototype.slice.call( arguments, 0 );
 
 		// If this is an ajax load() the first arg should be the string URL;
-		// technically this could also be the "Anything" arg of the event .load()
+		// technically this could also be the "Anything" arg of the Event .load()
 		// which just goes to show why this dumb signature has been deprecated!
 		// jQuery custom builds that exclude the Ajax module justifiably die here.
 		if ( name === "load" && typeof args[ 0 ] === "string" ) {
@@ -565,8 +565,8 @@ jQuery.each( [ "load", "unload", "error" ], function( _, name ) {
 		}
 
 		// Use .triggerHandler here because:
-		// - load and unload events don't need to bubble, only applied to window or image
-		// - error event should not bubble to window, although it does pre-1.7
+		// - load and unload Events don't need to bubble, only applied to window or image
+		// - error Event should not bubble to window, although it does pre-1.7
 		// See http://bugs.jquery.com/ticket/11820
 		this.triggerHandler.apply( this, args );
 		return this;
@@ -586,13 +586,13 @@ jQuery.fn.toggle = function( fn, fn2 ) {
 	var args = arguments,
 		guid = fn.guid || jQuery.guid++,
 		i = 0,
-		toggler = function( event ) {
+		toggler = function( Event ) {
 			// Figure out which function to execute
 			var lastToggle = ( jQuery._data( this, "lastToggle" + fn.guid ) || 0 ) % i;
 			jQuery._data( this, "lastToggle" + fn.guid, lastToggle + 1 );
 
 			// Make sure that clicks stop
-			event.preventDefault();
+			Event.prEventDefault();
 
 			// and execute the function
 			return args[ lastToggle ].apply( this, arguments ) || false;
@@ -625,23 +625,23 @@ jQuery.fn.die = function( types, fn ) {
 	return this;
 };
 
-// Turn global events into document-triggered events
-jQuery.event.trigger = function( event, data, elem, onlyHandlers  ){
-	if ( !elem && !rajaxEvent.test( event ) ) {
-		migrateWarn( "Global events are undocumented and deprecated" );
+// Turn global Events into document-triggered Events
+jQuery.Event.trigger = function( Event, data, elem, onlyHandlers  ){
+	if ( !elem && !rajaxEvent.test( Event ) ) {
+		migrateWarn( "Global Events are undocumented and deprecated" );
 	}
-	return eventTrigger.call( this,  event, data, elem || document, onlyHandlers  );
+	return EventTrigger.call( this,  Event, data, elem || document, onlyHandlers  );
 };
 jQuery.each( ajaxEvents.split("|"),
 	function( _, name ) {
-		jQuery.event.special[ name ] = {
+		jQuery.Event.special[ name ] = {
 			setup: function() {
 				var elem = this;
 
 				// The document needs no shimming; must be !== for oldIE
 				if ( elem !== document ) {
-					jQuery.event.add( document, name + "." + jQuery.guid, function() {
-						jQuery.event.trigger( name, Array.prototype.slice.call( arguments, 1 ), elem, true );
+					jQuery.Event.add( document, name + "." + jQuery.guid, function() {
+						jQuery.Event.trigger( name, Array.prototype.slice.call( arguments, 1 ), elem, true );
 					});
 					jQuery._data( this, name, jQuery.guid++ );
 				}
@@ -649,7 +649,7 @@ jQuery.each( ajaxEvents.split("|"),
 			},
 			teardown: function() {
 				if ( this !== document ) {
-					jQuery.event.remove( document, name + "." + jQuery._data( this, name ) );
+					jQuery.Event.remove( document, name + "." + jQuery._data( this, name ) );
 				}
 				return false;
 			}
@@ -657,10 +657,10 @@ jQuery.each( ajaxEvents.split("|"),
 	}
 );
 
-jQuery.event.special.ready = {
+jQuery.Event.special.ready = {
 	setup: function() {
 		if ( this === document ) {
-			migrateWarn( "'ready' event is deprecated" );
+			migrateWarn( "'ready' Event is deprecated" );
 		}
 	}
 };

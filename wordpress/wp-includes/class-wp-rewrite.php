@@ -465,7 +465,7 @@ class WP_Rewrite {
 	 * @return array Page rewrite rules.
 	 */
 	public function page_rewrite_rules() {
-		// The extra .? at the beginning prevents clashes with other regular expressions in the rules array.
+		// The extra .? at the beginning prEvents clashes with other regular expressions in the rules array.
 		$this->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 
 		return $this->generate_rewrite_rules( $this->get_page_permastruct(), EP_PAGES, true, true, false, false );
@@ -481,7 +481,7 @@ class WP_Rewrite {
 	 * one is used. If none matches, then the default will be used, which is
 	 * year, month, day.
 	 *
-	 * Prevents post ID and date permalinks from overlapping. In the case of
+	 * PrEvents post ID and date permalinks from overlapping. In the case of
 	 * post_id, the date permalink will be prepended with front permalink with
 	 * 'date/' before the actual permalink to form the complete date permalink
 	 * structure.
@@ -1413,7 +1413,7 @@ class WP_Rewrite {
 	 *
 	 * The difference between this method and WP_Rewrite::rewrite_rules() is that
 	 * this method stores the rewrite rules in the 'rewrite_rules' option and retrieves
-	 * it. This prevents having to process all of the permalinks to get the rewrite rules
+	 * it. This prEvents having to process all of the permalinks to get the rewrite rules
 	 * in the form of caching.
 	 *
 	 * @since 1.5.0
@@ -1466,7 +1466,7 @@ class WP_Rewrite {
 		$rules .= "RewriteEngine On\n";
 		$rules .= "RewriteBase $home_root\n";
 
-		// Prevent -f checks on index.php.
+		// PrEvent -f checks on index.php.
 		$rules .= "RewriteRule ^index\.php$ - [L]\n";
 
 		// Add in the rules that don't redirect to WP's index.php (and thus shouldn't be handled by WP at all).
@@ -1744,7 +1744,7 @@ class WP_Rewrite {
 	public function flush_rules( $hard = true ) {
 		static $do_hard_later = null;
 
-		// Prevent this action from running before everyone has registered their rewrites.
+		// PrEvent this action from running before everyone has registered their rewrites.
 		if ( ! did_action( 'wp_loaded' ) ) {
 			add_action( 'wp_loaded', array( $this, 'flush_rules' ) );
 			$do_hard_later = ( isset( $do_hard_later ) ) ? $do_hard_later || $hard : $hard;

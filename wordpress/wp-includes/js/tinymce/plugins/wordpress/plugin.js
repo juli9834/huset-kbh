@@ -92,38 +92,38 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
         window.wpActiveEditor = editor.id;
     });
 
-	editor.on( 'BeforeSetContent', function( event ) {
+	editor.on( 'BeforeSetContent', function( Event ) {
 		var title;
 
-		if ( event.content ) {
-			if ( event.content.indexOf( '<!--more' ) !== -1 ) {
+		if ( Event.content ) {
+			if ( Event.content.indexOf( '<!--more' ) !== -1 ) {
 				title = __( 'Read more...' );
 
-				event.content = event.content.replace( /<!--more(.*?)-->/g, function( match, moretext ) {
+				Event.content = Event.content.replace( /<!--more(.*?)-->/g, function( match, moretext ) {
 					return '<img src="' + tinymce.Env.transparentSrc + '" data-wp-more="more" data-wp-more-text="' + moretext + '" ' +
 						'class="wp-more-tag mce-wp-more" alt="" title="' + title + '" data-mce-resize="false" data-mce-placeholder="1" />';
 				});
 			}
 
-			if ( event.content.indexOf( '<!--nextpage-->' ) !== -1 ) {
+			if ( Event.content.indexOf( '<!--nextpage-->' ) !== -1 ) {
 				title = __( 'Page break' );
 
-				event.content = event.content.replace( /<!--nextpage-->/g,
+				Event.content = Event.content.replace( /<!--nextpage-->/g,
 					'<img src="' + tinymce.Env.transparentSrc + '" data-wp-more="nextpage" class="wp-more-tag mce-wp-nextpage" ' +
 						'alt="" title="' + title + '" data-mce-resize="false" data-mce-placeholder="1" />' );
 			}
 
-			if ( event.load && event.format !== 'raw' ) {
+			if ( Event.load && Event.format !== 'raw' ) {
 				if ( hasWpautop ) {
-					event.content = wp.editor.autop( event.content );
+					Event.content = wp.editor.autop( Event.content );
 				} else {
-					// Prevent creation of paragraphs out of multiple HTML comments.
-					event.content = event.content.replace( /-->\s+<!--/g, '--><!--' );
+					// PrEvent creation of paragraphs out of multiple HTML comments.
+					Event.content = Event.content.replace( /-->\s+<!--/g, '--><!--' );
 				}
 			}
 
-			if ( event.content.indexOf( '<script' ) !== -1 || event.content.indexOf( '<style' ) !== -1 ) {
-				event.content = event.content.replace( /<(script|style)[^>]*>[\s\S]*?<\/\1>/g, function( match, tag ) {
+			if ( Event.content.indexOf( '<script' ) !== -1 || Event.content.indexOf( '<style' ) !== -1 ) {
+				Event.content = Event.content.replace( /<(script|style)[^>]*>[\s\S]*?<\/\1>/g, function( match, tag ) {
 					return '<img ' +
 						'src="' + tinymce.Env.transparentSrc + '" ' +
 						'data-wp-preserve="' + encodeURIComponent( match ) + '" ' +
@@ -152,9 +152,9 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		} );
 	});
 
-	editor.on( 'PostProcess', function( event ) {
-		if ( event.get ) {
-			event.content = event.content.replace(/<img[^>]+>/g, function( image ) {
+	editor.on( 'PostProcess', function( Event ) {
+		if ( Event.get ) {
+			Event.content = Event.content.replace(/<img[^>]+>/g, function( image ) {
 				var match,
 					string,
 					moretext = '';
@@ -179,11 +179,11 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	});
 
 	// Display the tag name instead of img in element path
-	editor.on( 'ResolveName', function( event ) {
+	editor.on( 'ResolveName', function( Event ) {
 		var attr;
 
-		if ( event.target.nodeName === 'IMG' && ( attr = editor.dom.getAttrib( event.target, 'data-wp-more' ) ) ) {
-			event.name = attr;
+		if ( Event.target.nodeName === 'IMG' && ( attr = editor.dom.getAttrib( Event.target, 'data-wp-more' ) ) ) {
+			Event.name = attr;
 		}
 	});
 
@@ -383,11 +383,11 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			if ( $wrap[0] ) {
 				$wrap.attr( 'tabindex', '0' );
 				$wrap[0].focus();
-				$wrap.on( 'keydown', function( event ) {
-					// Prevent use of: page up, page down, end, home, left arrow, up arrow, right arrow, down arrow
+				$wrap.on( 'keydown', function( Event ) {
+					// PrEvent use of: page up, page down, end, home, left arrow, up arrow, right arrow, down arrow
 					// in the dialog keydown handler.
-					if ( event.keyCode >= 33 && event.keyCode <= 40 ) {
-						event.stopPropagation();
+					if ( Event.keyCode >= 33 && Event.keyCode <= 40 ) {
+						Event.stopPropagation();
 					}
 				});
 			}
@@ -514,9 +514,9 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		});
 
 		// Remove invalid parent paragraphs when inserting HTML
-		editor.on( 'BeforeSetContent', function( event ) {
-			if ( event.content ) {
-				event.content = event.content.replace( /<p>\s*<(p|div|ul|ol|dl|table|blockquote|h[1-6]|fieldset|pre)( [^>]*)?>/gi, '<$1$2>' )
+		editor.on( 'BeforeSetContent', function( Event ) {
+			if ( Event.content ) {
+				Event.content = Event.content.replace( /<p>\s*<(p|div|ul|ol|dl|table|blockquote|h[1-6]|fieldset|pre)( [^>]*)?>/gi, '<$1$2>' )
 					.replace( /<\/(p|div|ul|ol|dl|table|blockquote|h[1-6]|fieldset|pre)>\s*<\/p>/gi, '</$1>' );
 			}
 		});
@@ -526,39 +526,39 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		}
 
 		if ( window.tinyMCEPreInit && window.tinyMCEPreInit.dragDropUpload ) {
-			dom.bind( doc, 'dragstart dragend dragover drop', function( event ) {
+			dom.bind( doc, 'dragstart dragend dragover drop', function( Event ) {
 				if ( $ ) {
 					// Trigger the jQuery handlers.
-					$( document ).trigger( new $.Event( event ) );
+					$( document ).trigger( new $.Event( Event ) );
 				}
 			});
 		}
 
 		if ( editor.getParam( 'wp_paste_filters', true ) ) {
-			editor.on( 'PastePreProcess', function( event ) {
+			editor.on( 'PastePreProcess', function( Event ) {
 				// Remove trailing <br> added by WebKit browsers to the clipboard
-				event.content = event.content.replace( /<br class="?Apple-interchange-newline"?>/gi, '' );
+				Event.content = Event.content.replace( /<br class="?Apple-interchange-newline"?>/gi, '' );
 
 				// In WebKit this is handled by removeWebKitStyles()
 				if ( ! tinymce.Env.webkit ) {
 					// Remove all inline styles
-					event.content = event.content.replace( /(<[^>]+) style="[^"]*"([^>]*>)/gi, '$1$2' );
+					Event.content = Event.content.replace( /(<[^>]+) style="[^"]*"([^>]*>)/gi, '$1$2' );
 
 					// Put back the internal styles
-					event.content = event.content.replace(/(<[^>]+) data-mce-style=([^>]+>)/gi, '$1 style=$2' );
+					Event.content = Event.content.replace(/(<[^>]+) data-mce-style=([^>]+>)/gi, '$1 style=$2' );
 				}
 			});
 
-			editor.on( 'PastePostProcess', function( event ) {
+			editor.on( 'PastePostProcess', function( Event ) {
 				// Remove empty paragraphs
-				editor.$( 'p', event.node ).each( function( i, node ) {
+				editor.$( 'p', Event.node ).each( function( i, node ) {
 					if ( dom.isEmpty( node ) ) {
 						dom.remove( node );
 					}
 				});
 
 				if ( tinymce.isIE ) {
-					editor.$( 'a', event.node ).find( 'font, u' ).each( function( i, node ) {
+					editor.$( 'a', Event.node ).find( 'font, u' ).each( function( i, node ) {
 						dom.remove( node, true );
 					});
 				}
@@ -601,21 +601,21 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		}
 	});
 
-	editor.on( 'SaveContent', function( event ) {
+	editor.on( 'SaveContent', function( Event ) {
 		// If editor is hidden, we just want the textarea's value to be saved
 		if ( ! editor.inline && editor.isHidden() ) {
-			event.content = event.element.value;
+			Event.content = Event.element.value;
 			return;
 		}
 
 		// Keep empty paragraphs :(
-		event.content = event.content.replace( /<p>(?:<br ?\/?>|\u00a0|\uFEFF| )*<\/p>/g, '<p>&nbsp;</p>' );
+		Event.content = Event.content.replace( /<p>(?:<br ?\/?>|\u00a0|\uFEFF| )*<\/p>/g, '<p>&nbsp;</p>' );
 
 		if ( hasWpautop ) {
-			event.content = wp.editor.removep( event.content );
+			Event.content = wp.editor.removep( Event.content );
 		} else {
 			// Restore formatting of block boundaries.
-			event.content = event.content.replace( /-->\s*<!-- wp:/g, '-->\n\n<!-- wp:' );
+			Event.content = Event.content.replace( /-->\s*<!-- wp:/g, '-->\n\n<!-- wp:' );
 		}
 	});
 
@@ -667,9 +667,9 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		}
 	} );
 
-	editor.on( 'PastePlainTextToggle', function( event ) {
+	editor.on( 'PastePlainTextToggle', function( Event ) {
 		// Warn twice, then stop.
-		if ( event.state === true ) {
+		if ( Event.state === true ) {
 			var times = parseInt( window.getUserSetting( 'editor_plain_text_paste_warning' ), 10 ) || 0;
 
 			if ( times < 2 ) {
@@ -950,8 +950,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				}
 			} );
 
-			toolbar.on( 'keydown', function( event ) {
-				if ( event.keyCode === 27 ) {
+			toolbar.on( 'keydown', function( Event ) {
+				if ( Event.keyCode === 27 ) {
 					this.hide();
 					editor.focus();
 				}
@@ -976,12 +976,12 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 		} );
 
-		editor.on( 'nodechange', function( event ) {
+		editor.on( 'nodechange', function( Event ) {
 			var collapsed = editor.selection.isCollapsed();
 
 			var args = {
-				element: event.element,
-				parents: event.parents,
+				element: Event.element,
+				parents: Event.parents,
 				collapsed: collapsed
 			};
 
@@ -1012,16 +1012,16 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 		} );
 
-		function hide( event ) {
+		function hide( Event ) {
 			if ( activeToolbar ) {
-				if ( activeToolbar.tempHide || event.type === 'hide' || event.type === 'blur' ) {
+				if ( activeToolbar.tempHide || Event.type === 'hide' || Event.type === 'blur' ) {
 					activeToolbar.hide();
 					activeToolbar = false;
 				} else if ( (
-					event.type === 'resizewindow' ||
-					event.type === 'scrollwindow' ||
-					event.type === 'resize' ||
-					event.type === 'scroll'
+					Event.type === 'resizewindow' ||
+					Event.type === 'scrollwindow' ||
+					Event.type === 'resize' ||
+					Event.type === 'scroll'
 				) && ! activeToolbar.blockHide ) {
 					clearTimeout( timeout );
 

@@ -53,7 +53,7 @@ jQuery( document ).ready( function( $ ) {
 	});
 
 	/*
-	 * Custom events: when a Thickbox iframe has loaded and when the Thickbox
+	 * Custom Events: when a Thickbox iframe has loaded and when the Thickbox
 	 * modal gets removed from the DOM.
 	 */
 	$body
@@ -82,7 +82,7 @@ jQuery( document ).ready( function( $ ) {
 		// Get the iframe body.
 		$iframeBody = $iframe.contents().find( 'body' );
 
-		// Get the tabbable elements and handle the keydown event on first load.
+		// Get the tabbable elements and handle the keydown Event on first load.
 		handleTabbables();
 
 		// Set initial focus on the "Close" button.
@@ -91,7 +91,7 @@ jQuery( document ).ready( function( $ ) {
 		/*
 		 * When the "Install" button is disabled (e.g. the Plugin is already installed)
 		 * then we can't predict where the last focusable element is. We need to get
-		 * the tabbable elements and handle the keydown event again and again,
+		 * the tabbable elements and handle the keydown Event again and again,
 		 * each time the active tab panel changes.
 		 */
 		$( '#plugin-information-tabs a', $iframeBody ).on( 'click', function() {
@@ -99,8 +99,8 @@ jQuery( document ).ready( function( $ ) {
 		});
 
 		// Close the modal when pressing Escape.
-		$iframeBody.on( 'keydown', function( event ) {
-			if ( 27 !== event.which ) {
+		$iframeBody.on( 'keydown', function( Event ) {
+			if ( 27 !== Event.which ) {
 				return;
 			}
 			tb_remove();
@@ -108,7 +108,7 @@ jQuery( document ).ready( function( $ ) {
 	}
 
 	/*
-	 * Get the tabbable elements and detach/attach the keydown event.
+	 * Get the tabbable elements and detach/attach the keydown Event.
 	 * Called after the iframe has fully loaded so we have all the elements we need.
 	 * Called again each time a Tab gets clicked.
 	 * @todo Consider to implement a WordPress general utility for this and don't use jQuery UI.
@@ -123,31 +123,31 @@ jQuery( document ).ready( function( $ ) {
 		$lastTabbable = $tabbables.last();
 		// Make a jQuery collection.
 		$firstAndLast = $firstTabbable.add( $lastTabbable );
-		// Detach any previously attached keydown event.
+		// Detach any previously attached keydown Event.
 		$firstAndLast.off( 'keydown.wp-plugin-details' );
-		// Attach again the keydown event on the first and last focusable elements.
-		$firstAndLast.on( 'keydown.wp-plugin-details', function( event ) {
-			constrainTabbing( event );
+		// Attach again the keydown Event on the first and last focusable elements.
+		$firstAndLast.on( 'keydown.wp-plugin-details', function( Event ) {
+			constrainTabbing( Event );
 		});
 	}
 
 	// Constrain tabbing within the plugin modal dialog.
-	function constrainTabbing( event ) {
-		if ( 9 !== event.which ) {
+	function constrainTabbing( Event ) {
+		if ( 9 !== Event.which ) {
 			return;
 		}
 
-		if ( $lastTabbable[0] === event.target && ! event.shiftKey ) {
-			event.preventDefault();
+		if ( $lastTabbable[0] === Event.target && ! Event.shiftKey ) {
+			Event.prEventDefault();
 			$firstTabbable.focus();
-		} else if ( $firstTabbable[0] === event.target && event.shiftKey ) {
-			event.preventDefault();
+		} else if ( $firstTabbable[0] === Event.target && Event.shiftKey ) {
+			Event.prEventDefault();
 			$lastTabbable.focus();
 		}
 	}
 
 	/*
-	 * Open the Plugin details modal. The event is delegated to get also the links
+	 * Open the Plugin details modal. The Event is delegated to get also the links
 	 * in the plugins search tab, after the AJAX search rebuilds the HTML. It's
 	 * delegated on the closest ancestor and not on the body to avoid conflicts
 	 * with other handlers, see Trac ticket #43082.
@@ -156,7 +156,7 @@ jQuery( document ).ready( function( $ ) {
 		// The `data-title` attribute is used only in the Plugin screens.
 		var title = $( this ).data( 'title' ) ? plugininstallL10n.plugin_information + ' ' + $( this ).data( 'title' ) : plugininstallL10n.plugin_modal_label;
 
-		e.preventDefault();
+		e.prEventDefault();
 		e.stopPropagation();
 
 		// Store the element that has focus before opening the modal dialog, i.e. the control which opens it.
@@ -177,9 +177,9 @@ jQuery( document ).ready( function( $ ) {
 	});
 
 	/* Plugin install related JS */
-	$( '#plugin-information-tabs a' ).click( function( event ) {
+	$( '#plugin-information-tabs a' ).click( function( Event ) {
 		var tab = $( this ).attr( 'name' );
-		event.preventDefault();
+		Event.prEventDefault();
 
 		// Flip the tab
 		$( '#plugin-information-tabs a.current' ).removeClass( 'current' );
@@ -211,8 +211,8 @@ jQuery( document ).ready( function( $ ) {
 				role: 'button',
 				'aria-expanded': 'false'
 			})
-			.on( 'click', function( event ) {
-				event.preventDefault();
+			.on( 'click', function( Event ) {
+				Event.prEventDefault();
 				$body.toggleClass( 'show-upload-view' );
 				$uploadViewToggle.attr( 'aria-expanded', $body.hasClass( 'show-upload-view' ) );
 			});

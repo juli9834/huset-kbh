@@ -25,11 +25,11 @@ wp.customHtmlWidgets = ( function( $ ) {
 	component.CustomHtmlWidgetControl = Backbone.View.extend({
 
 		/**
-		 * View events.
+		 * View Events.
 		 *
 		 * @type {Object}
 		 */
-		events: {},
+		Events: {},
 
 		/**
 		 * Initialize.
@@ -78,7 +78,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 					}
 				});
 
-				// Note that syncInput cannot be re-used because it will be destroyed with each widget-updated event.
+				// Note that syncInput cannot be re-used because it will be destroyed with each widget-updated Event.
 				fieldInput.val( control.syncContainer.find( '.sync-input.' + fieldName ).val() );
 			});
 		},
@@ -86,7 +86,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 		/**
 		 * Update input fields from the sync fields.
 		 *
-		 * This function is called at the widget-updated and widget-synced events.
+		 * This function is called at the widget-updated and widget-synced Events.
 		 * A field will only be updated if it is not currently focused, to avoid
 		 * overwriting content that the user is entering.
 		 *
@@ -101,8 +101,8 @@ wp.customHtmlWidgets = ( function( $ ) {
 			}
 
 			/*
-			 * Prevent updating content when the editor is focused or if there are current error annotations,
-			 * to prevent the editor's contents from getting sanitized as soon as a user removes focus from
+			 * PrEvent updating content when the editor is focused or if there are current error annotations,
+			 * to prEvent the editor's contents from getting sanitized as soon as a user removes focus from
 			 * the editor. This is particularly important for users who cannot unfiltered_html.
 			 */
 			control.contentUpdateBypassed = control.fields.content.is( document.activeElement ) || control.editor && control.editor.codemirror.state.focused || 0 !== control.currentErrorAnnotations;
@@ -244,12 +244,12 @@ wp.customHtmlWidgets = ( function( $ ) {
 				}
 			});
 
-			// Prevent hitting Esc from collapsing the widget control.
+			// PrEvent hitting Esc from collapsing the widget control.
 			if ( wp.customize ) {
-				control.editor.codemirror.on( 'keydown', function onKeydown( codemirror, event ) {
+				control.editor.codemirror.on( 'keydown', function onKeydown( codemirror, Event ) {
 					var escKeyCode = 27;
-					if ( escKeyCode === event.keyCode ) {
-						event.stopPropagation();
+					if ( escKeyCode === Event.keyCode ) {
+						Event.stopPropagation();
 					}
 				});
 			}
@@ -264,13 +264,13 @@ wp.customHtmlWidgets = ( function( $ ) {
 	component.widgetControls = {};
 
 	/**
-	 * Handle widget being added or initialized for the first time at the widget-added event.
+	 * Handle widget being added or initialized for the first time at the widget-added Event.
 	 *
-	 * @param {jQuery.Event} event - Event.
+	 * @param {jQuery.Event} Event - Event.
 	 * @param {jQuery}       widgetContainer - Widget container element.
 	 * @returns {void}
 	 */
-	component.handleWidgetAdded = function handleWidgetAdded( event, widgetContainer ) {
+	component.handleWidgetAdded = function handleWidgetAdded( Event, widgetContainer ) {
 		var widgetForm, idBase, widgetControl, widgetId, animatedCheckDelay = 50, renderWhenAnimationDone, fieldContainer, syncContainer;
 		widgetForm = widgetContainer.find( '> .widget-inside > .form, > .widget-inside > form' ); // Note: '.form' appears in the customizer, whereas 'form' on the widgets admin screen.
 
@@ -279,7 +279,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 			return;
 		}
 
-		// Prevent initializing already-added widgets.
+		// PrEvent initializing already-added widgets.
 		widgetId = widgetForm.find( '.widget-id' ).val();
 		if ( component.widgetControls[ widgetId ] ) {
 			return;
@@ -292,7 +292,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 		 * by PHP, where each widget update cause the entire element to be emptied
 		 * and replaced with the rendered output of WP_Widget::form() which is
 		 * sent back in Ajax request made to save/update the widget instance.
-		 * To prevent a "flash of replaced DOM elements and re-initialized JS
+		 * To prEvent a "flash of replaced DOM elements and re-initialized JS
 		 * components", the JS template is rendered outside of the normal form
 		 * container.
 		 */
@@ -309,7 +309,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 
 		/*
 		 * Render the widget once the widget parent's container finishes animating,
-		 * as the widget-added event fires with a slideDown of the container.
+		 * as the widget-added Event fires with a slideDown of the container.
 		 * This ensures that the textarea is visible and the editor can be initialized.
 		 */
 		renderWhenAnimationDone = function() {
@@ -354,15 +354,15 @@ wp.customHtmlWidgets = ( function( $ ) {
 	/**
 	 * Sync widget instance data sanitized from server back onto widget model.
 	 *
-	 * This gets called via the 'widget-updated' event when saving a widget from
-	 * the widgets admin screen and also via the 'widget-synced' event when making
+	 * This gets called via the 'widget-updated' Event when saving a widget from
+	 * the widgets admin screen and also via the 'widget-synced' Event when making
 	 * a change to a widget in the customizer.
 	 *
-	 * @param {jQuery.Event} event - Event.
+	 * @param {jQuery.Event} Event - Event.
 	 * @param {jQuery}       widgetContainer - Widget container element.
 	 * @returns {void}
 	 */
-	component.handleWidgetUpdated = function handleWidgetUpdated( event, widgetContainer ) {
+	component.handleWidgetUpdated = function handleWidgetUpdated( Event, widgetContainer ) {
 		var widgetForm, widgetId, widgetControl, idBase;
 		widgetForm = widgetContainer.find( '> .widget-inside > .form, > .widget-inside > form' );
 
@@ -383,7 +383,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 	/**
 	 * Initialize functionality.
 	 *
-	 * This function exists to prevent the JS file from having to boot itself.
+	 * This function exists to prEvent the JS file from having to boot itself.
 	 * When WordPress enqueues this script, it should have an inline script
 	 * attached which calls wp.textWidgets.init().
 	 *
@@ -398,8 +398,8 @@ wp.customHtmlWidgets = ( function( $ ) {
 		$document.on( 'widget-synced widget-updated', component.handleWidgetUpdated );
 
 		/*
-		 * Manually trigger widget-added events for media widgets on the admin
-		 * screen once they are expanded. The widget-added event is not triggered
+		 * Manually trigger widget-added Events for media widgets on the admin
+		 * screen once they are expanded. The widget-added Event is not triggered
 		 * for each pre-existing widget on the widgets admin screen like it is
 		 * on the customizer. Likewise, the customizer only triggers widget-added
 		 * when the widget is expanded to just-in-time construct the widget form

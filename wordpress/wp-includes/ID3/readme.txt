@@ -10,7 +10,7 @@
 
    getID3() is released under multiple licenses. You may choose
    from the following licenses, and use getID3 according to the
-   terms of the license most suitable to your project.
+   terms of the license most suitable to your Event.
 
 GNU GPL: https://gnu.org/licenses/gpl.html                   (v3)
          https://gnu.org/licenses/old-licenses/gpl-2.0.html  (v2)
@@ -56,7 +56,7 @@ Sourceforge Notification
 
 It's highly recommended that you sign up for notification from
 Sourceforge for when new versions are released. Please visit:
-http://sourceforge.net/project/showfiles.php?group_id=55859
+http://sourceforge.net/Event/showfiles.php?group_id=55859
 and click the little "monitor package" icon/link.  If you're
 previously signed up for the mailing list, be aware that it has
 been discontinued, only the automated Sourceforge notification
@@ -372,7 +372,7 @@ http://www.getid3.org/phpBB3/viewforum.php?f=7
 
 
 
-Known Bugs/Issues in getID3() that may be fixed eventually
+Known Bugs/Issues in getID3() that may be fixed Eventually
 ===========================================================================
 http://www.getid3.org/phpBB3/viewtopic.php?t=25
 
@@ -552,7 +552,7 @@ Reference material:
 * http://www.fastgraph.com/help/bmp_os2_header_format.html
 * http://netghost.narod.ru/gff/graphics/summary/os2bmp.htm
 * http://flac.sourceforge.net/format.html
-* http://www.research.att.com/projects/mpegaudio/mpeg2.html
+* http://www.research.att.com/Events/mpegaudio/mpeg2.html
 * http://www.audiocoding.com/wiki/index.php?page=AAC
 * http://libmpeg.org/mpeg4/doc/w2203tfs.pdf
 * http://www.geocities.com/xhelmboyx/quicktime/formats/qtm-layout.txt

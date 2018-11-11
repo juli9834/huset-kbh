@@ -702,7 +702,7 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	 * @param string $comment_author_IP    Comment author's IP address.
 	 * @param string $comment_author_email Comment author's email.
 	 * @param string $comment_date_gmt     GMT date the comment was posted.
-	 * @param bool   $avoid_die            Whether to prevent executing wp_die()
+	 * @param bool   $avoid_die            Whether to prEvent executing wp_die()
 	 *                                     or die() if a comment flood is occurring.
 	 */
 	do_action(
@@ -724,7 +724,7 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	 * @param string $comment_author_IP    Comment author's IP address.
 	 * @param string $comment_author_email Comment author's email.
 	 * @param string $comment_date_gmt     GMT date the comment was posted.
-	 * @param bool   $avoid_die            Whether to prevent executing wp_die()
+	 * @param bool   $avoid_die            Whether to prEvent executing wp_die()
 	 *                                     or die() if a comment flood is occurring.
 	 */
 	$is_flood = apply_filters(
@@ -2705,7 +2705,7 @@ function privacy_ping_filter($sites) {
 /**
  * Send a Trackback.
  *
- * Updates database when sending trackback to prevent duplicates.
+ * Updates database when sending trackback to prEvent duplicates.
  *
  * @since 0.71
  *
@@ -3345,7 +3345,7 @@ function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {
 		 * @since 4.9.6
 		 *
 		 * @param bool|string                    Whether to apply the comment anonymization (bool).
-		 *                                       Custom prevention message (string). Default true.
+		 *                                       Custom prEvention message (string). Default true.
 		 * @param WP_Comment $comment            WP_Comment object.
 		 * @param array      $anonymized_comment Anonymized comment data.
 		 */

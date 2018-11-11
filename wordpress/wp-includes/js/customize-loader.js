@@ -45,14 +45,14 @@ window.wp = window.wp || {};
 			this.window  = $( window );
 			this.element = $( '<div id="customize-container" />' ).appendTo( this.body );
 
-			// Bind events for opening and closing the overlay.
+			// Bind Events for opening and closing the overlay.
 			this.bind( 'open', this.overlay.show );
 			this.bind( 'close', this.overlay.hide );
 
 			// Any element in the body with the `load-customize` class opens
 			// the Customizer.
-			$('#wpbody').on( 'click', '.load-customize', function( event ) {
-				event.preventDefault();
+			$('#wpbody').on( 'click', '.load-customize', function( Event ) {
+				Event.prEventDefault();
 
 				// Store a reference to the link that opened the Customizer.
 				Loader.link = $(this);
@@ -150,7 +150,7 @@ window.wp = window.wp || {};
 				} );
 			}
 
-			// Wait for the connection from the iframe before sending any postMessage events.
+			// Wait for the connection from the iframe before sending any postMessage Events.
 			this.messenger.bind( 'ready', function() {
 				Loader.messenger.send( 'back' );
 			});
@@ -255,7 +255,7 @@ window.wp = window.wp || {};
 		},
 
 		/**
-		 * Callback for the `load` event on the Customizer iframe.
+		 * Callback for the `load` Event on the Customizer iframe.
 		 */
 		loaded: function() {
 			Loader.body.removeClass( 'customize-loading' ).attr( 'aria-busy', 'false' );

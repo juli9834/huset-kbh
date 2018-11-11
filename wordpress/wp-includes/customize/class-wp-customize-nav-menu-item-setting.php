@@ -81,7 +81,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	public $post_id;
 
 	/**
-	 * Storage of pre-setup menu item to prevent wasted calls to wp_setup_nav_menu_item().
+	 * Storage of pre-setup menu item to prEvent wasted calls to wp_setup_nav_menu_item().
 	 *
 	 * @since 4.3.0
 	 * @var array
@@ -870,7 +870,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 *
 	 * @see WP_Customize_Nav_Menu_Item_Setting::update()
 	 *
-	 * @param array $data Additional information passed back to the 'saved' event on `wp.customize`.
+	 * @param array $data Additional information passed back to the 'saved' Event on `wp.customize`.
 	 * @return array Save response data.
 	 */
 	public function amend_customize_save_response( $data ) {

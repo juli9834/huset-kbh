@@ -282,7 +282,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 					$my_parent = get_term( $p, $taxonomy );
 					$my_parents[] = $my_parent;
 					$p = $my_parent->parent;
-					if ( in_array( $p, $parent_ids ) ) // Prevent parent loops.
+					if ( in_array( $p, $parent_ids ) ) // PrEvent parent loops.
 						break;
 					$parent_ids[] = $p;
 				}

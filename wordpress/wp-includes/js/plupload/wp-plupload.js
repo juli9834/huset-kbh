@@ -165,7 +165,7 @@ window.wp = window.wp || {};
 			});
 
 			dropzone.bind('dragleave.wp-uploader, drop.wp-uploader', function() {
-				// Using an instant timer prevents the drag-over class from
+				// Using an instant timer prEvents the drag-over class from
 				// being quickly removed and re-added when elements inside the
 				// dropzone are repositioned.
 				//
@@ -365,7 +365,7 @@ window.wp = window.wp || {};
 		},
 
 		/**
-		 * Make a few internal event callbacks available on the wp.Uploader object
+		 * Make a few internal Event callbacks available on the wp.Uploader object
 		 * to change the Uploader internals if absolutely necessary.
 		 */
 		init:     function() {},

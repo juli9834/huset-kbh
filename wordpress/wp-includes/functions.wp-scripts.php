@@ -195,7 +195,7 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
 /**
  * Remove a registered script.
  *
- * Note: there are intentional safeguards in place to prevent critical admin scripts,
+ * Note: there are intentional safeguards in place to prEvent critical admin scripts,
  * such as jQuery core, from being unregistered.
  *
  * @see WP_Dependencies::remove()

@@ -83,7 +83,7 @@
 			if ($.isFunction(this[1])) {
 				callback = this[1];
 				key = this[0];
-				$.hotkeys.add(key, opts.hotkeys_opts, function(event) { return callback(event, $.table_hotkeys.current_row); });
+				$.hotkeys.add(key, opts.hotkeys_opts, function(Event) { return callback(Event, $.table_hotkeys.current_row); });
 			} else {
 				key = this;
 				$.hotkeys.add(key, opts.hotkeys_opts, make_key_callback('.'+opts.class_prefix+key));

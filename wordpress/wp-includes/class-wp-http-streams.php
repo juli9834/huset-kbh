@@ -130,7 +130,7 @@ class WP_Http_Streams {
 		$connection_error_str = null;
 
 		if ( !WP_DEBUG ) {
-			// In the event that the SSL connection fails, silence the many PHP Warnings.
+			// In the Event that the SSL connection fails, silence the many PHP Warnings.
 			if ( $secure_transport )
 				$error_reporting = error_reporting(0);
 

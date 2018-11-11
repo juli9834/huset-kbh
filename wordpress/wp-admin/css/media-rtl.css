@@ -519,7 +519,7 @@ border color while dragging a file over the uploader drop area */
 
 .media-frame.mode-select .attachments-browser.fixed .attachments {
 	position: relative;
-	top: 94px; /* prevent jumping up when the toolbar becomes fixed */
+	top: 94px; /* prEvent jumping up when the toolbar becomes fixed */
 	padding-bottom: 94px; /* offset for above so the bottom doesn't get cut off */
 }
 
@@ -704,7 +704,7 @@ border color while dragging a file over the uploader drop area */
 	color: #ccc;
 	background: inherit;
 	cursor: default;
-	pointer-events: none;
+	pointer-Events: none;
 }
 
 .edit-attachment-frame .media-frame-content,

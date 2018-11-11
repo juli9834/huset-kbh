@@ -1,7 +1,7 @@
 /******************************************************************************************************************************
 
  * @ Original idea by by Binny V A, Original version: 2.00.A
- * @ http://www.openjs.com/scripts/events/keyboard_shortcuts/
+ * @ http://www.openjs.com/scripts/Events/keyboard_shortcuts/
  * @ Original License : BSD
 
  * @ jQuery Plugin by Tzury Bar Yochay
@@ -16,7 +16,7 @@
 
 TODO:
     add queue support (as in gmail) e.g. 'x' then 'y', etc.
-    add mouse + mouse wheel events.
+    add mouse + mouse wheel Events.
 
 USAGE:
     $.hotkeys.add('Ctrl+c', function(){ alert('copy anyone?');});
@@ -50,10 +50,10 @@ USAGE:
         combi = combi.toLowerCase();
 
         // inspect if keystroke matches
-        var inspector = function(event) {
+        var inspector = function(Event) {
             // WP: not needed with newer jQuery
-            // event = jQuery.event.fix(event); // jQuery event normalization.
-            var element = event.target;
+            // Event = jQuery.Event.fix(Event); // jQuery Event normalization.
+            var element = Event.target;
             // @ TextNode -> nodeType == 3
             // WP: not needed with newer jQuery
             // element = (element.nodeType==3) ? element.parentNode : element;
@@ -67,18 +67,18 @@ USAGE:
 					return;
                 }
             }
-            var code = event.which,
-                type = event.type,
+            var code = Event.which,
+                type = Event.type,
                 character = String.fromCharCode(code).toLowerCase(),
                 special = that.special_keys[code],
-                shift = event.shiftKey,
-                ctrl = event.ctrlKey,
-                alt= event.altKey,
-                meta = event.metaKey,
+                shift = Event.shiftKey,
+                ctrl = Event.ctrlKey,
+                alt= Event.altKey,
+                meta = Event.metaKey,
                 propagate = true, // default behaivour
                 mapPoint = null;
 
-            // in opera + safari, the event.target is unpredictable.
+            // in opera + safari, the Event.target is unpredictable.
             // for example: 'keydown' might be associated with HtmlBodyElement
             // or the element where you last clicked with your mouse.
             // WP: needed for all browsers
@@ -87,7 +87,7 @@ USAGE:
                     element = element.parentNode;
                 }
             // }
-            var cbMap = that.all[element].events[type].callbackMap;
+            var cbMap = that.all[element].Events[type].callbackMap;
             if(!shift && !ctrl && !alt && !meta) { // No Modifiers
                 mapPoint = cbMap[special] ||  cbMap[character]
 			}
@@ -102,23 +102,23 @@ USAGE:
                 mapPoint = cbMap[modif+special] || cbMap[modif+character] || cbMap[modif+that.shift_nums[character]]
             }
             if (mapPoint){
-                mapPoint.cb(event);
+                mapPoint.cb(Event);
                 if(!mapPoint.propagate) {
-                    event.stopPropagation();
-                    event.preventDefault();
+                    Event.stopPropagation();
+                    Event.prEventDefault();
                     return false;
                 }
             }
 		};
         // first hook for this element
         if (!this.all[opt.target]){
-            this.all[opt.target] = {events:{}};
+            this.all[opt.target] = {Events:{}};
         }
-        if (!this.all[opt.target].events[opt.type]){
-            this.all[opt.target].events[opt.type] = {callbackMap: {}}
-            jQuery.event.add(opt.target, opt.type, inspector);
+        if (!this.all[opt.target].Events[opt.type]){
+            this.all[opt.target].Events[opt.type] = {callbackMap: {}}
+            jQuery.Event.add(opt.target, opt.type, inspector);
         }
-        this.all[opt.target].events[opt.type].callbackMap[combi] =  {cb: callback, propagate:opt.propagate};
+        this.all[opt.target].Events[opt.type].callbackMap[combi] =  {cb: callback, propagate:opt.propagate};
         return jQuery;
 	};
     this.remove = function(exp, opt) {
@@ -126,7 +126,7 @@ USAGE:
         target = opt.target || jQuery('html')[0];
         type = opt.type || 'keydown';
 		exp = exp.toLowerCase();
-        delete this.all[target].events[type].callbackMap[exp]
+        delete this.all[target].Events[type].callbackMap[exp]
         return jQuery;
 	};
     jQuery.hotkeys = this;

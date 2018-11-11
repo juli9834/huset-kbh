@@ -361,7 +361,7 @@ window.autosave = function() {
 			/**
 			 * @summary Initializes the auto save function.
 			 *
-			 * Checks whether the editor is active or not to use the editor events
+			 * Checks whether the editor is active or not to use the editor Events
 			 * to autosave, or uses the values from the elements to autosave.
 			 *
 			 * Runs on DOM ready.
@@ -378,7 +378,7 @@ window.autosave = function() {
 
 					// If TinyMCE loads first, check the post 1.5 sec. after it is ready.
 					// By this time the content has been loaded in the editor and 'saved' to the textarea.
-					// This prevents false positives.
+					// This prEvents false positives.
 					$document.on( 'tinymce-editor-init.autosave', function() {
 						window.setTimeout( function() {
 							checkPost();
@@ -397,7 +397,7 @@ window.autosave = function() {
 
 					if ( editor && ! editor.isHidden() ) {
 
-						// Last onSubmit event in the editor, needs to run after the content has been moved to the textarea.
+						// Last onSubmit Event in the editor, needs to run after the content has been moved to the textarea.
 						editor.on( 'submit', function() {
 							save({
 								post_title: $( '#title' ).val() || '',
@@ -752,7 +752,7 @@ window.autosave = function() {
 			 *
 			 * @returns {void}
 			 */
-			$document.on( 'heartbeat-send.autosave', function( event, data ) {
+			$document.on( 'heartbeat-send.autosave', function( Event, data ) {
 				var autosaveData = save();
 
 				if ( autosaveData ) {
@@ -767,7 +767,7 @@ window.autosave = function() {
 				 *
 				 * @returns {void}
 				 */
-			}).on( 'heartbeat-tick.autosave', function( event, data ) {
+			}).on( 'heartbeat-tick.autosave', function( Event, data ) {
 				if ( data.wp_autosave ) {
 					response( data.wp_autosave );
 				}
@@ -778,7 +778,7 @@ window.autosave = function() {
 				 *
 				 * @returns {void}
 				 */
-			}).on( 'heartbeat-connection-lost.autosave', function( event, error, status ) {
+			}).on( 'heartbeat-connection-lost.autosave', function( Event, error, status ) {
 
 				// When connection is lost, keep user from submitting changes.
 				if ( 'timeout' === error || 603 === status ) {
@@ -827,7 +827,7 @@ window.autosave = function() {
 		 *
 		 * @returns {void}
 		 */
-		$document.on( 'tinymce-editor-init.autosave', function( event, editor ) {
+		$document.on( 'tinymce-editor-init.autosave', function( Event, editor ) {
 			if ( editor.id === 'content' ) {
 				window.setTimeout( function() {
 					editor.save();

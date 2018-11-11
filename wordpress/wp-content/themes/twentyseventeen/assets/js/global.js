@@ -1,4 +1,4 @@
-/* global twentyseventeenScreenReaderText */
+/* global twentysEventeenScreenReaderText */
 (function( $ ) {
 
 	// Variables and DOM Caching.
@@ -13,7 +13,7 @@
 		$sidebar = $body.find( '#secondary' ),
 		$entryContent = $body.find( '.entry-content' ),
 		$formatQuote = $body.find( '.format-quote blockquote' ),
-		isFrontPage = $body.hasClass( 'twentyseventeen-front-page' ) || $body.hasClass( 'home blog' ),
+		isFrontPage = $body.hasClass( 'twentysEventeen-front-page' ) || $body.hasClass( 'home blog' ),
 		navigationFixedClass = 'site-navigation-fixed',
 		navigationHeight,
 		navigationOuterHeight,
@@ -104,7 +104,7 @@
 
 	// Set icon for quotes.
 	function setQuotesIcon() {
-		$( twentyseventeenScreenReaderText.quote ).prependTo( $formatQuote );
+		$( twentysEventeenScreenReaderText.quote ).prependTo( $formatQuote );
 	}
 
 	// Add 'below-entry-meta' class to elements.
@@ -115,7 +115,7 @@
 			$body.hasClass( 'search' ) ||
 			$body.hasClass( 'single-attachment' ) ||
 			$body.hasClass( 'error404' ) ||
-			$body.hasClass( 'twentyseventeen-front-page' )
+			$body.hasClass( 'twentysEventeen-front-page' )
 		) ) {
 			return;
 		}
@@ -184,7 +184,7 @@
 			adjustScrollClass();
 		}
 
-		// If 'Scroll Down' arrow in present on page, calculate scroll offset and bind an event handler to the click event.
+		// If 'Scroll Down' arrow in present on page, calculate scroll offset and bind an Event handler to the click Event.
 		if ( $menuScrollDown.length ) {
 
 			if ( $( 'body' ).hasClass( 'admin-bar' ) ) {
@@ -198,7 +198,7 @@
 			}
 
 			$menuScrollDown.click( function( e ) {
-				e.preventDefault();
+				e.prEventDefault();
 				$( window ).scrollTo( '#primary', {
 					duration: 600,
 					offset: { top: menuTop - navigationOuterHeight }

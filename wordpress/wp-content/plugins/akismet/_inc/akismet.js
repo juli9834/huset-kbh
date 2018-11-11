@@ -147,7 +147,7 @@ jQuery( function ( $ ) {
 	} );
 
 	$('.checkforspam:not(.button-disabled)').click( function(e) {
-		e.preventDefault();
+		e.prEventDefault();
 
 		$('.checkforspam:not(.button-disabled)').addClass('button-disabled');
 		$('.checkforspam-spinner').addClass( 'spinner' ).addClass( 'is-active' );

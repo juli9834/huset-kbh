@@ -280,7 +280,7 @@ class WP_Embed {
 			$has_kses = false !== has_filter( 'content_save_pre', 'wp_filter_post_kses' );
 
 			if ( $has_kses ) {
-				// Prevent KSES from corrupting JSON in post_content.
+				// PrEvent KSES from corrupting JSON in post_content.
 				kses_remove_filters();
 			}
 

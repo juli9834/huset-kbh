@@ -89,23 +89,23 @@
 			canUndo = null;
 		} );
 
-		editor.on( 'keydown', function( event ) {
-			if ( ( canUndo && event.keyCode === 27 /* ESCAPE */ ) || ( canUndo === 'space' && event.keyCode === VK.BACKSPACE ) ) {
+		editor.on( 'keydown', function( Event ) {
+			if ( ( canUndo && Event.keyCode === 27 /* ESCAPE */ ) || ( canUndo === 'space' && Event.keyCode === VK.BACKSPACE ) ) {
 				editor.undoManager.undo();
-				event.preventDefault();
-				event.stopImmediatePropagation();
+				Event.prEventDefault();
+				Event.stopImmediatePropagation();
 			}
 
-			if ( VK.metaKeyPressed( event ) ) {
+			if ( VK.metaKeyPressed( Event ) ) {
 				return;
 			}
 
-			if ( event.keyCode === VK.ENTER ) {
+			if ( Event.keyCode === VK.ENTER ) {
 				enter();
 			// Wait for the browser to insert the character.
-			} else if ( event.keyCode === VK.SPACEBAR ) {
+			} else if ( Event.keyCode === VK.SPACEBAR ) {
 				setTimeout( space );
-			} else if ( event.keyCode > 47 && ! ( event.keyCode >= 91 && event.keyCode <= 93 ) ) {
+			} else if ( Event.keyCode > 47 && ! ( Event.keyCode >= 91 && Event.keyCode <= 93 ) ) {
 				setTimeout( inline );
 			}
 		}, true );
@@ -191,7 +191,7 @@
 					editor.selection.setCursorLocation( zero, 1 );
 				} );
 
-				// We need to wait for native events to be triggered.
+				// We need to wait for native Events to be triggered.
 				setTimeout( function() {
 					canUndo = 'space';
 
@@ -274,7 +274,7 @@
 					editor.execCommand( pattern.cmd );
 				} );
 
-				// We need to wait for native events to be triggered.
+				// We need to wait for native Events to be triggered.
 				setTimeout( function() {
 					canUndo = 'space';
 				} );
@@ -334,7 +334,7 @@
 					}
 				} );
 
-				// We need to wait for native events to be triggered.
+				// We need to wait for native Events to be triggered.
 				setTimeout( function() {
 					canUndo = 'enter';
 				} );

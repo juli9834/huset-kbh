@@ -45,16 +45,16 @@ var wpLink;
 			inputs.queryNoticeTextDefault = inputs.queryNotice.find( '.query-notice-default' );
 			inputs.queryNoticeTextHint = inputs.queryNotice.find( '.query-notice-hint' );
 
-			// Bind event handlers
+			// Bind Event handlers
 			inputs.dialog.keydown( wpLink.keydown );
 			inputs.dialog.keyup( wpLink.keyup );
-			inputs.submit.click( function( event ) {
-				event.preventDefault();
+			inputs.submit.click( function( Event ) {
+				Event.prEventDefault();
 				wpLink.update();
 			});
 
-			inputs.close.add( inputs.backdrop ).add( '#wp-link-cancel button' ).click( function( event ) {
-				event.preventDefault();
+			inputs.close.add( inputs.backdrop ).add( '#wp-link-cancel button' ).click( function( Event ) {
+				Event.prEventDefault();
 				wpLink.close();
 			});
 
@@ -536,30 +536,30 @@ var wpLink;
 			rivers.recent.prev();
 		},
 
-		keydown: function( event ) {
+		keydown: function( Event ) {
 			var fn, id;
 
 			// Escape key.
-			if ( 27 === event.keyCode ) {
+			if ( 27 === Event.keyCode ) {
 				wpLink.close();
-				event.stopImmediatePropagation();
+				Event.stopImmediatePropagation();
 			// Tab key.
-			} else if ( 9 === event.keyCode ) {
-				id = event.target.id;
+			} else if ( 9 === Event.keyCode ) {
+				id = Event.target.id;
 
 				// wp-link-submit must always be the last focusable element in the dialog.
 				// following focusable elements will be skipped on keyboard navigation.
-				if ( id === 'wp-link-submit' && ! event.shiftKey ) {
+				if ( id === 'wp-link-submit' && ! Event.shiftKey ) {
 					inputs.close.focus();
-					event.preventDefault();
-				} else if ( id === 'wp-link-close' && event.shiftKey ) {
+					Event.prEventDefault();
+				} else if ( id === 'wp-link-close' && Event.shiftKey ) {
 					inputs.submit.focus();
-					event.preventDefault();
+					Event.prEventDefault();
 				}
 			}
 
 			// Up Arrow and Down Arrow keys.
-			if ( 38 !== event.keyCode && 40 !== event.keyCode ) {
+			if ( 38 !== Event.keyCode && 40 !== Event.keyCode ) {
 				return;
 			}
 
@@ -569,18 +569,18 @@ var wpLink;
 			}
 
 			// Up Arrow key.
-			fn = 38 === event.keyCode ? 'prev' : 'next';
+			fn = 38 === Event.keyCode ? 'prev' : 'next';
 			clearInterval( wpLink.keyInterval );
 			wpLink[ fn ]();
 			wpLink.keyInterval = setInterval( wpLink[ fn ], wpLink.keySensitivity );
-			event.preventDefault();
+			Event.prEventDefault();
 		},
 
-		keyup: function( event ) {
+		keyup: function( Event ) {
 			// Up Arrow and Down Arrow keys.
-			if ( 38 === event.keyCode || 40 === event.keyCode ) {
+			if ( 38 === Event.keyCode || 40 === Event.keyCode ) {
 				clearInterval( wpLink.keyInterval );
-				event.preventDefault();
+				Event.prEventDefault();
 			}
 		},
 
@@ -621,8 +621,8 @@ var wpLink;
 		$( '#wp-link .query-results, #wp-link #link-selector' ).scroll( function() {
 			self.maybeLoad();
 		});
-		element.on( 'click', 'li', function( event ) {
-			self.select( $( this ), event );
+		element.on( 'click', 'li', function( Event ) {
+			self.select( $( this ), Event );
 		});
 	};
 
@@ -642,8 +642,8 @@ var wpLink;
 			this.element.hide();
 			this.visible = false;
 		},
-		// Selects a list item and triggers the river-select event.
-		select: function( li, event ) {
+		// Selects a list item and triggers the river-select Event.
+		select: function( li, Event ) {
 			var liHeight, elHeight, liTop, elTop;
 
 			if ( li.hasClass( 'unselectable' ) || li == this.selected )
@@ -662,8 +662,8 @@ var wpLink;
 			else if ( liTop + liHeight > elHeight ) // Make last visible element
 				this.element.scrollTop( elTop + liTop - elHeight + liHeight );
 
-			// Trigger the river-select event
-			this.element.trigger( 'river-select', [ li, event, this ] );
+			// Trigger the river-select Event
+			this.element.trigger( 'river-select', [ li, Event, this ] );
 		},
 		deselect: function() {
 			if ( this.selected )

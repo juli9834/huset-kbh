@@ -288,7 +288,7 @@ setCommentsList = function() {
 			$('.avatar', el).first().clone().prependTo('#undo-' + id + ' .' + action + '-undo-inside');
 
 			a.click(function( e ){
-				e.preventDefault();
+				e.prEventDefault();
 				e.stopPropagation(); // ticket #35904
 				list.wpList.del(this);
 				$('#undo-' + id).css( {backgroundColor:'#ceb'} ).fadeOut(350, function(){
@@ -583,12 +583,12 @@ commentReply = {
 		$( 'input#author-name, input#author-email, input#author-url', row ).keypress( function( e ) {
 			if ( e.which == 13 ) {
 				commentReply.send();
-				e.preventDefault();
+				e.prEventDefault();
 				return false;
 			}
 		});
 
-		// add events
+		// add Events
 		$('#the-comment-list .column-comment > p').dblclick(function(){
 			commentReply.toggle($(this).parent());
 		});
@@ -899,7 +899,7 @@ $(document).ready(function(){
 	commentReply.init();
 
 	$(document).on( 'click', 'span.delete a.delete', function( e ) {
-		e.preventDefault();
+		e.prEventDefault();
 	});
 
 	if ( typeof $.table_hotkeys != 'undefined' ) {
@@ -914,7 +914,7 @@ $(document).ready(function(){
 			};
 		};
 
-		edit_comment = function(event, current_row) {
+		edit_comment = function(Event, current_row) {
 			window.location = $('span.edit a', current_row).attr('href');
 		};
 
@@ -961,7 +961,7 @@ $(document).ready(function(){
 
 	// Quick Edit and Reply have an inline comment editor.
 	$( '#the-comment-list' ).on( 'click', '.comment-inline', function (e) {
-		e.preventDefault();
+		e.prEventDefault();
 		var $el = $( this ),
 			action = 'replyto';
 

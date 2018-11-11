@@ -52,7 +52,7 @@
 		model: api.Widgets.WidgetModel,
 
 		// Controls searching on the current widget collection
-		// and triggers an update event
+		// and triggers an update Event
 		doSearch: function( value ) {
 
 			// Don't do anything if we've already done this search
@@ -144,7 +144,7 @@
 
 		el: '#available-widgets',
 
-		events: {
+		Events: {
 			'input #widgets-search': 'search',
 			'keyup #widgets-search': 'search',
 			'focus .widget-tpl' : 'focus',
@@ -188,7 +188,7 @@
 				}
 			} );
 
-			// Clear the search results and trigger a `keyup` event to fire a new search.
+			// Clear the search results and trigger a `keyup` Event to fire a new search.
 			this.$clearResults.on( 'click', function() {
 				self.$search.val( '' ).focus().trigger( 'keyup' );
 			} );
@@ -198,10 +198,10 @@
 		},
 
 		// Performs a search and handles selected widget
-		search: function( event ) {
+		search: function( Event ) {
 			var firstVisible;
 
-			this.collection.doSearch( event.target.value );
+			this.collection.doSearch( Event.target.value );
 			// Update the search matches count.
 			this.updateSearchMatchesCount();
 			// Announce how many search results.
@@ -214,13 +214,13 @@
 			}
 
 			// If a widget was selected but the filter value has been cleared out, clear selection
-			if ( this.selected && ! event.target.value ) {
+			if ( this.selected && ! Event.target.value ) {
 				this.selected.removeClass( 'selected' );
 				this.selected = null;
 			}
 
 			// If a filter has been entered and a widget hasn't been selected, select the first one shown
-			if ( ! this.selected && event.target.value ) {
+			if ( ! this.selected && Event.target.value ) {
 				firstVisible = this.$el.find( '> .widget-tpl:visible:first' );
 				if ( firstVisible.length ) {
 					this.select( firstVisible );
@@ -228,9 +228,9 @@
 			}
 
 			// Toggle the clear search results button.
-			if ( '' !== event.target.value ) {
+			if ( '' !== Event.target.value ) {
 				this.$clearResults.addClass( 'is-visible' );
-			} else if ( '' === event.target.value ) {
+			} else if ( '' === Event.target.value ) {
 				this.$clearResults.removeClass( 'is-visible' );
 			}
 
@@ -277,18 +277,18 @@
 		},
 
 		// Highlights a widget on focus
-		focus: function( event ) {
-			this.select( $( event.currentTarget ) );
+		focus: function( Event ) {
+			this.select( $( Event.currentTarget ) );
 		},
 
 		// Submit handler for keypress and click on widget
-		_submit: function( event ) {
+		_submit: function( Event ) {
 			// Only proceed with keypress if it is Enter or Spacebar
-			if ( event.type === 'keypress' && ( event.which !== 13 && event.which !== 32 ) ) {
+			if ( Event.type === 'keypress' && ( Event.which !== 13 && Event.which !== 32 ) ) {
 				return;
 			}
 
-			this.submit( $( event.currentTarget ) );
+			this.submit( $( Event.currentTarget ) );
 		},
 
 		// Adds a selected widget to the sidebar
@@ -363,18 +363,18 @@
 		},
 
 		// Add keyboard accessiblity to the panel
-		keyboardAccessible: function( event ) {
-			var isEnter = ( event.which === 13 ),
-				isEsc = ( event.which === 27 ),
-				isDown = ( event.which === 40 ),
-				isUp = ( event.which === 38 ),
-				isTab = ( event.which === 9 ),
-				isShift = ( event.shiftKey ),
+		keyboardAccessible: function( Event ) {
+			var isEnter = ( Event.which === 13 ),
+				isEsc = ( Event.which === 27 ),
+				isDown = ( Event.which === 40 ),
+				isUp = ( Event.which === 38 ),
+				isTab = ( Event.which === 9 ),
+				isShift = ( Event.shiftKey ),
 				selected = null,
 				firstVisible = this.$el.find( '> .widget-tpl:visible:first' ),
 				lastVisible = this.$el.find( '> .widget-tpl:visible:last' ),
-				isSearchFocused = $( event.target ).is( this.$search ),
-				isLastWidgetFocused = $( event.target ).is( '.widget-tpl:visible:last' );
+				isSearchFocused = $( Event.target ).is( this.$search ),
+				isLastWidgetFocused = $( Event.target ).is( '.widget-tpl:visible:last' );
 
 			if ( isDown || isUp ) {
 				if ( isDown ) {
@@ -415,15 +415,15 @@
 
 			if ( this.currentSidebarControl && isTab && ( isShift && isSearchFocused || ! isShift && isLastWidgetFocused ) ) {
 				this.currentSidebarControl.container.find( '.add-new-widget' ).focus();
-				event.preventDefault();
+				Event.prEventDefault();
 			}
 		}
 	});
 
 	/**
-	 * Handlers for the widget-synced event, organized by widget ID base.
+	 * Handlers for the widget-synced Event, organized by widget ID base.
 	 * Other widgets may provide their own update handlers by adding
-	 * listeners for the widget-synced event.
+	 * listeners for the widget-synced Event.
 	 */
 	api.Widgets.formSyncHandlers = {
 
@@ -492,7 +492,7 @@
 			/*
 			 * Embed a placeholder once the section is expanded. The full widget
 			 * form content will be embedded once the control itself is expanded,
-			 * and at this point the widget-added event will be triggered.
+			 * and at this point the widget-added Event will be triggered.
 			 */
 			if ( ! control.section() ) {
 				control.embedWidgetControl();
@@ -541,7 +541,7 @@
 		},
 
 		/**
-		 * Embed the actual widget form inside of .widget-content and finally trigger the widget-added event.
+		 * Embed the actual widget form inside of .widget-content and finally trigger the widget-added Event.
 		 *
 		 * @since 4.4.0
 		 */
@@ -562,7 +562,7 @@
 			control.container.find( '.widget-content:first' ).append( widgetContent );
 
 			/*
-			 * Trigger widget-added event so that plugins can attach any event
+			 * Trigger widget-added Event so that plugins can attach any Event
 			 * listeners and dynamic UI elements.
 			 */
 			$( document ).trigger( 'widget-added', [ control.container.find( '.widget:first' ) ] );
@@ -631,7 +631,7 @@
 					top;
 				$widgetInside.css( 'max-height', windowHeight );
 				top = Math.max(
-					0, // prevent top from going off screen
+					0, // prEvent top from going off screen
 					Math.min(
 						Math.max( offsetTop, 0 ), // distance widget in panel is from top of screen
 						windowHeight - formHeight // flush up against bottom of screen
@@ -673,7 +673,7 @@
 			var self = this, $closeBtn;
 
 			this.container.find( '.widget-top' ).on( 'click', function( e ) {
-				e.preventDefault();
+				e.prEventDefault();
 				var sidebarWidgetsControl = self.getSidebarWidgetsControl();
 				if ( sidebarWidgetsControl.isReordering ) {
 					return;
@@ -683,7 +683,7 @@
 
 			$closeBtn = this.container.find( '.widget-control-close' );
 			$closeBtn.on( 'click', function( e ) {
-				e.preventDefault();
+				e.prEventDefault();
 				self.collapse();
 				self.container.find( '.widget-top .widget-action:first' ).focus(); // keyboard accessibility
 			} );
@@ -787,8 +787,8 @@
 			$reorderNav = this.container.find( '.widget-reorder-nav' );
 			$reorderNav.find( '.move-widget, .move-widget-down, .move-widget-up' ).each( function() {
 				$( this ).prepend( self.container.find( '.widget-title' ).text() + ': ' );
-			} ).on( 'click keypress', function( event ) {
-				if ( event.type === 'keypress' && ( event.which !== 13 && event.which !== 32 ) ) {
+			} ).on( 'click keypress', function( Event ) {
+				if ( Event.type === 'keypress' && ( Event.which !== 13 && Event.which !== 32 ) ) {
 					return;
 				}
 				$( this ).focus();
@@ -819,11 +819,11 @@
 			/**
 			 * Handle selecting a sidebar to move to
 			 */
-			this.container.find( '.widget-area-select' ).on( 'click keypress', 'li', function( event ) {
-				if ( event.type === 'keypress' && ( event.which !== 13 && event.which !== 32 ) ) {
+			this.container.find( '.widget-area-select' ).on( 'click keypress', 'li', function( Event ) {
+				if ( Event.type === 'keypress' && ( Event.which !== 13 && Event.which !== 32 ) ) {
 					return;
 				}
-				event.preventDefault();
+				Event.prEventDefault();
 				selectSidebarItem( $( this ) );
 			} );
 
@@ -872,7 +872,7 @@
 		},
 
 		/**
-		 * Set up event handlers for widget updating
+		 * Set up Event handlers for widget updating
 		 */
 		_setupUpdateUI: function() {
 			var self = this, $widgetRoot, $widgetContent,
@@ -887,7 +887,7 @@
 			$saveBtn.attr( 'title', l10n.saveBtnTooltip );
 			$saveBtn.removeClass( 'button-primary' );
 			$saveBtn.on( 'click', function( e ) {
-				e.preventDefault();
+				e.prEventDefault();
 				self.updateWidget( { disable_form: true } ); // @todo disable_form is unused?
 			} );
 
@@ -898,7 +898,7 @@
 			// Trigger widget form update when hitting Enter within an input
 			$widgetContent.on( 'keydown', 'input', function( e ) {
 				if ( 13 === e.which ) { // Enter
-					e.preventDefault();
+					e.prEventDefault();
 					self.updateWidget( { ignoreActiveElement: true } );
 				}
 			} );
@@ -954,7 +954,7 @@
 		},
 
 		/**
-		 * Set up event handlers for widget removal
+		 * Set up Event handlers for widget removal
 		 */
 		_setupRemoveUI: function() {
 			var self = this, $removeBtn, replaceDeleteWithRemove;
@@ -962,7 +962,7 @@
 			// Configure remove button
 			$removeBtn = this.container.find( '.widget-control-remove' );
 			$removeBtn.on( 'click', function( e ) {
-				e.preventDefault();
+				e.prEventDefault();
 
 				// Find an adjacent element to add focus to when this widget goes away
 				var $adjacentFocusTarget;
@@ -1255,7 +1255,7 @@
 
 					/**
 					 * If the old instance is identical to the new one, there is nothing new
-					 * needing to be rendered, and so we can preempt the event for the
+					 * needing to be rendered, and so we can preempt the Event for the
 					 * preview finishing loading.
 					 */
 					isChanged = ! isLiveUpdateAborted && ! _( self.setting() ).isEqual( r.data.instance );
@@ -1830,7 +1830,7 @@
 						}
 
 						// Move widget to inactive widgets sidebar (move it to trash) if has been previously saved
-						// This prevents the inactive widgets sidebar from overflowing with throwaway widgets
+						// This prEvents the inactive widgets sidebar from overflowing with throwaway widgets
 						if ( api.Widgets.savedWidgetIds[removedWidgetId] ) {
 							inactiveWidgets = api.value( 'sidebars_widgets[wp_inactive_widgets]' )().slice();
 							inactiveWidgets.push( removedWidgetId );
@@ -1886,7 +1886,7 @@
 				over: function() {
 					var section = api.section( self.section.get() );
 					section.expand({
-						allowMultiple: true, // Prevent the section being dragged from to be collapsed
+						allowMultiple: true, // PrEvent the section being dragged from to be collapsed
 						completeCallback: function () {
 							// @todo It is not clear when refreshPositions should be called on which sections, or if it is even needed
 							api.section.each( function ( otherSection ) {
@@ -2061,7 +2061,7 @@
 					return m.replace( /__i__|%i%/g, widgetNumber );
 				} );
 			} else {
-				widget.set( 'is_disabled', true ); // Prevent single widget from being added again now
+				widget.set( 'is_disabled', true ); // PrEvent single widget from being added again now
 			}
 
 			$widget = $( controlHtml );
@@ -2249,7 +2249,7 @@
 	/**
 	 * Initialize Edit Menu button in Nav Menu widget.
 	 */
-	$( document ).on( 'widget-added', function( event, widgetContainer ) {
+	$( document ).on( 'widget-added', function( Event, widgetContainer ) {
 		var parsedWidgetId, widgetControl, navMenuSelect, editMenuButton;
 		parsedWidgetId = parseWidgetId( widgetContainer.find( '> .widget-inside > .form > .widget-id' ).val() );
 		if ( 'nav_menu' !== parsedWidgetId.id_base ) {

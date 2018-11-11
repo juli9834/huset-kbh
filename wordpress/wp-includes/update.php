@@ -63,7 +63,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	 */
 	$locale = apply_filters( 'core_version_check_locale', get_locale() );
 
-	// Update last_checked for current to prevent multiple blocking requests if request hangs
+	// Update last_checked for current to prEvent multiple blocking requests if request hangs
 	$current->last_checked = time();
 	set_site_transient( 'update_core', $current );
 
@@ -197,8 +197,8 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	if ( ! empty( $body['ttl'] ) ) {
 		$ttl = (int) $body['ttl'];
 		if ( $ttl && ( time() + $ttl < wp_next_scheduled( 'wp_version_check' ) ) ) {
-			// Queue an event to re-run the update check in $ttl seconds.
-			wp_schedule_single_event( time() + $ttl, 'wp_version_check' );
+			// Queue an Event to re-run the update check in $ttl seconds.
+			wp_schedule_single_Event( time() + $ttl, 'wp_version_check' );
 		}
 	}
 
@@ -291,7 +291,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 		}
 	}
 
-	// Update last_checked for current to prevent multiple blocking requests if request hangs
+	// Update last_checked for current to prEvent multiple blocking requests if request hangs
 	$current->last_checked = time();
 	set_site_transient( 'update_plugins', $current );
 
@@ -474,7 +474,7 @@ function wp_update_themes( $extra_stats = array() ) {
 		}
 	}
 
-	// Update last_checked for current to prevent multiple blocking requests if request hangs
+	// Update last_checked for current to prEvent multiple blocking requests if request hangs
 	$last_update->last_checked = time();
 	set_site_transient( 'update_themes', $last_update );
 
@@ -712,13 +712,13 @@ function _maybe_update_themes() {
  */
 function wp_schedule_update_checks() {
 	if ( ! wp_next_scheduled( 'wp_version_check' ) && ! wp_installing() )
-		wp_schedule_event(time(), 'twicedaily', 'wp_version_check');
+		wp_schedule_Event(time(), 'twicedaily', 'wp_version_check');
 
 	if ( ! wp_next_scheduled( 'wp_update_plugins' ) && ! wp_installing() )
-		wp_schedule_event(time(), 'twicedaily', 'wp_update_plugins');
+		wp_schedule_Event(time(), 'twicedaily', 'wp_update_plugins');
 
 	if ( ! wp_next_scheduled( 'wp_update_themes' ) && ! wp_installing() )
-		wp_schedule_event(time(), 'twicedaily', 'wp_update_themes');
+		wp_schedule_Event(time(), 'twicedaily', 'wp_update_themes');
 }
 
 /**

@@ -74,5 +74,5 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 </div><!-- wrap -->
 
 <?php
-wp_print_community_events_templates();
+wp_print_community_Events_templates();
 include( ABSPATH . 'wp-admin/admin-footer.php' );

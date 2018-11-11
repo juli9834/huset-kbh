@@ -29,9 +29,9 @@ var inlineEditPost;
 	/**
 	 * @summary Initializes the inline and bulk post editor.
 	 *
-	 * Binds event handlers to the escape key to close the inline editor
+	 * Binds Event handlers to the escape key to close the inline editor
 	 * and to the save and close buttons. Changes DOM to be ready for inline
-	 * editing. Adds event handler to bulk edit.
+	 * editing. Adds Event handler to bulk edit.
 	 *
 	 * @memberof inlineEditPost
 	 * @since 2.7.0
@@ -120,10 +120,10 @@ var inlineEditPost;
 		});
 
 		/**
-		 * @summary Bind click event to the .editinline link which opens the quick editor.
+		 * @summary Bind click Event to the .editinline link which opens the quick editor.
 		 */
 		$('#the-list').on( 'click', 'a.editinline', function( e ) {
-			e.preventDefault();
+			e.prEventDefault();
 			inlineEditPost.edit(this);
 		});
 
@@ -136,7 +136,7 @@ var inlineEditPost;
 		$('select[name="_status"] option[value="future"]', bulkRow).remove();
 
 		/**
-		 * @summary Adds onclick events to the apply buttons.
+		 * @summary Adds onclick Events to the apply buttons.
 		 */
 		$('#doaction, #doaction2').click(function(e){
 			var n;
@@ -145,7 +145,7 @@ var inlineEditPost;
 			n = t.whichBulkButtonId.substr( 2 );
 
 			if ( 'edit' === $( 'select[name="' + n + '"]' ).val() ) {
-				e.preventDefault();
+				e.prEventDefault();
 				t.setBulk();
 			} else if ( $('form#posts-filter tr.inline-editor').length > 0 ) {
 				t.revert();
@@ -206,10 +206,10 @@ var inlineEditPost;
 			return this.revert();
 		}
 
-		// Add onclick events to the delete-icons in the bulk editors the post title list.
+		// Add onclick Events to the delete-icons in the bulk editors the post title list.
 		$('#bulk-titles').html(te);
 		/**
-		 * @summary Binds on click events to the checkboxes before the posts in the table.
+		 * @summary Binds on click Events to the checkboxes before the posts in the table.
 		 *
 		 * @listens click
 		 */
@@ -442,7 +442,7 @@ var inlineEditPost;
 			},
 		'html');
 
-		// Prevent submitting the form when pressing Enter on a focused field.
+		// PrEvent submitting the form when pressing Enter on a focused field.
 		return false;
 	},
 

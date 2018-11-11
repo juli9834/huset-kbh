@@ -724,7 +724,7 @@ function _get_wptexturize_shortcode_regex( $tagnames ) {
 		. '(?:'
 		.     '[^\[\]<>]+'  // Shortcodes do not contain other shortcodes. Quantifier critical.
 		. '|'
-		.     '<[^\[\]>]*>' // HTML elements permitted. Prevents matching ] before >.
+		.     '<[^\[\]>]*>' // HTML elements permitted. PrEvents matching ] before >.
 		. ')*+'             // Possessive critical.
 		. '\]'              // Find end of shortcode.
 		. '\]?';            // Shortcodes may end with ]]
@@ -2381,7 +2381,7 @@ function backslashit( $string ) {
  * Appends a trailing slash.
  *
  * Will remove trailing forward and backslashes if it exists already before adding
- * a trailing forward slash. This prevents double slashing a string or path.
+ * a trailing forward slash. This prEvents double slashing a string or path.
  *
  * The primary use of this is for paths and thus should be used for paths. It is
  * not restricted to paths and offers no specific path support.
@@ -2671,7 +2671,7 @@ function make_clickable( $text ) {
  *
  * Joining the returned chunks with empty delimiters reconstructs the input string losslessly.
  *
- * Input string must have no null characters (or eventual transformations on output chunks must not care about null characters)
+ * Input string must have no null characters (or Eventual transformations on output chunks must not care about null characters)
  *
  *     _split_str_by_whitespace( "1234 67890 1234 67890a cd 1234   890 123456789 1234567890a    45678   1 3 5 7 90 ", 10 ) ==
  *     array (
@@ -2738,7 +2738,7 @@ function wp_rel_nofollow( $text ) {
  * Callback to add rel=nofollow string to HTML A element.
  *
  * Will remove already existing rel="nofollow" and rel='nofollow' from the
- * string to prevent from invalidating (X)HTML.
+ * string to prEvent from invalidating (X)HTML.
  *
  * @since 2.3.0
  *
@@ -3755,7 +3755,7 @@ function _deep_replace( $search, $subject ) {
  * is preparing an array for use in an IN clause.
  *
  * NOTE: Since 4.8.3, '%' characters will be replaced with a placeholder string,
- * this prevents certain SQLi attacks from taking place. This change in behaviour
+ * this prEvents certain SQLi attacks from taking place. This change in behaviour
  * may cause issues for code that expects the return value of esc_sql() to be useable
  * for other purposes.
  *

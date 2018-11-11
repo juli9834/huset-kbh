@@ -1094,7 +1094,7 @@ function wp_get_pomo_file_data( $po_file ) {
 	$headers = get_file_data( $po_file, array(
 		'POT-Creation-Date'  => '"POT-Creation-Date',
 		'PO-Revision-Date'   => '"PO-Revision-Date',
-		'Project-Id-Version' => '"Project-Id-Version',
+		'Event-Id-Version' => '"Event-Id-Version',
 		'X-Generator'        => '"X-Generator',
 	) );
 	foreach ( $headers as $header => $value ) {

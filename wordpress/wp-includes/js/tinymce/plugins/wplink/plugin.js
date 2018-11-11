@@ -324,8 +324,8 @@
 			prependToContext: true
 		});
 
-		editor.on( 'pastepreprocess', function( event ) {
-			var pastedStr = event.content,
+		editor.on( 'pastepreprocess', function( Event ) {
+			var pastedStr = Event.content,
 				regExp = /^(?:https?:)?\/\/\S+$/i;
 
 			if ( ! editor.selection.isCollapsed() && ! regExp.test( editor.selection.getContent() ) ) {
@@ -337,39 +337,39 @@
 						href: editor.dom.decode( pastedStr )
 					} );
 
-					event.preventDefault();
+					Event.prEventDefault();
 				}
 			}
 		} );
 
 		// Remove any remaining placeholders on saving.
-		editor.on( 'savecontent', function( event ) {
-			event.content = removePlaceholderStrings( event.content, true );
+		editor.on( 'savecontent', function( Event ) {
+			Event.content = removePlaceholderStrings( Event.content, true );
 		});
 
-		// Prevent adding undo levels on inserting link placeholder.
-		editor.on( 'BeforeAddUndo', function( event ) {
-			if ( event.lastLevel && event.lastLevel.content && event.level.content &&
-				event.lastLevel.content === removePlaceholderStrings( event.level.content ) ) {
+		// PrEvent adding undo levels on inserting link placeholder.
+		editor.on( 'BeforeAddUndo', function( Event ) {
+			if ( Event.lastLevel && Event.lastLevel.content && Event.level.content &&
+				Event.lastLevel.content === removePlaceholderStrings( Event.level.content ) ) {
 
-				event.preventDefault();
+				Event.prEventDefault();
 			}
 		});
 
 		// When doing undo and redo with keyboard shortcuts (Ctrl|Cmd+Z, Ctrl|Cmd+Shift+Z, Ctrl|Cmd+Y),
 		// set a flag to not focus the inline dialog. The editor has to remain focused so the users can do consecutive undo/redo.
-		editor.on( 'keydown', function( event ) {
-			if ( event.keyCode === 27 ) { // Esc
+		editor.on( 'keydown', function( Event ) {
+			if ( Event.keyCode === 27 ) { // Esc
 				editor.execCommand( 'wp_link_cancel' );
 			}
 
-			if ( event.altKey || ( tinymce.Env.mac && ( ! event.metaKey || event.ctrlKey ) ) ||
-				( ! tinymce.Env.mac && ! event.ctrlKey ) ) {
+			if ( Event.altKey || ( tinymce.Env.mac && ( ! Event.metaKey || Event.ctrlKey ) ) ||
+				( ! tinymce.Env.mac && ! Event.ctrlKey ) ) {
 
 				return;
 			}
 
-			if ( event.keyCode === 89 || event.keyCode === 90 ) { // Y or Z
+			if ( Event.keyCode === 89 || Event.keyCode === 90 ) { // Y or Z
 				doingUndoRedo = true;
 
 				window.clearTimeout( doingUndoRedoTimer );
@@ -424,19 +424,19 @@
 
 							last = request.term;
 						},
-						focus: function( event, ui ) {
+						focus: function( Event, ui ) {
 							$input.attr( 'aria-activedescendant', 'mce-wp-autocomplete-' + ui.item.ID );
 							/*
 							 * Don't empty the URL input field, when using the arrow keys to
-							 * highlight items. See api.jqueryui.com/autocomplete/#event-focus
+							 * highlight items. See api.jqueryui.com/autocomplete/#Event-focus
 							 */
-							event.preventDefault();
+							Event.prEventDefault();
 						},
-						select: function( event, ui ) {
+						select: function( Event, ui ) {
 							$input.val( ui.item.permalink );
 							$( element.firstChild.nextSibling ).val( ui.item.title );
 
-							if ( 9 === event.keyCode && typeof window.wpLinkL10n !== 'undefined' ) {
+							if ( 9 === Event.keyCode && typeof window.wpLinkL10n !== 'undefined' ) {
 								// Audible confirmation message when a link has been selected.
 								speak( window.wpLinkL10n.linkSelected );
 							}
@@ -499,32 +499,32 @@
 						.removeAttr( 'tabindex' ) // Remove the `tabindex=0` attribute added by jQuery UI.
 						/*
 						 * Looks like Safari and VoiceOver need an `aria-selected` attribute. See ticket #33301.
-						 * The `menufocus` and `menublur` events are the same events used to add and remove
+						 * The `menufocus` and `menublur` Events are the same Events used to add and remove
 						 * the `ui-state-focus` CSS class on the menu items. See jQuery UI Menu Widget.
 						 */
-						.on( 'menufocus', function( event, ui ) {
+						.on( 'menufocus', function( Event, ui ) {
 							ui.item.attr( 'aria-selected', 'true' );
 						})
 						.on( 'menublur', function() {
 							/*
-							 * The `menublur` event returns an object where the item is `null`
+							 * The `menublur` Event returns an object where the item is `null`
 							 * so we need to find the active item with other means.
 							 */
 							$( this ).find( '[aria-selected="true"]' ).removeAttr( 'aria-selected' );
 						});
 				}
 
-				tinymce.$( input ).on( 'keydown', function( event ) {
-					if ( event.keyCode === 13 ) {
+				tinymce.$( input ).on( 'keydown', function( Event ) {
+					if ( Event.keyCode === 13 ) {
 						editor.execCommand( 'wp_link_apply' );
-						event.preventDefault();
+						Event.prEventDefault();
 					}
 				} );
 			}
 		} );
 
-		editor.on( 'wptoolbar', function( event ) {
-			var linkNode = editor.dom.getParent( event.element, 'a' ),
+		editor.on( 'wptoolbar', function( Event ) {
+			var linkNode = editor.dom.getParent( Event.element, 'a' ),
 				$linkNode, href, edit;
 
 			if ( typeof window.wpLink !== 'undefined' && window.wpLink.modalOpen ) {
@@ -544,12 +544,12 @@
 						inputInstance.setURL( href );
 					}
 
-					event.element = linkNode;
-					event.toolbar = editToolbar;
+					Event.element = linkNode;
+					Event.toolbar = editToolbar;
 				} else if ( href && ! $linkNode.find( 'img' ).length ) {
 					previewInstance.setURL( href );
-					event.element = linkNode;
-					event.toolbar = toolbar;
+					Event.element = linkNode;
+					Event.toolbar = toolbar;
 
 					if ( $linkNode.attr( 'data-wplink-url-error' ) === 'true' ) {
 						toolbar.$el.find( '.wp-link-preview a' ).addClass( 'wplink-url-error' );

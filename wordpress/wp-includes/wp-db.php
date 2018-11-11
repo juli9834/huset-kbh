@@ -1972,7 +1972,7 @@ class wpdb {
 	 */
 	public function add_placeholder_escape( $query ) {
 		/*
-		 * To prevent returning anything that even vaguely resembles a placeholder,
+		 * To prEvent returning anything that even vaguely resembles a placeholder,
 		 * we clobber every % we can find.
 		 */
 		return str_replace( '%', $this->placeholder_escape(), $query );

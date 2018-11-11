@@ -10,7 +10,7 @@
 
    getID3() is released under multiple licenses. You may choose
    from the following licenses, and use getID3 according to the
-   terms of the license most suitable to your project.
+   terms of the license most suitable to your Event.
 
 GNU GPL: https://gnu.org/licenses/gpl.html                   (v3)
          https://gnu.org/licenses/old-licenses/gpl-2.0.html  (v2)

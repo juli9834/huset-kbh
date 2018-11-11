@@ -70,12 +70,12 @@
 	GalleryWidgetControl = component.MediaWidgetControl.extend( {
 
 		/**
-		 * View events.
+		 * View Events.
 		 *
 		 * @since 4.9.0
 		 * @type {object}
 		 */
-		events: _.extend( {}, component.MediaWidgetControl.prototype.events, {
+		Events: _.extend( {}, component.MediaWidgetControl.prototype.Events, {
 			'click .media-widget-gallery-preview': 'editMedia'
 		} ),
 
@@ -233,7 +233,7 @@
 					control.model.set( control.mapMediaToModelProps( resultSelection.gallery.toJSON() ) );
 				}
 
-				// Directly update selectedAttachments to prevent needing to do additional request.
+				// Directly update selectedAttachments to prEvent needing to do additional request.
 				control.selectedAttachments.reset( resultSelection.models );
 
 				// Update models in the widget instance.
@@ -292,7 +292,7 @@
 					control.model.set( control.mapMediaToModelProps( resultSelection.gallery.toJSON() ) );
 				}
 
-				// Directly update selectedAttachments to prevent needing to do additional request.
+				// Directly update selectedAttachments to prEvent needing to do additional request.
 				control.selectedAttachments.reset( resultSelection.models );
 
 				// Update widget instance.

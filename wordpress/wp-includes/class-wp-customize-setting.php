@@ -306,7 +306,7 @@ class WP_Customize_Setting {
 			$this->_previewed_blog_id = get_current_blog_id();
 		}
 
-		// Prevent re-previewing an already-previewed setting.
+		// PrEvent re-previewing an already-previewed setting.
 		if ( $this->is_previewed ) {
 			return true;
 		}

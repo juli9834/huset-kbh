@@ -14,10 +14,10 @@
  *
  * Search engines consider www.somedomain.com and somedomain.com to be two
  * different URLs when they both go to the same location. This SEO enhancement
- * prevents penalty for duplicate content by redirecting all incoming links to
+ * prEvents penalty for duplicate content by redirecting all incoming links to
  * one or the other.
  *
- * Prevents redirection for feeds, trackbacks, searches, and
+ * PrEvents redirection for feeds, trackbacks, searches, and
  * admin URLs. Does not redirect on non-pretty-permalink-supporting IIS 7+,
  * page/post previews, WP admin, Trackbacks, robots.txt, searches, or on POST
  * requests.

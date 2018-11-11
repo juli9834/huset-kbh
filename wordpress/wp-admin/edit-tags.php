@@ -106,7 +106,7 @@ case 'delete':
 
 	$location = add_query_arg( 'message', 2, $referer );
 
-	// When deleting a term, prevent the action from redirecting back to a term that no longer exists.
+	// When deleting a term, prEvent the action from redirecting back to a term that no longer exists.
 	$location = remove_query_arg( array( 'tag_ID', 'action' ), $location );
 
 	break;

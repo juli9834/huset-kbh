@@ -402,7 +402,7 @@ wpList = {
 		var list     = this,
 			$element = $( element ),
 			data     = wpList.parseData( $element, 'delete' ),
-			$eventTarget, parsedResponse, returnedResponse;
+			$EventTarget, parsedResponse, returnedResponse;
 
 		settings = settings || {};
 		settings = wpList.pre.call( list, $element, settings, 'delete' );
@@ -435,10 +435,10 @@ wpList = {
 			return true;
 		}
 
-		$eventTarget = $( '#' + settings.element );
+		$EventTarget = $( '#' + settings.element );
 
 		if ( 'none' !== settings.delColor ) {
-			$eventTarget.css( 'backgroundColor', settings.delColor ).fadeOut( 350, function() {
+			$EventTarget.css( 'backgroundColor', settings.delColor ).fadeOut( 350, function() {
 				list.wpList.recolor();
 				$( list ).trigger( 'wpListDelEnd', [ settings, list.wpList ] );
 			} );
@@ -452,7 +452,7 @@ wpList = {
 			returnedResponse = response;
 
 			if ( ! parsedResponse || parsedResponse.errors ) {
-				$eventTarget.stop().stop().css( 'backgroundColor', '#faa' ).show().queue( function() {
+				$EventTarget.stop().stop().css( 'backgroundColor', '#faa' ).show().queue( function() {
 					list.wpList.recolor();
 					$( this ).dequeue();
 				} );
@@ -463,7 +463,7 @@ wpList = {
 
 		settings.complete = function( jqXHR, status ) {
 			if ( $.isFunction( settings.delAfter ) ) {
-				$eventTarget.queue( function() {
+				$EventTarget.queue( function() {
 					settings.delAfter( returnedResponse, $.extend( {
 						xml:    jqXHR,
 						status: status,
@@ -489,9 +489,9 @@ wpList = {
 		var list     = this,
 			$element = $( element ),
 			data     = wpList.parseData( $element, 'dim' ),
-			$eventTarget, isClass, color, dimColor, parsedResponse, returnedResponse;
+			$EventTarget, isClass, color, dimColor, parsedResponse, returnedResponse;
 
-		// Prevent hidden links from being clicked by hotkeys.
+		// PrEvent hidden links from being clicked by hotkeys.
 		if ( 'none' === $element.parent().css( 'display' ) ) {
 			return false;
 		}
@@ -526,17 +526,17 @@ wpList = {
 			}
 		}
 
-		$eventTarget = $( '#' + settings.element );
-		isClass      = $eventTarget.toggleClass( settings.dimClass ).is( '.' + settings.dimClass );
-		color        = wpList.getColor( $eventTarget );
+		$EventTarget = $( '#' + settings.element );
+		isClass      = $EventTarget.toggleClass( settings.dimClass ).is( '.' + settings.dimClass );
+		color        = wpList.getColor( $EventTarget );
 		dimColor     = isClass ? settings.dimAddColor : settings.dimDelColor;
-		$eventTarget.toggleClass( settings.dimClass );
+		$EventTarget.toggleClass( settings.dimClass );
 
 		if ( 'none' !== dimColor ) {
-			$eventTarget
+			$EventTarget
 				.animate( { backgroundColor: dimColor }, 'fast' )
 				.queue( function() {
-					$eventTarget.toggleClass( settings.dimClass );
+					$EventTarget.toggleClass( settings.dimClass );
 					$( this ).dequeue();
 				} )
 				.animate( { backgroundColor: color }, {
@@ -562,7 +562,7 @@ wpList = {
 			}
 
 			if ( ! parsedResponse || parsedResponse.errors ) {
-				$eventTarget.stop().stop().css( 'backgroundColor', '#ff3333' )[isClass ? 'removeClass' : 'addClass']( settings.dimClass ).show().queue( function() {
+				$EventTarget.stop().stop().css( 'backgroundColor', '#ff3333' )[isClass ? 'removeClass' : 'addClass']( settings.dimClass ).show().queue( function() {
 					list.wpList.recolor();
 					$( this ).dequeue();
 				} );
@@ -588,7 +588,7 @@ wpList = {
 
 		settings.complete = function( jqXHR, status ) {
 			if ( $.isFunction( settings.dimAfter ) ) {
-				$eventTarget.queue( function() {
+				$EventTarget.queue( function() {
 					settings.dimAfter( returnedResponse, $.extend( {
 						xml:    jqXHR,
 						status: status,
@@ -684,7 +684,7 @@ wpList = {
 			} );
 		}
 
-		// Add event handlers.
+		// Add Event handlers.
 		$list.each( function( index, list ) {
 			list.wpList.process( $element );
 		} );
@@ -731,7 +731,7 @@ wpList = {
 	},
 
 	/**
-	 * Registers event handlers to add, delete, and dim items.
+	 * Registers Event handlers to add, delete, and dim items.
 	 *
 	 * @param {string} elementId
 	 */

@@ -8,7 +8,7 @@
 
 	/*
 	 * Capture the state that is passed into history.replaceState() and history.pushState()
-	 * and also which is returned in the popstate event so that when the changeset_uuid
+	 * and also which is returned in the popstate Event so that when the changeset_uuid
 	 * gets updated when transitioning to a new changeset there the current state will
 	 * be supplied in the call to history.replaceState().
 	 */
@@ -63,8 +63,8 @@
 			};
 		} )( history.pushState );
 
-		window.addEventListener( 'popstate', function( event ) {
-			currentHistoryState = event.state;
+		window.addEventListener( 'popstate', function( Event ) {
+			currentHistoryState = Event.state;
 		} );
 
 	}( history ) );
@@ -117,11 +117,11 @@
 			if ( api.settings.channel ) {
 
 				// If in an iframe, then intercept the link clicks and form submissions.
-				preview.body.on( 'click.preview', 'a', function( event ) {
-					preview.handleLinkClick( event );
+				preview.body.on( 'click.preview', 'a', function( Event ) {
+					preview.handleLinkClick( Event );
 				} );
-				preview.body.on( 'submit.preview', 'form', function( event ) {
-					preview.handleFormSubmit( event );
+				preview.body.on( 'submit.preview', 'form', function( Event ) {
+					preview.handleFormSubmit( Event );
 				} );
 
 				preview.window.on( 'scroll.preview', debounce( function() {
@@ -140,39 +140,39 @@
 		 * @since 4.7.0
 		 * @access public
 		 *
-		 * @param {jQuery.Event} event Event.
+		 * @param {jQuery.Event} Event Event.
 		 */
-		handleLinkClick: function( event ) {
+		handleLinkClick: function( Event ) {
 			var preview = this, link, isInternalJumpLink;
-			link = $( event.target ).closest( 'a' );
+			link = $( Event.target ).closest( 'a' );
 
 			// No-op if the anchor is not a link.
 			if ( _.isUndefined( link.attr( 'href' ) ) ) {
 				return;
 			}
 
-			// Allow internal jump links and JS links to behave normally without preventing default.
+			// Allow internal jump links and JS links to behave normally without prEventing default.
 			isInternalJumpLink = ( '#' === link.attr( 'href' ).substr( 0, 1 ) );
 			if ( isInternalJumpLink || ! /^https?:$/.test( link.prop( 'protocol' ) ) ) {
 				return;
 			}
 
-			// If the link is not previewable, prevent the browser from navigating to it.
+			// If the link is not previewable, prEvent the browser from navigating to it.
 			if ( ! api.isLinkPreviewable( link[0] ) ) {
 				wp.a11y.speak( api.settings.l10n.linkUnpreviewable );
-				event.preventDefault();
+				Event.prEventDefault();
 				return;
 			}
 
-			// Prevent initiating navigating from click and instead rely on sending url message to pane.
-			event.preventDefault();
+			// PrEvent initiating navigating from click and instead rely on sending url message to pane.
+			Event.prEventDefault();
 
 			/*
 			 * Note the shift key is checked so shift+click on widgets or
 			 * nav menu items can just result on focusing on the corresponding
 			 * control instead of also navigating to the URL linked to.
 			 */
-			if ( event.shiftKey ) {
+			if ( Event.shiftKey ) {
 				return;
 			}
 
@@ -186,23 +186,23 @@
 		 * @since 4.7.0
 		 * @access public
 		 *
-		 * @param {jQuery.Event} event Event.
+		 * @param {jQuery.Event} Event Event.
 		 */
-		handleFormSubmit: function( event ) {
+		handleFormSubmit: function( Event ) {
 			var preview = this, urlParser, form;
 			urlParser = document.createElement( 'a' );
-			form = $( event.target );
+			form = $( Event.target );
 			urlParser.href = form.prop( 'action' );
 
-			// If the link is not previewable, prevent the browser from navigating to it.
+			// If the link is not previewable, prEvent the browser from navigating to it.
 			if ( 'GET' !== form.prop( 'method' ).toUpperCase() || ! api.isLinkPreviewable( urlParser ) ) {
 				wp.a11y.speak( api.settings.l10n.formUnpreviewable );
-				event.preventDefault();
+				Event.prEventDefault();
 				return;
 			}
 
 			/*
-			 * If the default wasn't prevented already (in which case the form
+			 * If the default wasn't prEvented already (in which case the form
 			 * submission is already being handled by JS), and if it has a GET
 			 * request method, then take the serialized form data and add it as
 			 * a query string to the action URL and send this in a url message
@@ -212,7 +212,7 @@
 			 * a no-op, which is the same behavior as when clicking a link to an
 			 * external site in the preview.
 			 */
-			if ( ! event.isDefaultPrevented() ) {
+			if ( ! Event.isDefaultPrEvented() ) {
 				if ( urlParser.search.length > 1 ) {
 					urlParser.search += '&';
 				}
@@ -220,8 +220,8 @@
 				preview.send( 'url', urlParser.href );
 			}
 
-			// Prevent default since navigation should be done via sending url message or via JS submit handler.
-			event.preventDefault();
+			// PrEvent default since navigation should be done via sending url message or via JS submit handler.
+			Event.prEventDefault();
 		}
 	});
 
@@ -378,7 +378,7 @@
 		}
 		element.search = $.param( queryParams );
 
-		// Prevent links from breaking out of preview iframe.
+		// PrEvent links from breaking out of preview iframe.
 		if ( api.settings.channel ) {
 			element.target = '_self';
 		}
@@ -552,7 +552,7 @@
 			}
 		} );
 
-		// Prevent links from breaking out of preview iframe.
+		// PrEvent links from breaking out of preview iframe.
 		if ( api.settings.channel ) {
 			form.target = '_self';
 		}
@@ -734,11 +734,11 @@
 			setValue.apply( null, args.concat( createDirty ) );
 		});
 
-		api.preview.bind( 'sync', function( events ) {
+		api.preview.bind( 'sync', function( Events ) {
 
 			/*
 			 * Delete any settings that already exist locally which haven't been
-			 * modified in the controls while the preview was loading. This prevents
+			 * modified in the controls while the preview was loading. This prEvents
 			 * situations where the JS value being synced from the pane may differ
 			 * from the PHP-sanitized JS value in the preview which causes the
 			 * non-sanitized JS value to clobber the PHP-sanitized value. This
@@ -746,16 +746,16 @@
 			 * have a fallback refresh behavior since infinite refreshing would
 			 * result.
 			 */
-			if ( events.settings && events['settings-modified-while-loading'] ) {
-				_.each( _.keys( events.settings ), function( syncedSettingId ) {
-					if ( api.has( syncedSettingId ) && ! events['settings-modified-while-loading'][ syncedSettingId ] ) {
-						delete events.settings[ syncedSettingId ];
+			if ( Events.settings && Events['settings-modified-while-loading'] ) {
+				_.each( _.keys( Events.settings ), function( syncedSettingId ) {
+					if ( api.has( syncedSettingId ) && ! Events['settings-modified-while-loading'][ syncedSettingId ] ) {
+						delete Events.settings[ syncedSettingId ];
 					}
 				} );
 			}
 
-			$.each( events, function( event, args ) {
-				api.preview.trigger( event, args );
+			$.each( Events, function( Event, args ) {
+				api.preview.trigger( Event, args );
 			});
 			api.preview.send( 'synced' );
 		});

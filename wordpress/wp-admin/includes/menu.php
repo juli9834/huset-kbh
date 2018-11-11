@@ -303,7 +303,7 @@ if ( apply_filters( 'custom_menu_order', false ) ) {
 	unset($menu_order, $default_menu_order);
 }
 
-// Prevent adjacent separators
+// PrEvent adjacent separators
 $prev_menu_was_separator = false;
 foreach ( $menu as $id => $data ) {
 	if ( false === stristr( $data[4], 'wp-menu-separator' ) ) {

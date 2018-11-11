@@ -25,7 +25,7 @@ wpWidgets = {
 	},
 
 	/**
-	 * Lookup of which widgets have had change events triggered.
+	 * Lookup of which widgets have had change Events triggered.
 	 *
 	 * @var {object}
 	 */
@@ -77,7 +77,7 @@ wpWidgets = {
 			});
 
 		// Show AYS dialog when there are unsaved widget changes.
-		$( window ).on( 'beforeunload.widgets', function( event ) {
+		$( window ).on( 'beforeunload.widgets', function( Event ) {
 			var dirtyWidgetIds = [], unsavedWidgetsElements;
 			$.each( self.dirtyWidgets, function( widgetId, dirty ) {
 				if ( dirty ) {
@@ -104,8 +104,8 @@ wpWidgets = {
 					$( this ).find( '.widget-inside :tabbable:first' ).focus();
 				} );
 
-				event.returnValue = wpWidgets.l10n.saveAlert;
-				return event.returnValue;
+				Event.returnValue = wpWidgets.l10n.saveAlert;
+				return Event.returnValue;
 			}
 		});
 
@@ -176,22 +176,22 @@ wpWidgets = {
 						widget.removeClass( 'open' );
 					});
 				}
-				e.preventDefault();
+				e.prEventDefault();
 			} else if ( target.hasClass('widget-control-save') ) {
 				wpWidgets.save( target.closest('div.widget'), 0, 1, 0 );
-				e.preventDefault();
+				e.prEventDefault();
 			} else if ( target.hasClass('widget-control-remove') ) {
 				wpWidgets.save( target.closest('div.widget'), 1, 1, 0 );
-				e.preventDefault();
+				e.prEventDefault();
 			} else if ( target.hasClass('widget-control-close') ) {
 				widget = target.closest('div.widget');
 				widget.removeClass( 'open' );
 				toggleBtn.attr( 'aria-expanded', 'false' );
 				wpWidgets.close( widget );
-				e.preventDefault();
+				e.prEventDefault();
 			} else if ( target.attr( 'id' ) === 'inactive-widgets-control-remove' ) {
 				wpWidgets.removeInactiveWidgets();
-				e.preventDefault();
+				e.prEventDefault();
 			}
 		});
 
@@ -213,7 +213,7 @@ wpWidgets = {
 			zIndex: 100,
 			containment: '#wpwrap',
 			refreshPositions: true,
-			start: function( event, ui ) {
+			start: function( Event, ui ) {
 				var chooser = $(this).find('.widgets-chooser');
 
 				ui.helper.find('div.widget-description').hide();
@@ -245,14 +245,14 @@ wpWidgets = {
 			/**
 			 * Open Sidebar when a Widget gets dragged over it.
 			 *
-			 * @param {object} event jQuery event object.
+			 * @param {object} Event jQuery Event object.
 			 */
-			over: function( event ) {
-				var $wrap = $( event.target ).parent();
+			over: function( Event ) {
+				var $wrap = $( Event.target ).parent();
 
 				if ( wpWidgets.hoveredSidebar && ! $wrap.is( wpWidgets.hoveredSidebar ) ) {
 					// Close the previous Sidebar as the Widget has been dragged onto another Sidebar.
-					wpWidgets.closeSidebar( event );
+					wpWidgets.closeSidebar( Event );
 				}
 
 				if ( $wrap.hasClass( 'closed' ) ) {
@@ -268,11 +268,11 @@ wpWidgets = {
 			/**
 			 * Close Sidebar when the Widget gets dragged out of it.
 			 *
-			 * @param {object} event jQuery event object.
+			 * @param {object} Event jQuery Event object.
 			 */
-			out: function( event ) {
+			out: function( Event ) {
 				if ( wpWidgets.hoveredSidebar ) {
-					wpWidgets.closeSidebar( event );
+					wpWidgets.closeSidebar( Event );
 				}
 			}
 		} );
@@ -286,7 +286,7 @@ wpWidgets = {
 			containment: '#wpwrap',
 			tolerance: 'pointer',
 			refreshPositions: true,
-			start: function( event, ui ) {
+			start: function( Event, ui ) {
 				var height, $this = $(this),
 					$wrap = $this.parent(),
 					inside = ui.item.children('.widget-inside');
@@ -300,13 +300,13 @@ wpWidgets = {
 
 				if ( ! $wrap.hasClass('closed') ) {
 					// Lock all open sidebars min-height when starting to drag.
-					// Prevents jumping when dragging a widget from an open sidebar to a closed sidebar below.
+					// PrEvents jumping when dragging a widget from an open sidebar to a closed sidebar below.
 					height = ui.item.hasClass('ui-draggable') ? $this.height() : 1 + $this.height();
 					$this.css( 'min-height', height + 'px' );
 				}
 			},
 
-			stop: function( event, ui ) {
+			stop: function( Event, ui ) {
 				var addNew, widgetNumber, $sidebar, $children, child, item,
 					$widget = ui.item,
 					id = the_id;
@@ -384,7 +384,7 @@ wpWidgets = {
 				$(this).css( 'min-height', '' ).parent().removeClass( 'widget-hover' );
 			},
 
-			receive: function( event, ui ) {
+			receive: function( Event, ui ) {
 				var $sender = $( ui.sender );
 
 				// Don't add more widgets to orphaned sidebars
@@ -462,9 +462,9 @@ wpWidgets = {
 			}
 		});
 
-		// Add event handlers
-		chooser.on( 'click.widgets-chooser', function( event ) {
-			var $target = $( event.target );
+		// Add Event handlers
+		chooser.on( 'click.widgets-chooser', function( Event ) {
+			var $target = $( Event.target );
 
 			if ( $target.hasClass('button-primary') ) {
 				self.addWidget( chooser );
@@ -472,16 +472,16 @@ wpWidgets = {
 			} else if ( $target.hasClass( 'widgets-chooser-cancel' ) ) {
 				self.closeChooser();
 			}
-		}).on( 'keyup.widgets-chooser', function( event ) {
-			if ( event.which === $.ui.keyCode.ENTER ) {
-				if ( $( event.target ).hasClass( 'widgets-chooser-cancel' ) ) {
+		}).on( 'keyup.widgets-chooser', function( Event ) {
+			if ( Event.which === $.ui.keyCode.ENTER ) {
+				if ( $( Event.target ).hasClass( 'widgets-chooser-cancel' ) ) {
 					// Close instead of adding when pressing Enter on the Cancel button
 					self.closeChooser();
 				} else {
 					self.addWidget( chooser );
 					self.closeChooser();
 				}
-			} else if ( event.which === $.ui.keyCode.ESCAPE ) {
+			} else if ( Event.which === $.ui.keyCode.ESCAPE ) {
 				self.closeChooser();
 			}
 		});
@@ -723,14 +723,14 @@ wpWidgets = {
 	 *
 	 * Used when a Widget gets dragged in/out of the Sidebar and never dropped.
 	 *
-	 * @param {object} event jQuery event object.
+	 * @param {object} Event jQuery Event object.
 	 */
-	closeSidebar: function( event ) {
+	closeSidebar: function( Event ) {
 		this.hoveredSidebar
 			.addClass( 'closed' )
 			.find( '.handlediv' ).attr( 'aria-expanded', 'false' );
 
-		$( event.target ).css( 'min-height', '' );
+		$( Event.target ).css( 'min-height', '' );
 		this.hoveredSidebar = null;
 	}
 };

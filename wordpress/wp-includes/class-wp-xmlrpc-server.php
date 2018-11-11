@@ -270,7 +270,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( $this->auth_failed ) {
-			$user = new WP_Error( 'login_prevented' );
+			$user = new WP_Error( 'login_prEvented' );
 		} else {
 			$user = wp_authenticate( $username, $password );
 		}
@@ -6448,7 +6448,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				// the marker is needed in case the link text appears more than once in the paragraph
 				$excerpt = preg_replace('|\</?wpcontext\>|', '', $para);
 
-				// prevent really long link text
+				// prEvent really long link text
 				if ( strlen($context[1]) > 100 )
 					$context[1] = substr($context[1], 0, 100) . '&#8230;';
 

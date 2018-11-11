@@ -54,13 +54,13 @@
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {jQuery.Event} event - Event.
+		 * @param {jQuery.Event} Event - Event.
 		 * @returns {void}
 		 */
-		handleEscape: function( event ) {
+		handleEscape: function( Event ) {
 			var notification = this;
-			if ( 27 === event.which ) {
-				event.stopPropagation();
+			if ( 27 === Event.which ) {
+				Event.stopPropagation();
 				if ( notification.dismissible && notification.parent ) {
 					notification.parent.remove( notification.code );
 				}
@@ -115,7 +115,7 @@
 			collection._addedIncrement = 0;
 			collection._addedOrder = {};
 
-			// Trigger change event when notification is added or removed.
+			// Trigger change Event when notification is added or removed.
 			collection.bind( 'add', function( notification ) {
 				collection.trigger( 'change', notification );
 			});
@@ -309,16 +309,16 @@
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {jQuery.Event} event - Event.
+		 * @param {jQuery.Event} Event - Event.
 		 * @returns {void}
 		 */
-		constrainFocus: function constrainFocus( event ) {
+		constrainFocus: function constrainFocus( Event ) {
 			var collection = this, focusableElements;
 
-			// Prevent keys from escaping.
-			event.stopPropagation();
+			// PrEvent keys from escaping.
+			Event.stopPropagation();
 
-			if ( 9 !== event.which ) { // Tab key.
+			if ( 9 !== Event.which ) { // Tab key.
 				return;
 			}
 
@@ -327,14 +327,14 @@
 				focusableElements = collection.focusContainer;
 			}
 
-			if ( ! $.contains( collection.focusContainer[0], event.target ) || ! $.contains( collection.focusContainer[0], document.activeElement ) ) {
-				event.preventDefault();
+			if ( ! $.contains( collection.focusContainer[0], Event.target ) || ! $.contains( collection.focusContainer[0], document.activeElement ) ) {
+				Event.prEventDefault();
 				focusableElements.first().focus();
-			} else if ( focusableElements.last().is( event.target ) && ! event.shiftKey ) {
-				event.preventDefault();
+			} else if ( focusableElements.last().is( Event.target ) && ! Event.shiftKey ) {
+				Event.prEventDefault();
 				focusableElements.first().focus();
-			} else if ( focusableElements.first().is( event.target ) && event.shiftKey ) {
-				event.preventDefault();
+			} else if ( focusableElements.first().is( Event.target ) && Event.shiftKey ) {
+				Event.prEventDefault();
 				focusableElements.last().focus();
 			}
 		}
@@ -542,7 +542,7 @@
 		var deferred, request, submittedChanges = {}, data, submittedArgs;
 		deferred = new $.Deferred();
 
-		// Prevent attempting changeset update while request is being made.
+		// PrEvent attempting changeset update while request is being made.
 		if ( 0 !== api.state( 'processing' ).get() ) {
 			deferred.reject( 'already_processing' );
 			return deferred.promise();
@@ -741,15 +741,15 @@
 	};
 
 	/**
-	 * Return whether the supplied Event object is for a keydown event but not the Enter key.
+	 * Return whether the supplied Event object is for a keydown Event but not the Enter key.
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param {jQuery.Event} event
+	 * @param {jQuery.Event} Event
 	 * @returns {boolean}
 	 */
-	api.utils.isKeydownButNotEnterEvent = function ( event ) {
-		return ( 'keydown' === event.type && 13 !== event.which );
+	api.utils.isKeydownButNotEnterEvent = function ( Event ) {
+		return ( 'keydown' === Event.type && 13 !== Event.which );
 	};
 
 	/**
@@ -872,11 +872,11 @@
 	};
 
 	/**
-	 * Return browser supported `transitionend` event name.
+	 * Return browser supported `transitionend` Event name.
 	 *
 	 * @since 4.7.0
 	 *
-	 * @returns {string|null} Normalized `transitionend` event name or null if CSS transitions are not supported.
+	 * @returns {string|null} Normalized `transitionend` Event name or null if CSS transitions are not supported.
 	 */
 	normalizedTransitionendEventName = (function () {
 		var el, transitions, prop;
@@ -1274,9 +1274,9 @@
 				elements = elements.add( '#customize-info, .customize-pane-parent' );
 			}
 
-			// Handle `transitionEnd` event.
+			// Handle `transitionEnd` Event.
 			transitionEndCallback = function( e ) {
-				if ( 2 !== e.eventPhase || ! $( e.target ).is( content ) ) {
+				if ( 2 !== e.EventPhase || ! $( e.target ).is( content ) ) {
 					return;
 				}
 				content.off( normalizedTransitionendEventName, transitionEndCallback );
@@ -1288,7 +1288,7 @@
 			content.on( normalizedTransitionendEventName, transitionEndCallback );
 			elements.addClass( 'busy' );
 
-			// Prevent screen flicker when pane has been scrolled before expanding.
+			// PrEvent screen flicker when pane has been scrolled before expanding.
 			_.defer( function() {
 				var container = content.closest( '.wp-full-overlay-sidebar-content' ),
 					currentScrollTop = container.scrollTop(),
@@ -1496,11 +1496,11 @@
 			}
 
 			// Expand/Collapse accordion sections on click.
-			section.container.find( '.accordion-section-title, .customize-section-back' ).on( 'click keydown', function( event ) {
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+			section.container.find( '.accordion-section-title, .customize-section-back' ).on( 'click keydown', function( Event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 					return;
 				}
-				event.preventDefault(); // Keep this AFTER the key filter above
+				Event.prEventDefault(); // Keep this AFTER the key filter above
 
 				if ( section.expanded() ) {
 					section.collapse();
@@ -1745,24 +1745,24 @@
 			section.overlay = section.container.find( '.theme-overlay' );
 			section.template = wp.template( 'customize-themes-details-view' );
 
-			// Bind global keyboard events.
-			section.container.on( 'keydown', function( event ) {
+			// Bind global keyboard Events.
+			section.container.on( 'keydown', function( Event ) {
 				if ( ! section.overlay.find( '.theme-wrap' ).is( ':visible' ) ) {
 					return;
 				}
 
-				// Pressing the right arrow key fires a theme:next event
-				if ( 39 === event.keyCode ) {
+				// Pressing the right arrow key fires a theme:next Event
+				if ( 39 === Event.keyCode ) {
 					section.nextTheme();
 				}
 
-				// Pressing the left arrow key fires a theme:previous event
-				if ( 37 === event.keyCode ) {
+				// Pressing the left arrow key fires a theme:previous Event
+				if ( 37 === Event.keyCode ) {
 					section.previousTheme();
 				}
 
-				// Pressing the escape key fires a theme:collapse event
-				if ( 27 === event.keyCode ) {
+				// Pressing the escape key fires a theme:collapse Event
+				if ( 27 === Event.keyCode ) {
 					if ( section.$body.hasClass( 'modal-open' ) ) {
 
 						// Escape from the details modal.
@@ -1772,7 +1772,7 @@
 						// Escape from the inifinite scroll list.
 						section.headerContainer.find( '.customize-themes-section-title' ).focus();
 					}
-					event.stopPropagation(); // Prevent section from being collapsed.
+					Event.stopPropagation(); // PrEvent section from being collapsed.
 				}
 			});
 
@@ -1785,7 +1785,7 @@
 		 * Override Section.isContextuallyActive method.
 		 *
 		 * Ignore the active states' of the contained theme controls, and just
-		 * use the section's own active state instead. This prevents empty search
+		 * use the section's own active state instead. This prEvents empty search
 		 * results for theme sections from causing the section to become inactive.
 		 *
 		 * @since 4.2.0
@@ -1797,7 +1797,7 @@
 		},
 
 		/**
-		 * Attach events.
+		 * Attach Events.
 		 *
 		 * @since 4.2.0
 		 *
@@ -1807,11 +1807,11 @@
 			var section = this, debounced;
 
 			// Expand/Collapse accordion sections on click.
-			section.container.find( '.customize-section-back' ).on( 'click keydown', function( event ) {
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+			section.container.find( '.customize-section-back' ).on( 'click keydown', function( Event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 					return;
 				}
-				event.preventDefault(); // Keep this AFTER the key filter above
+				Event.prEventDefault(); // Keep this AFTER the key filter above
 				section.collapse();
 			});
 
@@ -1857,8 +1857,8 @@
 			if ( 'local' === section.params.filter_type ) {
 
 				// Filter-search all theme objects loaded in the section.
-				section.container.on( 'input', '.wp-filter-search-themes', function( event ) {
-					section.filterSearch( event.currentTarget.value );
+				section.container.on( 'input', '.wp-filter-search-themes', function( Event ) {
+					section.filterSearch( Event.currentTarget.value );
 				});
 
 			} else if ( 'remote' === section.params.filter_type ) {
@@ -2604,11 +2604,11 @@
 		containFocus: function( el ) {
 			var tabbables;
 
-			el.on( 'keydown', function( event ) {
+			el.on( 'keydown', function( Event ) {
 
 				// Return if it's not the tab key
 				// When navigating with prev/next focus is already handled
-				if ( 9 !== event.keyCode ) {
+				if ( 9 !== Event.keyCode ) {
 					return;
 				}
 
@@ -2616,10 +2616,10 @@
 				tabbables = $( ':tabbable', el );
 
 				// Keep focus within the overlay
-				if ( tabbables.last()[0] === event.target && ! event.shiftKey ) {
+				if ( tabbables.last()[0] === Event.target && ! Event.shiftKey ) {
 					tabbables.first().focus();
 					return false;
-				} else if ( tabbables.first()[0] === event.target && event.shiftKey ) {
+				} else if ( tabbables.first()[0] === Event.target && Event.shiftKey ) {
 					tabbables.last().focus();
 					return false;
 				}
@@ -2656,7 +2656,7 @@
 		},
 
 		/**
-		 * Overrides api.Section.prototype.onChangeExpanded to prevent collapse/expand effect
+		 * Overrides api.Section.prototype.onChangeExpanded to prEvent collapse/expand effect
 		 * on other sections and panels.
 		 *
 		 * @since 4.9.0
@@ -2819,11 +2819,11 @@
 			var meta, panel = this;
 
 			// Expand/Collapse accordion sections on click.
-			panel.headContainer.find( '.accordion-section-title' ).on( 'click keydown', function( event ) {
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+			panel.headContainer.find( '.accordion-section-title' ).on( 'click keydown', function( Event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 					return;
 				}
-				event.preventDefault(); // Keep this AFTER the key filter above
+				Event.prEventDefault(); // Keep this AFTER the key filter above
 
 				if ( ! panel.expanded() ) {
 					panel.expand();
@@ -2831,11 +2831,11 @@
 			});
 
 			// Close panel.
-			panel.container.find( '.customize-panel-back' ).on( 'click keydown', function( event ) {
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+			panel.container.find( '.customize-panel-back' ).on( 'click keydown', function( Event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 					return;
 				}
-				event.preventDefault(); // Keep this AFTER the key filter above
+				Event.prEventDefault(); // Keep this AFTER the key filter above
 
 				if ( panel.expanded() ) {
 					panel.collapse();
@@ -3062,7 +3062,7 @@
 		},
 
 		/**
-		 * Attach events.
+		 * Attach Events.
 		 *
 		 * @since 4.9.0
 		 * @returns {void}
@@ -3070,7 +3070,7 @@
 		attachEvents: function() {
 			var panel = this;
 
-			// Attach regular panel events.
+			// Attach regular panel Events.
 			api.Panel.prototype.attachEvents.apply( panel );
 
 			// Temporary since supplying SFTP credentials does not work yet. See #42184
@@ -3107,23 +3107,23 @@
 			});
 
 			// Install (and maybe preview) a theme.
-			panel.contentContainer.on( 'click', '.theme-install', function( event ) {
-				panel.installTheme( event );
+			panel.contentContainer.on( 'click', '.theme-install', function( Event ) {
+				panel.installTheme( Event );
 			});
 
 			// Update a theme. Theme cards have the class, the details modal has the id.
-			panel.contentContainer.on( 'click', '.update-theme, #update-theme', function( event ) {
+			panel.contentContainer.on( 'click', '.update-theme, #update-theme', function( Event ) {
 
 				// #update-theme is a link.
-				event.preventDefault();
-				event.stopPropagation();
+				Event.prEventDefault();
+				Event.stopPropagation();
 
-				panel.updateTheme( event );
+				panel.updateTheme( Event );
 			});
 
 			// Delete a theme.
-			panel.contentContainer.on( 'click', '.delete-theme', function( event ) {
-				panel.deleteTheme( event );
+			panel.contentContainer.on( 'click', '.delete-theme', function( Event ) {
+				panel.deleteTheme( Event );
 			});
 
 			_.bindAll( panel, 'installTheme', 'updateTheme' );
@@ -3189,12 +3189,12 @@
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {jQuery.Event} event - Event.
+		 * @param {jQuery.Event} Event - Event.
 		 * @returns {jQuery.promise} Promise.
 		 */
-		installTheme: function( event ) {
-			var panel = this, preview, onInstallSuccess, slug = $( event.target ).data( 'slug' ), deferred = $.Deferred(), request;
-			preview = $( event.target ).hasClass( 'preview' );
+		installTheme: function( Event ) {
+			var panel = this, preview, onInstallSuccess, slug = $( Event.target ).data( 'slug' ), deferred = $.Deferred(), request;
+			preview = $( Event.target ).hasClass( 'preview' );
 
 			// Temporary since supplying SFTP credentials does not work yet. See #42184.
 			if ( api.settings.theme._filesystemCredentialsNeeded ) {
@@ -3204,7 +3204,7 @@
 				return deferred.promise();
 			}
 
-			// Prevent loading a non-active theme preview when there is a drafted/scheduled changeset.
+			// PrEvent loading a non-active theme preview when there is a drafted/scheduled changeset.
 			if ( ! panel.canSwitchTheme( slug ) ) {
 				deferred.reject({
 					errorCode: 'theme_switch_unavailable'
@@ -3220,7 +3220,7 @@
 				return deferred.promise();
 			}
 
-			wp.updates.maybeRequestFilesystemCredentials( event );
+			wp.updates.maybeRequestFilesystemCredentials( Event );
 
 			onInstallSuccess = function( response ) {
 				var theme = false, themeControl;
@@ -3272,7 +3272,7 @@
 				slug: slug
 			} );
 
-			// Also preview the theme as the event is triggered on Install & Preview.
+			// Also preview the theme as the Event is triggered on Install & Preview.
 			if ( preview ) {
 				api.notifications.add( new api.OverlayNotification( 'theme_installing', {
 					message: api.l10n.themeDownloading,
@@ -3300,7 +3300,7 @@
 		loadThemePreview: function( themeId ) {
 			var panel = this, deferred = $.Deferred(), onceProcessingComplete, urlParser, queryParams;
 
-			// Prevent loading a non-active theme preview when there is a drafted/scheduled changeset.
+			// PrEvent loading a non-active theme preview when there is a drafted/scheduled changeset.
 			if ( ! panel.canSwitchTheme( themeId ) ) {
 				deferred.reject({
 					errorCode: 'theme_switch_unavailable'
@@ -3370,11 +3370,11 @@
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {jQuery.Event} event - Event.
+		 * @param {jQuery.Event} Event - Event.
 		 * @returns {void}
 		 */
-		updateTheme: function( event ) {
-			wp.updates.maybeRequestFilesystemCredentials( event );
+		updateTheme: function( Event ) {
+			wp.updates.maybeRequestFilesystemCredentials( Event );
 
 			$( document ).one( 'wp-theme-update-success', function( e, response ) {
 
@@ -3391,7 +3391,7 @@
 			} );
 
 			wp.updates.updateTheme( {
-				slug: $( event.target ).closest( '.notice' ).data( 'slug' )
+				slug: $( Event.target ).closest( '.notice' ).data( 'slug' )
 			} );
 		},
 
@@ -3400,15 +3400,15 @@
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {jQuery.Event} event - Event.
+		 * @param {jQuery.Event} Event - Event.
 		 * @returns {void}
 		 */
-		deleteTheme: function( event ) {
+		deleteTheme: function( Event ) {
 			var theme, section;
-			theme = $( event.target ).data( 'slug' );
+			theme = $( Event.target ).data( 'slug' );
 			section = api.section( 'installed_themes' );
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			// Temporary since supplying SFTP credentials does not work yet. See #42184.
 			if ( api.settings.theme._filesystemCredentialsNeeded ) {
@@ -3420,7 +3420,7 @@
 				return;
 			}
 
-			wp.updates.maybeRequestFilesystemCredentials( event );
+			wp.updates.maybeRequestFilesystemCredentials( Event );
 
 			$( document ).one( 'wp-theme-delete-success', function() {
 				var control = api.control( 'installed_theme_' + theme );
@@ -3651,7 +3651,7 @@
 				if ( node.data( 'customizeSettingLinked' ) ) {
 					return;
 				}
-				node.data( 'customizeSettingLinked', true ); // Prevent re-linking element.
+				node.data( 'customizeSettingLinked', true ); // PrEvent re-linking element.
 
 				if ( node.is( ':radio' ) ) {
 					name = node.prop( 'name' );
@@ -3976,12 +3976,12 @@
 				};
 
 			// Support the .dropdown class to open/close complex elements
-			this.container.on( 'click keydown', '.dropdown', function( event ) {
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+			this.container.on( 'click keydown', '.dropdown', function( Event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 					return;
 				}
 
-				event.preventDefault();
+				Event.prEventDefault();
 
 				if ( ! toggleFreeze ) {
 					control.container.toggleClass( 'open' );
@@ -4145,7 +4145,7 @@
 			if ( isHueSlider ) {
 				picker = this.container.find( '.color-picker-hue' );
 				picker.val( control.setting() ).wpColorPicker({
-					change: function( event, ui ) {
+					change: function( Event, ui ) {
 						updating = true;
 						control.setting( ui.color.h() );
 						updating = false;
@@ -4177,16 +4177,16 @@
 			} );
 
 			// Collapse color picker when hitting Esc instead of collapsing the current section.
-			control.container.on( 'keydown', function( event ) {
+			control.container.on( 'keydown', function( Event ) {
 				var pickerContainer;
-				if ( 27 !== event.which ) { // Esc.
+				if ( 27 !== Event.which ) { // Esc.
 					return;
 				}
 				pickerContainer = control.container.find( '.wp-picker-container' );
 				if ( pickerContainer.hasClass( 'wp-picker-active' ) ) {
 					picker.wpColorPicker( 'close' );
 					control.container.find( '.wp-color-result' ).focus();
-					event.stopPropagation(); // Prevent section from being collapsed.
+					Event.stopPropagation(); // PrEvent section from being collapsed.
 				}
 			} );
 		}
@@ -4203,14 +4203,14 @@
 
 		/**
 		 * When the control's DOM structure is ready,
-		 * set up internal event bindings.
+		 * set up internal Event bindings.
 		 */
 		ready: function() {
 			var control = this;
 			// Shortcut so that we don't have to use _.bind every time we add a callback.
 			_.bindAll( control, 'restoreDefault', 'removeFile', 'openFrame', 'select', 'pausePlayer' );
 
-			// Bind events, with delegation to facilitate re-rendering.
+			// Bind Events, with delegation to facilitate re-rendering.
 			control.container.on( 'click keydown', '.upload-button', control.openFrame );
 			control.container.on( 'click keydown', '.upload-button', control.pausePlayer );
 			control.container.on( 'click keydown', '.thumbnail-image img', control.openFrame );
@@ -4291,12 +4291,12 @@
 		/**
 		 * Open the media modal.
 		 */
-		openFrame: function( event ) {
-			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+		openFrame: function( Event ) {
+			if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 				return;
 			}
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			if ( ! this.frame ) {
 				this.initFrame();
@@ -4354,11 +4354,11 @@
 		/**
 		 * Reset the setting to the default value.
 		 */
-		restoreDefault: function( event ) {
-			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+		restoreDefault: function( Event ) {
+			if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 				return;
 			}
-			event.preventDefault();
+			Event.prEventDefault();
 
 			this.params.attachment = this.params.defaultAttachment;
 			this.setting( this.params.defaultAttachment.url );
@@ -4367,13 +4367,13 @@
 		/**
 		 * Called when the "Remove" link is clicked. Empties the setting.
 		 *
-		 * @param {object} event jQuery Event object
+		 * @param {object} Event jQuery Event object
 		 */
-		removeFile: function( event ) {
-			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+		removeFile: function( Event ) {
+			if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 				return;
 			}
-			event.preventDefault();
+			Event.prEventDefault();
 
 			this.params.attachment = {};
 			this.setting( '' );
@@ -4452,7 +4452,7 @@
 
 		/**
 		 * When the control's DOM structure is ready,
-		 * set up internal event bindings.
+		 * set up internal Event bindings.
 		 */
 		ready: function() {
 			api.UploadControl.prototype.ready.apply( this, arguments );
@@ -4528,8 +4528,8 @@
 		/**
 		 * Open the media modal to the library state.
 		 */
-		openFrame: function( event ) {
-			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+		openFrame: function( Event ) {
+			if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 				return;
 			}
 
@@ -4825,13 +4825,13 @@
 		/**
 		 * Called when the "Remove" link is clicked. Empties the setting.
 		 *
-		 * @param {object} event jQuery Event object
+		 * @param {object} Event jQuery Event object
 		 */
-		removeFile: function( event ) {
-			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+		removeFile: function( Event ) {
+			if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 				return;
 			}
-			event.preventDefault();
+			Event.prEventDefault();
 
 			this.params.attachment = {};
 			this.setting( '' );
@@ -4990,12 +4990,12 @@
 		 * current theme, a cropping step after selection may be required or
 		 * skippable.
 		 *
-		 * @param {event} event
+		 * @param {Event} Event
 		 */
-		openMedia: function(event) {
+		openMedia: function(Event) {
 			var l10n = _wpMediaViewsL10n;
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			this.frame = wp.media({
 				button: {
@@ -5098,7 +5098,7 @@
 		},
 
 		/**
-		 * Triggers the necessary events to deselect an image which was set as
+		 * Triggers the necessary Events to deselect an image which was set as
 		 * the currently selected one.
 		 */
 		removeImage: function() {
@@ -5148,9 +5148,9 @@
 			});
 
 			// Bind details view trigger.
-			control.container.on( 'click keydown touchend', '.theme', function( event ) {
+			control.container.on( 'click keydown touchend', '.theme', function( Event ) {
 				var section;
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+				if ( api.utils.isKeydownButNotEnterEvent( Event ) ) {
 					return;
 				}
 
@@ -5159,12 +5159,12 @@
 					return control.touchDrag = false;
 				}
 
-				// Prevent the modal from showing when the user clicks the action button.
-				if ( $( event.target ).is( '.theme-actions .button, .update-theme' ) ) {
+				// PrEvent the modal from showing when the user clicks the action button.
+				if ( $( Event.target ).is( '.theme-actions .button, .update-theme' ) ) {
 					return;
 				}
 
-				event.preventDefault(); // Keep this AFTER the key filter above
+				Event.prEventDefault(); // Keep this AFTER the key filter above
 				section = api.section( control.section() );
 				section.showDetails( control.params.theme, function() {
 
@@ -5284,7 +5284,7 @@
 			} );
 			api.Control.prototype.initialize.call( control, id, options );
 
-			// Note that rendering is debounced so the props will be used when rendering happens after add event.
+			// Note that rendering is debounced so the props will be used when rendering happens after add Event.
 			control.notifications.bind( 'add', function( notification ) {
 
 				// Skip if control notification is not from setting csslint_error notification.
@@ -5443,7 +5443,7 @@
 
 			/*
 			 * When the CodeMirror instance changes, mirror to the textarea,
-			 * where we have our "true" change event handler bound.
+			 * where we have our "true" change Event handler bound.
 			 */
 			control.editor.codemirror.on( 'change', function( codemirror ) {
 				suspendEditorUpdate = true;
@@ -5458,11 +5458,11 @@
 				}
 			});
 
-			// Prevent collapsing section when hitting Esc to tab out of editor.
-			control.editor.codemirror.on( 'keydown', function onKeydown( codemirror, event ) {
+			// PrEvent collapsing section when hitting Esc to tab out of editor.
+			control.editor.codemirror.on( 'keydown', function onKeydown( codemirror, Event ) {
 				var escKeyCode = 27;
-				if ( escKeyCode === event.keyCode ) {
-					event.stopPropagation();
+				if ( escKeyCode === Event.keyCode ) {
+					Event.stopPropagation();
 				}
 			});
 
@@ -5542,23 +5542,23 @@
 				$textarea.data( 'next-tab-blurs', false );
 			} );
 
-			$textarea.on( 'keydown', function onKeydown( event ) {
+			$textarea.on( 'keydown', function onKeydown( Event ) {
 				var selectionStart, selectionEnd, value, tabKeyCode = 9, escKeyCode = 27;
 
-				if ( escKeyCode === event.keyCode ) {
+				if ( escKeyCode === Event.keyCode ) {
 					if ( ! $textarea.data( 'next-tab-blurs' ) ) {
 						$textarea.data( 'next-tab-blurs', true );
-						event.stopPropagation(); // Prevent collapsing the section.
+						Event.stopPropagation(); // PrEvent collapsing the section.
 					}
 					return;
 				}
 
 				// Short-circuit if tab key is not being pressed or if a modifier key *is* being pressed.
-				if ( tabKeyCode !== event.keyCode || event.ctrlKey || event.altKey || event.shiftKey ) {
+				if ( tabKeyCode !== Event.keyCode || Event.ctrlKey || Event.altKey || Event.shiftKey ) {
 					return;
 				}
 
-				// Prevent capturing Tab characters if Esc was pressed.
+				// PrEvent capturing Tab characters if Esc was pressed.
 				if ( $textarea.data( 'next-tab-blurs' ) ) {
 					return;
 				}
@@ -5572,8 +5572,8 @@
 					$textarea.selectionStart = textarea.selectionEnd = selectionStart + 1;
 				}
 
-				event.stopPropagation();
-				event.preventDefault();
+				Event.stopPropagation();
+				Event.prEventDefault();
 			});
 
 			control.deferred.codemirror.rejectWith( control );
@@ -5994,8 +5994,8 @@
 			api.state( 'activated' ).bind( control.updatePreviewLink );
 			api.previewer.previewUrl.bind( control.updatePreviewLink );
 
-			button.element.on( 'click', function( event ) {
-				event.preventDefault();
+			button.element.on( 'click', function( Event ) {
+				Event.prEventDefault();
 				if ( control.setting() ) {
 					input.element.select();
 					document.execCommand( 'copy' );
@@ -6003,9 +6003,9 @@
 				}
 			} );
 
-			url.element.parent().on( 'click', function( event ) {
+			url.element.parent().on( 'click', function( Event ) {
 				if ( $( this ).hasClass( 'disabled' ) ) {
-					event.preventDefault();
+					Event.prEventDefault();
 				}
 			} );
 
@@ -6492,7 +6492,7 @@
 				active: $.Deferred()
 			};
 
-			// Debounce to prevent hammering server and then wait for any pending update requests.
+			// Debounce to prEvent hammering server and then wait for any pending update requests.
 			previewer.refresh = _.debounce(
 				( function( originalRefresh ) {
 					return function() {
@@ -6807,7 +6807,7 @@
 				};
 				loadingFrame.bind( 'synced', onceSynced );
 
-				// This event will be received directly by the previewer in normal navigation; this is only needed for seamless refresh.
+				// This Event will be received directly by the previewer in normal navigation; this is only needed for seamless refresh.
 				previewer.trigger( 'ready', readyData );
 			});
 
@@ -7249,8 +7249,8 @@
 			section.contentContainer.find( '.customize-section-back' ).removeAttr( 'tabindex' );
 			publishSettingsBtn.prop( 'disabled', false );
 
-			publishSettingsBtn.on( 'click', function( event ) {
-				event.preventDefault();
+			publishSettingsBtn.on( 'click', function( Event ) {
+				Event.prEventDefault();
 				section.expanded.set( ! section.expanded.get() );
 			} );
 
@@ -7355,13 +7355,13 @@
 			} );
 		} );
 
-		// Prevent the form from saving when enter is pressed on an input or select element.
+		// PrEvent the form from saving when enter is pressed on an input or select element.
 		$('#customize-controls').on( 'keydown', function( e ) {
 			var isEnter = ( 13 === e.which ),
 				$el = $( e.target );
 
 			if ( isEnter && ( $el.is( 'input:not([type=button])' ) || $el.is( 'select' ) ) ) {
-				e.preventDefault();
+				e.prEventDefault();
 			}
 		});
 
@@ -7562,7 +7562,7 @@
 					 * it is remaining here to make sure that any settings that got updated
 					 * quietly which may have not triggered an update request will also get
 					 * included in the values that get saved to the changeset. This will ensure
-					 * that values that get injected via the saved event will be included in
+					 * that values that get injected via the saved Event will be included in
 					 * the changeset. This also ensures that setting values that were invalid
 					 * will get re-validated, perhaps in the case of settings that are invalid
 					 * due to dependencies on other settings.
@@ -7665,7 +7665,7 @@
 								 * Note that the setting revision will be undefined in the case of setting
 								 * values that are marked as dirty when the customizer is loaded, such as
 								 * when applying starter content. All other dirty settings will have an
-								 * associated revision due to their modification triggering a change event.
+								 * associated revision due to their modification triggering a change Event.
 								 */
 								if ( setting._dirty && ( _.isUndefined( api._latestSettingRevisions[ setting.id ] ) || api._latestSettingRevisions[ setting.id ] <= latestRevision ) ) {
 									setting._dirty = false;
@@ -7679,7 +7679,7 @@
 							}
 						}
 
-						// Prevent subsequent requestChangesetUpdate() calls from including the settings that have been saved.
+						// PrEvent subsequent requestChangesetUpdate() calls from including the settings that have been saved.
 						api._lastSavedRevision = Math.max( latestRevision, api._lastSavedRevision );
 
 						if ( response.setting_validities ) {
@@ -8174,8 +8174,8 @@
 					} );
 
 					takeOverButton = li.find( '.customize-notice-take-over-button' );
-					takeOverButton.on( 'click', function( event ) {
-						event.preventDefault();
+					takeOverButton.on( 'click', function( Event ) {
+						Event.prEventDefault();
 						if ( request ) {
 							return;
 						}
@@ -8238,13 +8238,13 @@
 			}
 
 			// Check for lock when sending heartbeat requests.
-			$( document ).on( 'heartbeat-send.update_lock_notice', function( event, data ) {
+			$( document ).on( 'heartbeat-send.update_lock_notice', function( Event, data ) {
 				data.check_changeset_lock = true;
 				data.changeset_uuid = api.settings.changeset.uuid;
 			} );
 
 			// Handle heartbeat ticks.
-			$( document ).on( 'heartbeat-tick.update_lock_notice', function( event, data ) {
+			$( document ).on( 'heartbeat-tick.update_lock_notice', function( Event, data ) {
 				var notification, code = 'changeset_locked';
 				if ( ! data.customize_changeset_lock_user ) {
 					return;
@@ -8357,8 +8357,8 @@
 						// Handle clicking on restoration link.
 						link = li.find( 'a' );
 						link.prop( 'href', getAutosaveRestorationUrl() );
-						link.on( 'click', function( event ) {
-							event.preventDefault();
+						link.on( 'click', function( Event ) {
+							Event.prEventDefault();
 							location.replace( getAutosaveRestorationUrl() );
 						} );
 
@@ -8403,27 +8403,27 @@
 		}
 
 		// Button bindings.
-		saveBtn.click( function( event ) {
+		saveBtn.click( function( Event ) {
 			api.previewer.save();
-			event.preventDefault();
-		}).keydown( function( event ) {
-			if ( 9 === event.which ) { // Tab.
+			Event.prEventDefault();
+		}).keydown( function( Event ) {
+			if ( 9 === Event.which ) { // Tab.
 				return;
 			}
-			if ( 13 === event.which ) { // Enter.
+			if ( 13 === Event.which ) { // Enter.
 				api.previewer.save();
 			}
-			event.preventDefault();
+			Event.prEventDefault();
 		});
 
-		closeBtn.keydown( function( event ) {
-			if ( 9 === event.which ) { // Tab.
+		closeBtn.keydown( function( Event ) {
+			if ( 9 === Event.which ) { // Tab.
 				return;
 			}
-			if ( 13 === event.which ) { // Enter.
+			if ( 13 === Event.which ) { // Enter.
 				this.click();
 			}
-			event.preventDefault();
+			Event.prEventDefault();
 		});
 
 		$( '.collapse-sidebar' ).on( 'click', function() {
@@ -8443,18 +8443,18 @@
 		});
 
 		// Keyboard shortcuts - esc to exit section/panel.
-		body.on( 'keydown', function( event ) {
+		body.on( 'keydown', function( Event ) {
 			var collapsedObject, expandedControls = [], expandedSections = [], expandedPanels = [];
 
-			if ( 27 !== event.which ) { // Esc.
+			if ( 27 !== Event.which ) { // Esc.
 				return;
 			}
 
 			/*
-			 * Abort if the event target is not the body (the default) and not inside of #customize-controls.
+			 * Abort if the Event target is not the body (the default) and not inside of #customize-controls.
 			 * This ensures that ESC meant to collapse a modal dialog or a TinyMCE toolbar won't collapse something else.
 			 */
-			if ( ! $( event.target ).is( 'body' ) && ! $.contains( $( '#customize-controls' )[0], event.target ) ) {
+			if ( ! $( Event.target ).is( 'body' ) && ! $.contains( $( '#customize-controls' )[0], Event.target ) ) {
 				return;
 			}
 
@@ -8496,7 +8496,7 @@
 					return;
 				}
 				collapsedObject.collapse();
-				event.preventDefault();
+				Event.prEventDefault();
 			}
 		});
 
@@ -8531,7 +8531,7 @@
 					// Release previously active header element.
 					releaseStickyHeader( activeHeader.element );
 
-					// Remove event listener in the previous panel or section.
+					// Remove Event listener in the previous panel or section.
 					activeHeader.element.find( '.description' ).off( 'toggled', updateHeaderHeight );
 				}
 
@@ -8568,7 +8568,7 @@
 			api.state( 'expandedSection' ).bind( changeContainer );
 			api.state( 'expandedPanel' ).bind( changeContainer );
 
-			// Throttled scroll event handler.
+			// Throttled scroll Event handler.
 			parentContainer.on( 'scroll', _.throttle( function() {
 				if ( ! activeHeader ) {
 					return;
@@ -8638,7 +8638,7 @@
 			};
 
 			/**
-			 * Reposition header on throttled `scroll` event.
+			 * Reposition header on throttled `scroll` Event.
 			 *
 			 * @since 4.7.0
 			 * @access private
@@ -8727,8 +8727,8 @@
 		} );
 
 		// Set the toggled device.
-		footerActions.find( '.devices button' ).on( 'click', function( event ) {
-			api.previewedDevice.set( $( event.currentTarget ).data( 'device' ) );
+		footerActions.find( '.devices button' ).on( 'click', function( Event ) {
+			api.previewedDevice.set( $( Event.currentTarget ).data( 'device' ) );
 		});
 
 		// Bind device changes.
@@ -8808,7 +8808,7 @@
 			}
 
 			/*
-			 * If we receive a 'back' event, we're inside an iframe.
+			 * If we receive a 'back' Event, we're inside an iframe.
 			 * Send any clicks to the 'Return' link to the parent page.
 			 */
 			parent.bind( 'back', function() {
@@ -8843,7 +8843,7 @@
 
 					dismissLock = true;
 
-					// Mark all settings as clean to prevent another call to requestChangesetUpdate.
+					// Mark all settings as clean to prEvent another call to requestChangesetUpdate.
 					api.each( function( setting ) {
 						setting._dirty = false;
 					});
@@ -8885,8 +8885,8 @@
 				} );
 			} );
 
-			closeBtn.on( 'click.customize-controls-close', function( event ) {
-				event.preventDefault();
+			closeBtn.on( 'click.customize-controls-close', function( Event ) {
+				Event.prEventDefault();
 				if ( isInsideIframe ) {
 					parent.send( 'close' ); // See confirm-close logic above.
 				} else {
@@ -8898,10 +8898,10 @@
 			});
 		})();
 
-		// Pass events through to the parent.
-		$.each( [ 'saved', 'change' ], function ( i, event ) {
-			api.bind( event, function() {
-				parent.send( event );
+		// Pass Events through to the parent.
+		$.each( [ 'saved', 'change' ], function ( i, Event ) {
+			api.bind( Event, function() {
+				parent.send( Event );
 			});
 		} );
 

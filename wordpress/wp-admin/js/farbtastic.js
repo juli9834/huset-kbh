@@ -68,7 +68,7 @@ $._farbtastic = function (container, callback) {
     }
     return this;
   };
-  fb.updateValue = function (event) {
+  fb.updateValue = function (Event) {
     if (this.value && this.value != fb.color) {
       fb.setColor(this.value);
     }
@@ -102,18 +102,18 @@ $._farbtastic = function (container, callback) {
   /////////////////////////////////////////////////////
 
   /**
-   * Retrieve the coordinates of the given event relative to the center
+   * Retrieve the coordinates of the given Event relative to the center
    * of the widget.
    */
-  fb.widgetCoords = function (event) {
+  fb.widgetCoords = function (Event) {
     var offset = $(fb.wheel).offset();
-    return { x: (event.pageX - offset.left) - fb.width / 2, y: (event.pageY - offset.top) - fb.width / 2 };
+    return { x: (Event.pageX - offset.left) - fb.width / 2, y: (Event.pageY - offset.top) - fb.width / 2 };
   };
 
   /**
    * Mousedown handler
    */
-  fb.mousedown = function (event) {
+  fb.mousedown = function (Event) {
     // Capture mouse
     if (!document.dragging) {
       $(document).bind('mousemove', fb.mousemove).bind('mouseup', fb.mouseup);
@@ -121,20 +121,20 @@ $._farbtastic = function (container, callback) {
     }
 
     // Check which area is being dragged
-    var pos = fb.widgetCoords(event);
+    var pos = fb.widgetCoords(Event);
     fb.circleDrag = Math.max(Math.abs(pos.x), Math.abs(pos.y)) * 2 > fb.square;
 
     // Process
-    fb.mousemove(event);
+    fb.mousemove(Event);
     return false;
   };
 
   /**
    * Mousemove handler
    */
-  fb.mousemove = function (event) {
+  fb.mousemove = function (Event) {
     // Get coordinates relative to color picker center
-    var pos = fb.widgetCoords(event);
+    var pos = fb.widgetCoords(Event);
 
     // Set new HSL parameters
     if (fb.circleDrag) {

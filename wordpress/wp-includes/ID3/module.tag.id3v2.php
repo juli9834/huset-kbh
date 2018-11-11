@@ -895,11 +895,11 @@ class getid3_id3v2 extends getid3_handler
 			//   Where time stamp format is:
 			// $01  (32-bit value) MPEG frames from beginning of file
 			// $02  (32-bit value) milliseconds from beginning of file
-			//   Followed by a list of key events in the following format:
-			// Type of event   $xx
+			//   Followed by a list of key Events in the following format:
+			// Type of Event   $xx
 			// Time stamp      $xx (xx ...)
 			//   The 'Time stamp' is set to zero if directly at the beginning of the sound
-			//   or after the previous event. All events MUST be sorted in chronological order.
+			//   or after the previous Event. All Events MUST be sorted in chronological order.
 
 			$frame_offset = 0;
 			$parsedFrame['timestampformat'] = ord(substr($parsedFrame['data'], $frame_offset++, 1));
@@ -3119,7 +3119,7 @@ class getid3_id3v2 extends getid3_handler
 			0x16 => 'profanity end',
 			0xFD => 'audio end (start of silence)',
 			0xFE => 'audio file ends',
-			0xFF => 'one more byte of events follows'
+			0xFF => 'one more byte of Events follows'
 		);
 
 		return (isset($EventLookup[$index]) ? $EventLookup[$index] : '');
@@ -3131,7 +3131,7 @@ class getid3_id3v2 extends getid3_handler
 			0x01 => 'lyrics',
 			0x02 => 'text transcription',
 			0x03 => 'movement/part name', // (e.g. 'Adagio')
-			0x04 => 'events',             // (e.g. 'Don Quijote enters the stage')
+			0x04 => 'Events',             // (e.g. 'Don Quijote enters the stage')
 			0x05 => 'chord',              // (e.g. 'Bb F Fsus')
 			0x06 => 'trivia/\'pop up\' information',
 			0x07 => 'URLs to webpages',
@@ -3407,8 +3407,8 @@ class getid3_id3v2 extends getid3_handler
 			EQU	equalisation
 			EQU2	equalisation
 			EQUA	equalisation
-			ETC	event_timing_codes
-			ETCO	event_timing_codes
+			ETC	Event_timing_codes
+			ETCO	Event_timing_codes
 			GEO	general_encapsulated_object
 			GEOB	general_encapsulated_object
 			GRID	group_identification_registration

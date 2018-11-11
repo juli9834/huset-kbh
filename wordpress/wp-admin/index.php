@@ -71,13 +71,13 @@ if ( is_blog_admin() && current_user_can( 'edit_posts' ) )
 if ( ! is_multisite() && current_user_can( 'install_plugins' ) )
 	$help .= '<p>' . sprintf(
 		/* translators: %s: WordPress Planet URL */
-		__( '<strong>WordPress News</strong> &mdash; Latest news from the official WordPress project, the <a href="%s">WordPress Planet</a>, and popular plugins.' ),
+		__( '<strong>WordPress News</strong> &mdash; Latest news from the official WordPress Event, the <a href="%s">WordPress Planet</a>, and popular plugins.' ),
 		__( 'https://planet.wordpress.org/' )
 	) . '</p>';
 else
 	$help .= '<p>' . sprintf(
 		/* translators: %s: WordPress Planet URL */
-		__( '<strong>WordPress News</strong> &mdash; Latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.' ),
+		__( '<strong>WordPress News</strong> &mdash; Latest news from the official WordPress Event and the <a href="%s">WordPress Planet</a>.' ),
 		__( 'https://planet.wordpress.org/' )
 	) . '</p>';
 if ( current_user_can( 'edit_theme_options' ) )
@@ -163,6 +163,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </div><!-- wrap -->
 
 <?php
-wp_print_community_events_templates();
+wp_print_community_Events_templates();
 
 require( ABSPATH . 'wp-admin/admin-footer.php' );

@@ -49,7 +49,7 @@ var addComment = {
 		cancel.style.display = '';
 
 		/**
-		 * @summary Puts back the comment, hides the cancel button and removes the onclick event.
+		 * @summary Puts back the comment, hides the cancel button and removes the onclick Event.
 		 *
 		 * @returns {boolean} Always returns false.
 		 */

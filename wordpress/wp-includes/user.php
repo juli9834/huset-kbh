@@ -711,7 +711,7 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
 	}
 
 	// Technically not needed, but does save calls to get_site and get_user_meta
-	// in the event that the function is called when a user isn't logged in
+	// in the Event that the function is called when a user isn't logged in
 	if ( empty( $user_id ) ) {
 		return false;
 	} else {

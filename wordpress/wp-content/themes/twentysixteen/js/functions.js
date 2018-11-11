@@ -32,7 +32,7 @@
 			var _this            = $( this ),
 				screenReaderSpan = _this.find( '.screen-reader-text' );
 
-			e.preventDefault();
+			e.prEventDefault();
 			_this.toggleClass( 'toggled-on' );
 			_this.next( '.children, .sub-menu' ).toggleClass( 'toggled-on' );
 
@@ -88,7 +88,7 @@
 					var el = $( this ).parent( 'li' );
 
 					if ( ! el.hasClass( 'focus' ) ) {
-						e.preventDefault();
+						e.prEventDefault();
 						el.toggleClass( 'focus' );
 						el.siblings( '.focus' ).removeClass( 'focus' );
 					}

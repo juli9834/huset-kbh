@@ -23,7 +23,7 @@ inlineEditTax = {
 	/**
 	 * @summary Initializes the inline taxonomy editor.
 	 *
-	 * Adds event handlers to be able to quick edit.
+	 * Adds Event handlers to be able to quick edit.
 	 *
 	 * @since 2.7.0
 	 *
@@ -45,7 +45,7 @@ inlineEditTax = {
 		/*
 		 * @summary Cancels inline editing when pressing escape inside the inline editor.
 		 *
-		 * @param {Object} e The keyup event that has been triggered.
+		 * @param {Object} e The keyup Event that has been triggered.
 		 */
 		row.keyup( function( e ) {
 			// 27 = [escape]
@@ -242,7 +242,7 @@ inlineEditTax = {
 			}
 		);
 
-		// Prevent submitting the form when pressing Enter on a focused field.
+		// PrEvent submitting the form when pressing Enter on a focused field.
 		return false;
 	},
 

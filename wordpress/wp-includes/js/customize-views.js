@@ -64,7 +64,7 @@
 
 		className: 'header-view',
 
-		events: {
+		Events: {
 			'click .choice,.random': 'select',
 			'click .close': 'removeImage'
 		},
@@ -101,12 +101,12 @@
 		},
 
 		select: function() {
-			this.preventJump();
+			this.prEventJump();
 			this.model.save();
 			api.HeaderTool.currentHeader.set(this.extendedModel());
 		},
 
-		preventJump: function() {
+		prEventJump: function() {
 			var container = $('.wp-full-overlay-sidebar-content'),
 				scroll = container.scrollTop();
 
@@ -175,7 +175,7 @@
 	 * wp.customize.HeaderTool.CombinedList
 	 *
 	 * Aggregates wp.customize.HeaderTool.ChoiceList collections (or any
-	 * Backbone object, really) and acts as a bus to feed them events.
+	 * Backbone object, really) and acts as a bus to feed them Events.
 	 *
 	 * @memberOf wp.customize.HeaderTool
 	 * @alias wp.customize.HeaderTool.CombinedList
@@ -188,9 +188,9 @@
 			this.collections = collections;
 			this.on('all', this.propagate, this);
 		},
-		propagate: function(event, arg) {
+		propagate: function(Event, arg) {
 			_.each(this.collections, function(collection) {
-				collection.trigger(event, arg);
+				collection.trigger(Event, arg);
 			});
 		}
 	});

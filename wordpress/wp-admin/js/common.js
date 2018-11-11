@@ -158,7 +158,7 @@ $('.contextual-help-tabs').delegate('a', 'click', function(e) {
 	var link = $(this),
 		panel;
 
-	e.preventDefault();
+	e.prEventDefault();
 
 	// Don't do anything if the click is for the tab already showing.
 	if ( link.is('.active a') )
@@ -204,9 +204,9 @@ $permalinkStructure.on( 'click input', function() {
 } );
 
 // Check if the permalink structure input field has had focus at least once.
-$permalinkStructure.on( 'focus', function( event ) {
+$permalinkStructure.on( 'focus', function( Event ) {
 	permalinkStructureFocused = true;
-	$( this ).off( event );
+	$( this ).off( Event );
 } );
 
 /**
@@ -432,7 +432,7 @@ $document.ready( function() {
 			}
 		});
 
-		$adminmenu.find( 'a.wp-has-submenu' ).on( mobileEvent + '.wp-mobile-hover', function( event ) {
+		$adminmenu.find( 'a.wp-has-submenu' ).on( mobileEvent + '.wp-mobile-hover', function( Event ) {
 			var $menuItem = $(this).parent();
 
 			if ( $adminmenu.data( 'wp-responsive' ) ) {
@@ -443,7 +443,7 @@ $document.ready( function() {
 			//	- the submenu is not open
 			//	- the submenu is not shown inline or the menu is not folded
 			if ( ! $menuItem.hasClass( 'opensub' ) && ( ! $menuItem.hasClass( 'wp-menu-open' ) || $menuItem.width() < 40 ) ) {
-				event.preventDefault();
+				Event.prEventDefault();
 				adjustSubmenu( $menuItem );
 				$adminmenu.find( 'li.opensub' ).removeClass( 'opensub' );
 				$menuItem.addClass('opensub');
@@ -484,19 +484,19 @@ $document.ready( function() {
 			interval: 90
 		});
 
-		$adminmenu.on( 'focus.adminmenu', '.wp-submenu a', function( event ) {
+		$adminmenu.on( 'focus.adminmenu', '.wp-submenu a', function( Event ) {
 			if ( $adminmenu.data( 'wp-responsive' ) ) {
 				// The menu is in responsive mode, bail
 				return;
 			}
 
-			$( event.target ).closest( 'li.menu-top' ).addClass( 'opensub' );
-		}).on( 'blur.adminmenu', '.wp-submenu a', function( event ) {
+			$( Event.target ).closest( 'li.menu-top' ).addClass( 'opensub' );
+		}).on( 'blur.adminmenu', '.wp-submenu a', function( Event ) {
 			if ( $adminmenu.data( 'wp-responsive' ) ) {
 				return;
 			}
 
-			$( event.target ).closest( 'li.menu-top' ).removeClass( 'opensub' );
+			$( Event.target ).closest( 'li.menu-top' ).removeClass( 'opensub' );
 		}).find( 'li.wp-has-submenu.wp-not-current-submenu' ).on( 'focusin.adminmenu', function() {
 			adjustSubmenu( $( this ) );
 		});
@@ -522,8 +522,8 @@ $document.ready( function() {
 
 			// Ensure plain text
 			$button.find( '.screen-reader-text' ).text( btnText );
-			$button.on( 'click.wp-dismiss-notice', function( event ) {
-				event.preventDefault();
+			$button.on( 'click.wp-dismiss-notice', function( Event ) {
+				Event.prEventDefault();
 				$el.fadeTo( 100, 0, function() {
 					$el.slideUp( 100, function() {
 						$el.remove();
@@ -540,11 +540,11 @@ $document.ready( function() {
 	// Init screen meta
 	screenMeta.init();
 
-	// This event needs to be delegated. Ticket #37973.
-	$body.on( 'click', 'tbody > tr > .check-column :checkbox', function( event ) {
+	// This Event needs to be delegated. Ticket #37973.
+	$body.on( 'click', 'tbody > tr > .check-column :checkbox', function( Event ) {
 		// Shift click to select a range of checkboxes.
-		if ( 'undefined' == event.shiftKey ) { return true; }
-		if ( event.shiftKey ) {
+		if ( 'undefined' == Event.shiftKey ) { return true; }
+		if ( Event.shiftKey ) {
 			if ( !lastClicked ) { return true; }
 			checks = $( lastClicked ).closest( 'form' ).find( ':checkbox' ).filter( ':visible:enabled' );
 			first = checks.index( lastClicked );
@@ -571,12 +571,12 @@ $document.ready( function() {
 		return true;
 	});
 
-	// This event needs to be delegated. Ticket #37973.
-	$body.on( 'click.wp-toggle-checkboxes', 'thead .check-column :checkbox, tfoot .check-column :checkbox', function( event ) {
+	// This Event needs to be delegated. Ticket #37973.
+	$body.on( 'click.wp-toggle-checkboxes', 'thead .check-column :checkbox, tfoot .check-column :checkbox', function( Event ) {
 		var $this = $(this),
 			$table = $this.closest( 'table' ),
 			controlChecked = $this.prop('checked'),
-			toggle = event.shiftKey || $this.data('wp-toggle');
+			toggle = Event.shiftKey || $this.data('wp-toggle');
 
 		$table.children( 'tbody' ).filter(':visible')
 			.children().children('.check-column').find(':checkbox')
@@ -637,12 +637,12 @@ $document.ready( function() {
 	});
 
 	// tab in textareas
-	$('#newcontent').bind('keydown.wpevent_InsertTab', function(e) {
+	$('#newcontent').bind('keydown.wpEvent_InsertTab', function(e) {
 		var el = e.target, selStart, selEnd, val, scroll, sel;
 
 		if ( e.keyCode == 27 ) { // escape key
 			// when pressing Escape: Opera 12 and 27 blur form fields, IE 8 clears them
-			e.preventDefault();
+			e.prEventDefault();
 			$(el).data('tab-out', true);
 			return;
 		}
@@ -672,8 +672,8 @@ $document.ready( function() {
 
 		if ( e.stopPropagation )
 			e.stopPropagation();
-		if ( e.preventDefault )
-			e.preventDefault();
+		if ( e.prEventDefault )
+			e.prEventDefault();
 	});
 
 	if ( pageInput.length ) {
@@ -712,9 +712,9 @@ $document.ready( function() {
 		input.on('change', toggleUploadButton);
 	})();
 
-	function pinMenu( event ) {
+	function pinMenu( Event ) {
 		var windowPos = $window.scrollTop(),
-			resizing = ! event || event.type !== 'scroll';
+			resizing = ! Event || Event.type !== 'scroll';
 
 		if ( isIOS || isIE8 || $adminmenu.data( 'wp-responsive' ) ) {
 			return;
@@ -869,7 +869,7 @@ $document.ready( function() {
 
 	if ( ! isIOS ) {
 		$window.on( 'scroll.pin-menu', pinMenu );
-		$document.on( 'tinymce-editor-init.pin-menu', function( event, editor ) {
+		$document.on( 'tinymce-editor-init.pin-menu', function( Event, editor ) {
 			editor.on( 'wp-autoresize', resetHeights );
 		});
 	}
@@ -878,7 +878,7 @@ $document.ready( function() {
 		init: function() {
 			var self = this;
 
-			// Modify functionality based on custom activate/deactivate event
+			// Modify functionality based on custom activate/deactivate Event
 			$document.on( 'wp-responsive-activate.wp-responsive', function() {
 				self.activate();
 			}).on( 'wp-responsive-deactivate.wp-responsive', function() {
@@ -888,8 +888,8 @@ $document.ready( function() {
 			$( '#wp-admin-bar-menu-toggle a' ).attr( 'aria-expanded', 'false' );
 
 			// Toggle sidebar when toggle is clicked
-			$( '#wp-admin-bar-menu-toggle' ).on( 'click.wp-responsive', function( event ) {
-				event.preventDefault();
+			$( '#wp-admin-bar-menu-toggle' ).on( 'click.wp-responsive', function( Event ) {
+				Event.prEventDefault();
 
 				// close any open toolbar submenus
 				$adminbar.find( '.hover' ).removeClass( 'hover' );
@@ -903,14 +903,14 @@ $document.ready( function() {
 				}
 			} );
 
-			// Add menu events
-			$adminmenu.on( 'click.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
+			// Add menu Events
+			$adminmenu.on( 'click.wp-responsive', 'li.wp-has-submenu > a', function( Event ) {
 				if ( ! $adminmenu.data('wp-responsive') ) {
 					return;
 				}
 
 				$( this ).parent( 'li' ).toggleClass( 'selected' );
-				event.preventDefault();
+				Event.prEventDefault();
 			});
 
 			self.trigger();
@@ -1039,7 +1039,7 @@ $document.ready( function() {
 	/**
 	 * @summary Set the admin menu collapsed/expanded state.
 	 *
-	 * Sets the global variable `menuState` and triggers a custom event passing
+	 * Sets the global variable `menuState` and triggers a custom Event passing
 	 * the current menu state.
 	 *
 	 * @since 4.7.0
@@ -1074,12 +1074,12 @@ $document.ready( function() {
 	 *
 	 * @returns {void}
 	 */
-	$document.on( 'wp-menu-state-set wp-collapse-menu', function( event, eventData ) {
+	$document.on( 'wp-menu-state-set wp-collapse-menu', function( Event, EventData ) {
 		var $collapseButton = $( '#collapse-button' ),
 			ariaExpanded = 'true',
 			ariaLabelText = commonL10n.collapseMenu;
 
-		if ( 'folded' === eventData.state ) {
+		if ( 'folded' === EventData.state ) {
 			ariaExpanded = 'false';
 			ariaLabelText = commonL10n.expandMenu;
 		}
@@ -1122,7 +1122,7 @@ $document.ready( function() {
 	});
 });
 
-// Fire a custom jQuery event at the end of window resize
+// Fire a custom jQuery Event at the end of window resize
 ( function() {
 	var timeout;
 

@@ -123,10 +123,10 @@
 
 			if ( share_dialog_close === e.target && ! e.shiftKey ) {
 				firstFocusable.focus();
-				e.preventDefault();
+				e.prEventDefault();
 			} else if ( firstFocusable === e.target && e.shiftKey ) {
 				share_dialog_close.focus();
-				e.preventDefault();
+				e.prEventDefault();
 			}
 		}
 
@@ -163,7 +163,7 @@
 			 */
 			if ( href ) {
 				sendEmbedMessage( 'link', href );
-				e.preventDefault();
+				e.prEventDefault();
 			}
 		}
 

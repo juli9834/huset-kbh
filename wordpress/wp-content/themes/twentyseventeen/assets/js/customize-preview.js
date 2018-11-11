@@ -15,7 +15,7 @@
 		wp.customize.preview.bind( 'section-highlight', function( data ) {
 
 			// Only on the front page.
-			if ( ! $( 'body' ).hasClass( 'twentyseventeen-front-page' ) ) {
+			if ( ! $( 'body' ).hasClass( 'twentysEventeen-front-page' ) ) {
 				return;
 			}
 
@@ -64,7 +64,7 @@
 
 				// Check if the text color has been removed and use default colors in theme stylesheet.
 				if ( ! to.length ) {
-					$( '#twentyseventeen-custom-header-styles' ).remove();
+					$( '#twentysEventeen-custom-header-styles' ).remove();
 				}
 				$( '.site-title, .site-description' ).css({
 					clip: 'auto',
@@ -99,7 +99,7 @@
 				hue = style.data( 'hue' ),
 				css = style.html();
 
-			// Equivalent to css.replaceAll, with hue followed by comma to prevent values with units from being changed.
+			// Equivalent to css.replaceAll, with hue followed by comma to prEvent values with units from being changed.
 			css = css.split( hue + ',' ).join( to + ',' );
 			style.html( css ).data( 'hue', to );
 		});

@@ -949,7 +949,7 @@ class Requests {
 		}
 
 		// Fallback for all above failing, not expected, but included for
-		// debugging and preventing regressions and to track stats
+		// debugging and prEventing regressions and to track stats
 		if (false !== ($decompressed = @gzinflate(substr($gzData, 2)))) {
 			return $decompressed;
 		}

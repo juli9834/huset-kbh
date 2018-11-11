@@ -15,9 +15,9 @@
 		});
 
 		// Build the choose from library frame.
-		$('#choose-from-library-link').click( function( event ) {
+		$('#choose-from-library-link').click( function( Event ) {
 			var $el = $(this);
-			event.preventDefault();
+			Event.prEventDefault();
 
 			// If the media frame already exists, reopen it.
 			if ( frame ) {

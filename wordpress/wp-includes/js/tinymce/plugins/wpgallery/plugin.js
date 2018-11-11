@@ -62,9 +62,9 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 		editMedia( editor.selection.getNode() );
 	});
 
-	editor.on( 'mouseup', function( event ) {
+	editor.on( 'mouseup', function( Event ) {
 		var dom = editor.dom,
-			node = event.target;
+			node = Event.target;
 
 		function unselect() {
 			dom.removeClass( dom.select( 'img.wp-media-selected' ), 'wp-media-selected' );
@@ -72,7 +72,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 
 		if ( node.nodeName === 'IMG' && dom.getAttrib( node, 'data-wp-media' ) ) {
 			// Don't trigger on right-click
-			if ( event.button !== 2 ) {
+			if ( Event.button !== 2 ) {
 				if ( dom.hasClass( node, 'wp-media-selected' ) ) {
 					editMedia( node );
 				} else {
@@ -86,27 +86,27 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 	});
 
 	// Display gallery, audio or video instead of img in the element path
-	editor.on( 'ResolveName', function( event ) {
+	editor.on( 'ResolveName', function( Event ) {
 		var dom = editor.dom,
-			node = event.target;
+			node = Event.target;
 
 		if ( node.nodeName === 'IMG' && dom.getAttrib( node, 'data-wp-media' ) ) {
 			if ( dom.hasClass( node, 'wp-gallery' ) ) {
-				event.name = 'gallery';
+				Event.name = 'gallery';
 			}
 		}
 	});
 
-	editor.on( 'BeforeSetContent', function( event ) {
+	editor.on( 'BeforeSetContent', function( Event ) {
 		// 'wpview' handles the gallery shortcode when present
 		if ( ! editor.plugins.wpview || typeof wp === 'undefined' || ! wp.mce ) {
-			event.content = replaceGalleryShortcodes( event.content );
+			Event.content = replaceGalleryShortcodes( Event.content );
 		}
 	});
 
-	editor.on( 'PostProcess', function( event ) {
-		if ( event.get ) {
-			event.content = restoreMediaShortcodes( event.content );
+	editor.on( 'PostProcess', function( Event ) {
+		if ( Event.get ) {
+			Event.content = restoreMediaShortcodes( Event.content );
 		}
 	});
 });

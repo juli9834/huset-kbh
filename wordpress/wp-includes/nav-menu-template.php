@@ -532,7 +532,7 @@ function walk_nav_menu_tree( $items, $depth, $r ) {
 }
 
 /**
- * Prevents a menu item ID from being used more than once.
+ * PrEvents a menu item ID from being used more than once.
  *
  * @since 3.0.1
  * @access private

@@ -10,14 +10,14 @@
 jQuery(document).ready(function($) {
 
 	/**
-	 * @summary Adds an event handler to the delete term link on the term overview page.
+	 * @summary Adds an Event handler to the delete term link on the term overview page.
 	 *
-	 * Adds an event handler to the delete term link on the term overview page.
-	 * Cancels default event handling and event bubbling.
+	 * Adds an Event handler to the delete term link on the term overview page.
+	 * Cancels default Event handling and Event bubbling.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @returns boolean Always returns false to cancel the default event handling.
+	 * @returns boolean Always returns false to cancel the default Event handling.
 	 */
 	$( '#the-list' ).on( 'click', '.delete-tag', function() {
 		var t = $(this), tr = t.parents('tr'), r = true, data;
@@ -82,18 +82,18 @@ jQuery(document).ready(function($) {
 		// Confirms the deletion, a negative response means the deletion must not be executed.
 		var response = showNotice.warn();
 		if ( ! response ) {
-			e.preventDefault();
+			e.prEventDefault();
 		}
 	});
 
 	/**
-	 * @summary Adds an event handler tot he form submit on the term overview page.
+	 * @summary Adds an Event handler tot he form submit on the term overview page.
 	 *
-	 * Cancels default event handling and event bubbling.
+	 * Cancels default Event handling and Event bubbling.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @returns boolean Always returns false to cancel the default event handling.
+	 * @returns boolean Always returns false to cancel the default Event handling.
 	 */
 	$('#submit').click(function(){
 		var form = $(this).parents('form');

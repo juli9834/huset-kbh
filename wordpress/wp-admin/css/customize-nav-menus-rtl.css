@@ -741,7 +741,7 @@ body.adding-menu-items #customize-preview {
 }
 
 body.adding-menu-items #customize-preview iframe {
-	pointer-events: none;
+	pointer-Events: none;
 }
 
 .menu-item-handle .spinner {

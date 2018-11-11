@@ -425,7 +425,7 @@ final class _WP_Editors {
 					$plugins = array_unique( apply_filters( 'tiny_mce_plugins', $plugins ) );
 
 					if ( ( $key = array_search( 'spellchecker', $plugins ) ) !== false ) {
-						// Remove 'spellchecker' from the internal plugins if added with 'tiny_mce_plugins' filter to prevent errors.
+						// Remove 'spellchecker' from the internal plugins if added with 'tiny_mce_plugins' filter to prEvent errors.
 						// It can be added with 'mce_external_plugins'.
 						unset( $plugins[$key] );
 					}
@@ -835,7 +835,7 @@ final class _WP_Editors {
 
 			// In production all plugins are loaded (they are in wp-editor.js.gz).
 			// The 'wpview', 'wpdialogs', and 'media' TinyMCE plugins are not initialized by default.
-			// Can be added from js by using the 'wp-before-tinymce-init' event.
+			// Can be added from js by using the 'wp-before-tinymce-init' Event.
 			$settings['plugins'] = implode( ',', array(
 				'charmap',
 				'colorpicker',
@@ -1498,7 +1498,7 @@ final class _WP_Editors {
 			self::print_tinymce_scripts();
 
 			if ( self::$ext_plugins ) {
-				// Load the old-format English strings to prevent unsightly labels in old style popups
+				// Load the old-format English strings to prEvent unsightly labels in old style popups
 				echo "<script type='text/javascript' src='{$baseurl}/langs/wp-langs-en.js?$version'></script>\n";
 			}
 		}

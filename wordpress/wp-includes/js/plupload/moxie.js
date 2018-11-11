@@ -1149,7 +1149,7 @@ define("moxie/core/utils/Env", [
 
 		verComp: version_compare,
 
-		global_event_dispatcher: "moxie.core.EventTarget.instance.dispatchEvent"
+		global_Event_dispatcher: "moxie.core.EventTarget.instance.dispatchEvent"
 	};
 
 	// for backward compatibility
@@ -1159,7 +1159,7 @@ define("moxie/core/utils/Env", [
 	if (MXI_DEBUG) {
 		Env.debug = {
 			runtime: true,
-			events: false
+			Events: false
 		};
 
 		Env.log = function() {
@@ -1790,7 +1790,7 @@ define('moxie/core/Exceptions', [
 			}
 
 			Basic.extend(EventException, {
-				UNSPECIFIED_EVENT_TYPE_ERR: 0
+				UNSPECIFIED_Event_TYPE_ERR: 0
 			});
 
 			EventException.prototype = Error.prototype;
@@ -1818,19 +1818,19 @@ define('moxie/core/EventTarget', [
 	'moxie/core/utils/Basic'
 ], function(Env, x, Basic) {
 	/**
-	Parent object for all event dispatching components and objects
+	Parent object for all Event dispatching components and objects
 
 	@class EventTarget
 	@constructor EventTarget
 	*/
 	function EventTarget() {
-		// hash of event listeners by object uid
-		var eventpool = {};
+		// hash of Event listeners by object uid
+		var Eventpool = {};
 
 		Basic.extend(this, {
 
 			/**
-			Unique id of the event dispatcher, usually overriden by children
+			Unique id of the Event dispatcher, usually overriden by children
 
 			@property uid
 			@type String
@@ -1849,18 +1849,18 @@ define('moxie/core/EventTarget', [
 			},
 
 			/**
-			Register a handler to a specific event dispatched by the object
+			Register a handler to a specific Event dispatched by the object
 
 			@method addEventListener
-			@param {String} type Type or basically a name of the event to subscribe to
-			@param {Function} fn Callback function that will be called when event happens
-			@param {Number} [priority=0] Priority of the event handler - handlers with higher priorities will be called first
-			@param {Object} [scope=this] A scope to invoke event handler in
+			@param {String} type Type or basically a name of the Event to subscribe to
+			@param {Function} fn Callback function that will be called when Event happens
+			@param {Number} [priority=0] Priority of the Event handler - handlers with higher priorities will be called first
+			@param {Object} [scope=this] A scope to invoke Event handler in
 			*/
 			addEventListener: function(type, fn, priority, scope) {
 				var self = this, list;
 
-				// without uid no event handlers can be added, so make sure we got one
+				// without uid no Event handlers can be added, so make sure we got one
 				if (!this.hasOwnProperty('uid')) {
 					this.uid = Basic.guid('uid_');
 				}
@@ -1868,7 +1868,7 @@ define('moxie/core/EventTarget', [
 				type = Basic.trim(type);
 
 				if (/\s/.test(type)) {
-					// multiple event types were passed for one handler
+					// multiple Event types were passed for one handler
 					Basic.each(type.split(/\s+/), function(type) {
 						self.addEventListener(type, fn, priority, scope);
 					});
@@ -1878,38 +1878,38 @@ define('moxie/core/EventTarget', [
 				type = type.toLowerCase();
 				priority = parseInt(priority, 10) || 0;
 
-				list = eventpool[this.uid] && eventpool[this.uid][type] || [];
+				list = Eventpool[this.uid] && Eventpool[this.uid][type] || [];
 				list.push({fn : fn, priority : priority, scope : scope || this});
 
-				if (!eventpool[this.uid]) {
-					eventpool[this.uid] = {};
+				if (!Eventpool[this.uid]) {
+					Eventpool[this.uid] = {};
 				}
-				eventpool[this.uid][type] = list;
+				Eventpool[this.uid][type] = list;
 			},
 
 			/**
-			Check if any handlers were registered to the specified event
+			Check if any handlers were registered to the specified Event
 
 			@method hasEventListener
-			@param {String} type Type or basically a name of the event to check
+			@param {String} type Type or basically a name of the Event to check
 			@return {Mixed} Returns a handler if it was found and false, if - not
 			*/
 			hasEventListener: function(type) {
-				var list = type ? eventpool[this.uid] && eventpool[this.uid][type] : eventpool[this.uid];
+				var list = type ? Eventpool[this.uid] && Eventpool[this.uid][type] : Eventpool[this.uid];
 				return list ? list : false;
 			},
 
 			/**
-			Unregister the handler from the event, or if former was not specified - unregister all handlers
+			Unregister the handler from the Event, or if former was not specified - unregister all handlers
 
 			@method removeEventListener
-			@param {String} type Type or basically a name of the event
+			@param {String} type Type or basically a name of the Event
 			@param {Function} [fn] Handler to unregister
 			*/
 			removeEventListener: function(type, fn) {
 				type = type.toLowerCase();
 
-				var list = eventpool[this.uid] && eventpool[this.uid][type], i;
+				var list = Eventpool[this.uid] && Eventpool[this.uid][type], i;
 
 				if (list) {
 					if (fn) {
@@ -1923,34 +1923,34 @@ define('moxie/core/EventTarget', [
 						list = [];
 					}
 
-					// delete event list if it has become empty
+					// delete Event list if it has become empty
 					if (!list.length) {
-						delete eventpool[this.uid][type];
+						delete Eventpool[this.uid][type];
 
 						// and object specific entry in a hash if it has no more listeners attached
-						if (Basic.isEmptyObj(eventpool[this.uid])) {
-							delete eventpool[this.uid];
+						if (Basic.isEmptyObj(Eventpool[this.uid])) {
+							delete Eventpool[this.uid];
 						}
 					}
 				}
 			},
 
 			/**
-			Remove all event handlers from the object
+			Remove all Event handlers from the object
 
 			@method removeAllEventListeners
 			*/
 			removeAllEventListeners: function() {
-				if (eventpool[this.uid]) {
-					delete eventpool[this.uid];
+				if (Eventpool[this.uid]) {
+					delete Eventpool[this.uid];
 				}
 			},
 
 			/**
-			Dispatch the event
+			Dispatch the Event
 
 			@method dispatchEvent
-			@param {String/Object} Type of event or event object to dispatch
+			@param {String/Object} Type of Event or Event object to dispatch
 			@param {Mixed} [...] Variable number of arguments to be passed to a handlers
 			@return {Boolean} true by default and false if any handler returned false
 			*/
@@ -1964,17 +1964,17 @@ define('moxie/core/EventTarget', [
 					if (Basic.typeOf(tmpEvt.type) === 'string') {
 						type = tmpEvt.type;
 
-						if (tmpEvt.total !== undef && tmpEvt.loaded !== undef) { // progress event
+						if (tmpEvt.total !== undef && tmpEvt.loaded !== undef) { // progress Event
 							evt.total = tmpEvt.total;
 							evt.loaded = tmpEvt.loaded;
 						}
 						evt.async = tmpEvt.async || false;
 					} else {
-						throw new x.EventException(x.EventException.UNSPECIFIED_EVENT_TYPE_ERR);
+						throw new x.EventException(x.EventException.UNSPECIFIED_Event_TYPE_ERR);
 					}
 				}
 
-				// check if event is meant to be dispatched on an object having specific uid
+				// check if Event is meant to be dispatched on an object having specific uid
 				if (type.indexOf('::') !== -1) {
 					(function(arr) {
 						uid = arr[0];
@@ -1986,29 +1986,29 @@ define('moxie/core/EventTarget', [
 
 				type = type.toLowerCase();
 
-				list = eventpool[uid] && eventpool[uid][type];
+				list = Eventpool[uid] && Eventpool[uid][type];
 
 				if (list) {
-					// sort event list by prority
+					// sort Event list by prority
 					list.sort(function(a, b) { return b.priority - a.priority; });
 
 					args = [].slice.call(arguments);
 
-					// first argument will be pseudo-event object
+					// first argument will be pseudo-Event object
 					args.shift();
 					evt.type = type;
 					args.unshift(evt);
 
-					if (MXI_DEBUG && Env.debug.events) {
+					if (MXI_DEBUG && Env.debug.Events) {
 						Env.log("Event '%s' fired on %u", evt.type, uid);
 					}
 
-					// Dispatch event to all listeners
+					// Dispatch Event to all listeners
 					var queue = [];
 					Basic.each(list, function(handler) {
-						// explicitly set the target, otherwise events fired from shims do not get it
+						// explicitly set the target, otherwise Events fired from shims do not get it
 						args[0].target = handler.scope;
-						// if event is marked as async, detach the handler
+						// if Event is marked as async, detach the handler
 						if (evt.async) {
 							queue.push(function(cb) {
 								setTimeout(function() {
@@ -2072,7 +2072,7 @@ define('moxie/core/EventTarget', [
 
 
 			/**
-			Handle properties of on[event] type.
+			Handle properties of on[Event] type.
 
 			@method handleEventProps
 			@private
@@ -2087,7 +2087,7 @@ define('moxie/core/EventTarget', [
 					}
 				});
 
-				// object must have defined event properties, even if it doesn't make use of them
+				// object must have defined Event properties, even if it doesn't make use of them
 				Basic.each(dispatches, function(prop) {
 					prop = 'on' + prop.toLowerCase(prop);
 					if (Basic.typeOf(self[prop]) === 'undefined') {
@@ -2140,14 +2140,14 @@ define('moxie/runtime/Runtime', [
 		Dispatched when runtime is initialized and ready.
 		Results in RuntimeInit on a connected component.
 
-		@event Init
+		@Event Init
 		*/
 
 		/**
 		Dispatched when runtime fails to initialize.
 		Results in RuntimeError on a connected component.
 
-		@event Error
+		@Event Error
 		*/
 
 		var self = this
@@ -2436,7 +2436,7 @@ define('moxie/runtime/Runtime', [
 			},
 
 			/**
-			Destroys the runtime (removes all events and deletes DOM structures)
+			Destroys the runtime (removes all Events and deletes DOM structures)
 
 			@method destroy
 			*/
@@ -2952,24 +2952,24 @@ define('moxie/file/FileInput', [
 		/**
 		Dispatched when runtime is connected and file-picker is ready to be used.
 
-		@event ready
-		@param {Object} event
+		@Event ready
+		@param {Object} Event
 		*/
 		'ready',
 
 		/**
-		Dispatched right after [ready](#event_ready) event, and whenever [refresh()](#method_refresh) is invoked.
+		Dispatched right after [ready](#Event_ready) Event, and whenever [refresh()](#method_refresh) is invoked.
 		Check [corresponding documentation entry](#method_refresh) for more info.
 
-		@event refresh
-		@param {Object} event
+		@Event refresh
+		@param {Object} Event
 		*/
 
 		/**
 		Dispatched when selection of files in the dialog is complete.
 
-		@event change
-		@param {Object} event
+		@Event change
+		@param {Object} Event
 		*/
 		'change',
 
@@ -2979,8 +2979,8 @@ define('moxie/file/FileInput', [
 		Dispatched when mouse cursor enters file-picker area. Can be used to style element
 		accordingly.
 
-		@event mouseenter
-		@param {Object} event
+		@Event mouseenter
+		@param {Object} Event
 		*/
 		'mouseenter',
 
@@ -2988,24 +2988,24 @@ define('moxie/file/FileInput', [
 		Dispatched when mouse cursor leaves file-picker area. Can be used to style element
 		accordingly.
 
-		@event mouseleave
-		@param {Object} event
+		@Event mouseleave
+		@param {Object} Event
 		*/
 		'mouseleave',
 
 		/**
 		Dispatched when functional mouse button is pressed on top of file-picker area.
 
-		@event mousedown
-		@param {Object} event
+		@Event mousedown
+		@param {Object} Event
 		*/
 		'mousedown',
 
 		/**
 		Dispatched when functional mouse button is released on top of file-picker area.
 
-		@event mouseup
-		@param {Object} event
+		@Event mouseup
+		@param {Object} Event
 		*/
 		'mouseup'
 	];
@@ -3109,7 +3109,7 @@ define('moxie/file/FileInput', [
 			files: null,
 
 			/**
-			Initializes the file-picker, connects it to runtime and dispatches event ready when done.
+			Initializes the file-picker, connects it to runtime and dispatches Event ready when done.
 
 			@method init
 			*/
@@ -3715,40 +3715,40 @@ define('moxie/file/FileDrop', [
 		/**
 		Dispatched when runtime is connected and drop zone is ready to accept files.
 
-		@event ready
-		@param {Object} event
+		@Event ready
+		@param {Object} Event
 		*/
 		'ready',
 
 		/**
 		Dispatched when dragging cursor enters the drop zone.
 
-		@event dragenter
-		@param {Object} event
+		@Event dragenter
+		@param {Object} Event
 		*/
 		'dragenter',
 
 		/**
 		Dispatched when dragging cursor leaves the drop zone.
 
-		@event dragleave
-		@param {Object} event
+		@Event dragleave
+		@param {Object} Event
 		*/
 		'dragleave',
 
 		/**
 		Dispatched when file is dropped onto the drop zone.
 
-		@event drop
-		@param {Object} event
+		@Event drop
+		@param {Object} Event
 		*/
 		'drop',
 
 		/**
 		Dispatched if error occurs.
 
-		@event error
-		@param {Object} event
+		@Event error
+		@param {Object} Event
 		*/
 		'error'
 	];
@@ -3865,48 +3865,48 @@ define('moxie/file/FileReader', [
 		/**
 		Dispatched when the read starts.
 
-		@event loadstart
-		@param {Object} event
+		@Event loadstart
+		@param {Object} Event
 		*/
 		'loadstart',
 
 		/**
 		Dispatched while reading (and decoding) blob, and reporting partial Blob data (progess.loaded/progress.total).
 
-		@event progress
-		@param {Object} event
+		@Event progress
+		@param {Object} Event
 		*/
 		'progress',
 
 		/**
 		Dispatched when the read has successfully completed.
 
-		@event load
-		@param {Object} event
+		@Event load
+		@param {Object} Event
 		*/
 		'load',
 
 		/**
 		Dispatched when the read has been aborted. For instance, by invoking the abort() method.
 
-		@event abort
-		@param {Object} event
+		@Event abort
+		@param {Object} Event
 		*/
 		'abort',
 
 		/**
 		Dispatched when the read has failed.
 
-		@event error
-		@param {Object} event
+		@Event error
+		@param {Object} Event
 		*/
 		'error',
 
 		/**
 		Dispatched when the request has completed (either in success or failure).
 
-		@event loadend
-		@param {Object} event
+		@Event loadend
+		@param {Object} Event
 		*/
 		'loadend'
 	];
@@ -4251,7 +4251,7 @@ define('moxie/runtime/RuntimeTarget', [
 	"moxie/core/EventTarget"
 ], function(Basic, RuntimeClient, EventTarget) {
 	/**
-	Instance of this class can be used as a target for the events dispatched by shims,
+	Instance of this class can be used as a target for the Events dispatched by shims,
 	when allowing them onto components is for either reason inappropriate
 
 	@class RuntimeTarget
@@ -4699,7 +4699,7 @@ define("moxie/xhr/XMLHttpRequest", [
 			// flags
 			_sync_flag = false,
 			_send_flag = false,
-			_upload_events_flag = false,
+			_upload_Events_flag = false,
 			_upload_complete_flag = false,
 			_error_flag = false,
 			_same_origin_flag = false,
@@ -4728,7 +4728,7 @@ define("moxie/xhr/XMLHttpRequest", [
 			uid: Basic.guid('uid_'),
 
 			/**
-			Target for Upload events
+			Target for Upload Events
 
 			@property upload
 			@type XMLHttpRequestUpload
@@ -5038,7 +5038,7 @@ define("moxie/xhr/XMLHttpRequest", [
 
 				// 4 - storage mutex
 				// 5
-				_upload_events_flag = (!_sync_flag && this.upload.hasEventListener()); // DSAP
+				_upload_Events_flag = (!_sync_flag && this.upload.hasEventListener()); // DSAP
 				// 6
 				_error_flag = false;
 				// 7
@@ -5299,7 +5299,7 @@ define("moxie/xhr/XMLHttpRequest", [
 
 					self.dispatchEvent(e);
 
-					if (_upload_events_flag) {
+					if (_upload_Events_flag) {
 						self.upload.dispatchEvent(e);
 					}
 				});
@@ -5313,7 +5313,7 @@ define("moxie/xhr/XMLHttpRequest", [
 				});
 
 				_xhr.bind('UploadProgress', function(e) {
-					if (_upload_events_flag) {
+					if (_upload_Events_flag) {
 						self.upload.dispatchEvent({
 							type: 'progress',
 							lengthComputable: false,
@@ -5341,7 +5341,7 @@ define("moxie/xhr/XMLHttpRequest", [
 					self.dispatchEvent('readystatechange');
 
 					if (_p('status') > 0) { // status 0 usually means that server is unreachable
-						if (_upload_events_flag) {
+						if (_upload_Events_flag) {
 							self.upload.dispatchEvent(e);
 						}
 						self.dispatchEvent(e);
@@ -5615,8 +5615,8 @@ define("moxie/image/Image", [
 		/**
 		Dispatched when loading is complete.
 
-		@event load
-		@param {Object} event
+		@Event load
+		@param {Object} Event
 		*/
 		'load',
 
@@ -5625,8 +5625,8 @@ define("moxie/image/Image", [
 		/**
 		Dispatched when resize operation is complete.
 
-		@event resize
-		@param {Object} event
+		@Event resize
+		@param {Object} Event
 		*/
 		'resize',
 
@@ -5634,8 +5634,8 @@ define("moxie/image/Image", [
 		Dispatched when visual representation of the image is successfully embedded
 		into the corresponsing container.
 
-		@event embedded
-		@param {Object} event
+		@Event embedded
+		@param {Object} Event
 		*/
 		'embedded'
 	];
@@ -5803,7 +5803,7 @@ define("moxie/image/Image", [
 
 					this.exec('Image', 'downsize', opts.width, opts.height, opts.crop, opts.preserveHeaders);
 				} catch(ex) {
-					// for now simply trigger error event
+					// for now simply trigger error Event
 					this.trigger('error', ex.code);
 				}
 			},
@@ -6001,7 +6001,7 @@ define("moxie/image/Image", [
 
 					return imgCopy;
 				} catch(ex) {
-					// for now simply trigger error event
+					// for now simply trigger error Event
 					this.trigger('error', ex.code);
 				}
 			},
@@ -6088,7 +6088,7 @@ define("moxie/image/Image", [
 					throw new x.DOMException(x.DOMException.TYPE_MISMATCH_ERR);
 				}
 			} catch(ex) {
-				// for now simply trigger error event
+				// for now simply trigger error Event
 				this.trigger('error', ex.code);
 			}
 		}
@@ -6314,10 +6314,10 @@ define("moxie/runtime/html5/Runtime", [
 define('moxie/core/utils/Events', [
 	'moxie/core/utils/Basic'
 ], function(Basic) {
-	var eventhash = {}, uid = 'moxie_' + Basic.guid();
+	var Eventhash = {}, uid = 'moxie_' + Basic.guid();
 
-	// IE W3C like event funcs
-	function preventDefault() {
+	// IE W3C like Event funcs
+	function prEventDefault() {
 		this.returnValue = false;
 	}
 
@@ -6326,36 +6326,36 @@ define('moxie/core/utils/Events', [
 	}
 
 	/**
-	Adds an event handler to the specified object and store reference to the handler
+	Adds an Event handler to the specified object and store reference to the handler
 	in objects internal Plupload registry (@see removeEvent).
 
 	@method addEvent
 	@for Utils
 	@static
 	@param {Object} obj DOM element like object to add handler to.
-	@param {String} name Name to add event listener to.
-	@param {Function} callback Function to call when event occurs.
-	@param {String} [key] that might be used to add specifity to the event record.
+	@param {String} name Name to add Event listener to.
+	@param {Function} callback Function to call when Event occurs.
+	@param {String} [key] that might be used to add specifity to the Event record.
 	*/
 	var addEvent = function(obj, name, callback, key) {
-		var func, events;
+		var func, Events;
 
 		name = name.toLowerCase();
 
-		// Add event listener
+		// Add Event listener
 		if (obj.addEventListener) {
 			func = callback;
 
 			obj.addEventListener(name, func, false);
 		} else if (obj.attachEvent) {
 			func = function() {
-				var evt = window.event;
+				var evt = window.Event;
 
 				if (!evt.target) {
 					evt.target = evt.srcElement;
 				}
 
-				evt.preventDefault = preventDefault;
+				evt.prEventDefault = prEventDefault;
 				evt.stopPropagation = stopPropagation;
 
 				callback(evt);
@@ -6364,22 +6364,22 @@ define('moxie/core/utils/Events', [
 			obj.attachEvent('on' + name, func);
 		}
 
-		// Log event handler to objects internal mOxie registry
+		// Log Event handler to objects internal mOxie registry
 		if (!obj[uid]) {
 			obj[uid] = Basic.guid();
 		}
 
-		if (!eventhash.hasOwnProperty(obj[uid])) {
-			eventhash[obj[uid]] = {};
+		if (!Eventhash.hasOwnProperty(obj[uid])) {
+			Eventhash[obj[uid]] = {};
 		}
 
-		events = eventhash[obj[uid]];
+		Events = Eventhash[obj[uid]];
 
-		if (!events.hasOwnProperty(name)) {
-			events[name] = [];
+		if (!Events.hasOwnProperty(name)) {
+			Events[name] = [];
 		}
 
-		events[name].push({
+		Events[name].push({
 			func: func,
 			orig: callback, // store original callback for IE
 			key: key
@@ -6388,13 +6388,13 @@ define('moxie/core/utils/Events', [
 
 
 	/**
-	Remove event handler from the specified object. If third argument (callback)
-	is not specified remove all events with the specified name.
+	Remove Event handler from the specified object. If third argument (callback)
+	is not specified remove all Events with the specified name.
 
 	@method removeEvent
 	@static
-	@param {Object} obj DOM element to remove event listener(s) from.
-	@param {String} name Name of event listener to remove.
+	@param {Object} obj DOM element to remove Event listener(s) from.
+	@param {String} name Name of Event listener to remove.
 	@param {Function|String} [callback] might be a callback or unique key to match.
 	*/
 	var removeEvent = function(obj, name, callback) {
@@ -6402,8 +6402,8 @@ define('moxie/core/utils/Events', [
 
 		name = name.toLowerCase();
 
-		if (obj[uid] && eventhash[obj[uid]] && eventhash[obj[uid]][name]) {
-			type = eventhash[obj[uid]][name];
+		if (obj[uid] && Eventhash[obj[uid]] && Eventhash[obj[uid]][name]) {
+			type = Eventhash[obj[uid]][name];
 		} else {
 			return;
 		}
@@ -6428,14 +6428,14 @@ define('moxie/core/utils/Events', [
 			}
 		}
 
-		// If event array got empty, remove it
+		// If Event array got empty, remove it
 		if (!type.length) {
-			delete eventhash[obj[uid]][name];
+			delete Eventhash[obj[uid]][name];
 		}
 
 		// If mOxie registry has become empty, remove it
-		if (Basic.isEmptyObj(eventhash[obj[uid]])) {
-			delete eventhash[obj[uid]];
+		if (Basic.isEmptyObj(Eventhash[obj[uid]])) {
+			delete Eventhash[obj[uid]];
 
 			// IE doesn't let you remove DOM object property with - delete
 			try {
@@ -6448,19 +6448,19 @@ define('moxie/core/utils/Events', [
 
 
 	/**
-	Remove all kind of events from the specified object
+	Remove all kind of Events from the specified object
 
 	@method removeAllEvents
 	@static
-	@param {Object} obj DOM element to remove event listeners from.
-	@param {String} [key] unique key to match, when removing events.
+	@param {Object} obj DOM element to remove Event listeners from.
+	@param {String} [key] unique key to match, when removing Events.
 	*/
 	var removeAllEvents = function(obj, key) {
 		if (!obj || !obj[uid]) {
 			return;
 		}
 
-		Basic.each(eventhash[obj[uid]], function(events, name) {
+		Basic.each(Eventhash[obj[uid]], function(Events, name) {
 			removeEvent(obj, name, key);
 		});
 	};
@@ -6531,7 +6531,7 @@ define("moxie/runtime/html5/file/FileInput", [
 
 				browseButton = Dom.get(_options.browse_button);
 
-				// Route click event to the input[type=file] element for browsers that support such behavior
+				// Route click Event to the input[type=file] element for browsers that support such behavior
 				if (I.can('summon_file_dialog')) {
 					if (Dom.getStyle(browseButton, 'position') === 'static') {
 						browseButton.style.position = 'relative';
@@ -6547,7 +6547,7 @@ define("moxie/runtime/html5/file/FileInput", [
 						if (input && !input.disabled) { // for some reason FF (up to 8.0.1 so far) lets to click disabled input[type=file]
 							input.click();
 						}
-						e.preventDefault();
+						e.prEventDefault();
 					}, comp.uid);
 				}
 
@@ -6611,7 +6611,7 @@ define("moxie/runtime/html5/file/FileInput", [
 					}
 				};
 
-				// ready event is perfectly asynchronous
+				// ready Event is perfectly asynchronous
 				comp.trigger({
 					type: 'ready',
 					async: true
@@ -6743,7 +6743,7 @@ define("moxie/runtime/html5/file/FileDrop", [
 					if (!_hasFiles(e)) {
 						return;
 					}
-					e.preventDefault();
+					e.prEventDefault();
 					e.dataTransfer.dropEffect = 'copy';
 				}, comp.uid);
 
@@ -6751,7 +6751,7 @@ define("moxie/runtime/html5/file/FileDrop", [
 					if (!_hasFiles(e)) {
 						return;
 					}
-					e.preventDefault();
+					e.prEventDefault();
 
 					_files = [];
 
@@ -6869,7 +6869,7 @@ define("moxie/runtime/html5/file/FileDrop", [
 					_addFile(file, entry.fullPath);
 					cb();
 				}, function() {
-					// fire an error event maybe
+					// fire an error Event maybe
 					cb();
 				});
 			} else if (entry.isDirectory) {
@@ -7085,7 +7085,7 @@ define("moxie/runtime/html5/xhr/XMLHttpRequest", [
 						target.trigger(e);
 					});
 
-					// additionally listen to progress events
+					// additionally listen to progress Events
 					_xhr.addEventListener('progress', function(e) {
 						target.trigger(e);
 					});
@@ -7101,7 +7101,7 @@ define("moxie/runtime/html5/xhr/XMLHttpRequest", [
 				} else {
 					_xhr.onreadystatechange = function onReadyStateChange() {
 
-						// fake Level 2 events
+						// fake Level 2 Events
 						switch (_xhr.readyState) {
 
 							case 1: // XMLHttpRequest.OPENED
@@ -7113,7 +7113,7 @@ define("moxie/runtime/html5/xhr/XMLHttpRequest", [
 								break;
 
 							case 3: // XMLHttpRequest.LOADING
-								// try to fire progress event for not XHR L2
+								// try to fire progress Event for not XHR L2
 								var total, loaded;
 
 								try {
@@ -8632,7 +8632,7 @@ included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+IN NO Event SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -9425,7 +9425,7 @@ define("moxie/runtime/html4/file/FileInput", [
 
 				file = new File(I.uid, file);
 
-				// clear event handler
+				// clear Event handler
 				this.onchange = function() {};
 				addInput.call(comp);
 
@@ -9441,7 +9441,7 @@ define("moxie/runtime/html4/file/FileInput", [
 			};
 
 
-			// route click event to the input
+			// route click Event to the input
 			if (I.can('summon_file_dialog')) {
 				browseButton = Dom.get(_options.browse_button);
 				Events.removeEvent(browseButton, 'click', comp.uid);
@@ -9449,7 +9449,7 @@ define("moxie/runtime/html4/file/FileInput", [
 					if (input && !input.disabled) { // for some reason FF (up to 8.0.1 so far) lets to click disabled input[type=file]
 						input.click();
 					}
-					e.preventDefault();
+					e.prEventDefault();
 				}, comp.uid);
 			}
 
@@ -9473,7 +9473,7 @@ define("moxie/runtime/html4/file/FileInput", [
 
 					browseButton = Dom.get(options.browse_button);
 
-					// Route click event to the input[type=file] element for browsers that support such behavior
+					// Route click Event to the input[type=file] element for browsers that support such behavior
 					if (I.can('summon_file_dialog')) {
 						if (Dom.getStyle(browseButton, 'position') === 'static') {
 							browseButton.style.position = 'relative';
@@ -9512,7 +9512,7 @@ define("moxie/runtime/html4/file/FileInput", [
 
 				shimContainer = null;
 
-				// trigger ready event asynchronously
+				// trigger ready Event asynchronously
 				comp.trigger({
 					type: 'ready',
 					async: true

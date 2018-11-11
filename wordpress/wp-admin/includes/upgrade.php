@@ -983,7 +983,7 @@ function upgrade_210() {
 		$posts = $wpdb->get_results("SELECT ID, post_date FROM $wpdb->posts WHERE post_status ='future'");
 		if ( !empty($posts) )
 			foreach ( $posts as $post )
-				wp_schedule_single_event(mysql2date('U', $post->post_date, false), 'publish_future_post', array($post->ID));
+				wp_schedule_single_Event(mysql2date('U', $post->post_date, false), 'publish_future_post', array($post->ID));
 	}
 }
 
@@ -1614,7 +1614,7 @@ function upgrade_430() {
 	// Shared terms are split in a separate process.
 	if ( $wp_current_db_version < 32814 ) {
 		update_option( 'finished_splitting_shared_terms', 0 );
-		wp_schedule_single_event( time() + ( 1 * MINUTE_IN_SECONDS ), 'wp_split_shared_term_batch' );
+		wp_schedule_single_Event( time() + ( 1 * MINUTE_IN_SECONDS ), 'wp_split_shared_term_batch' );
 	}
 
 	if ( $wp_current_db_version < 33055 && 'utf8mb4' === $wpdb->charset ) {
@@ -2931,7 +2931,7 @@ endif;
  * critical to the operation of large networks.
  *
  * In a future iteration, this function may use `wp_is_large_network()` to more-
- * intelligently prevent global table upgrades. Until then, we make sure
+ * intelligently prEvent global table upgrades. Until then, we make sure
  * WordPress is on the main site of the main network, to avoid running queries
  * more than once in multi-site or multi-network environments.
  *

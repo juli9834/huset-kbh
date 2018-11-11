@@ -1790,7 +1790,7 @@ p.customize-section-description {
 }
 
 .wp-full-overlay.in-themes-panel {
-	background: #eee; /* Prevents a black flash when fading in the panel */
+	background: #eee; /* PrEvents a black flash when fading in the panel */
 }
 
 .in-themes-panel #customize-save-button-wrapper,
@@ -2344,7 +2344,7 @@ p.customize-section-description {
 }
 
 .modal-open .in-themes-panel #customize-controls .wp-full-overlay-sidebar-content {
-	overflow: visible; /* Prevent the top-level Customizer controls from becoming visible when elements on the right of the details modal are focused. */
+	overflow: visible; /* PrEvent the top-level Customizer controls from becoming visible when elements on the right of the details modal are focused. */
 }
 
 .wp-customizer .theme-header {
@@ -2445,8 +2445,8 @@ body.cheatin p {
 .reordering .add-new-widget,
 .reordering .add-new-menu-item {
 	opacity: 0.2;
-	pointer-events: none;
-	cursor: not-allowed; /* doesn't work in conjunction with pointer-events */
+	pointer-Events: none;
+	cursor: not-allowed; /* doesn't work in conjunction with pointer-Events */
 }
 
 .add-new-widget:before,
@@ -2548,7 +2548,7 @@ body.cheatin p {
 	color: #d5d5d5;
 	background-color: #fff;
 	cursor: default;
-	pointer-events: none;
+	pointer-Events: none;
 }
 
 /**

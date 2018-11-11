@@ -56,8 +56,8 @@
 			if ((/27$|38$|40$/.test(e.keyCode) && $results.is(':visible')) ||
 				(/^13$|^9$/.test(e.keyCode) && getCurrentResult())) {
 
-				if (e.preventDefault)
-					e.preventDefault();
+				if (e.prEventDefault)
+					e.prEventDefault();
 				if (e.stopPropagation)
 					e.stopPropagation();
 
@@ -193,7 +193,7 @@
 					$(this).addClass(options.selectClass);
 				})
 				.click(function(e) {
-					e.preventDefault();
+					e.prEventDefault();
 					e.stopPropagation();
 					selectCurrentResult();
 				});

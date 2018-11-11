@@ -10,14 +10,14 @@
 /* hoverIntent is similar to jQuery's built-in "hover" method except that
  * instead of firing the handlerIn function immediately, hoverIntent checks
  * to see if the user's mouse has slowed down (beneath the sensitivity
- * threshold) before firing the event. The handlerOut function is only
+ * threshold) before firing the Event. The handlerOut function is only
  * called after a matching handlerIn.
  *
  * // basic usage ... just like .hover()
  * .hoverIntent( handlerIn, handlerOut )
  * .hoverIntent( handlerInOut )
  *
- * // basic usage ... with event delegation!
+ * // basic usage ... with Event delegation!
  * .hoverIntent( handlerIn, handlerOut, selector )
  * .hoverIntent( handlerInOut, selector )
  *
@@ -48,7 +48,7 @@
         }
 
         // instantiate variables
-        // cX, cY = current X and Y position of mouse, updated by mousemove event
+        // cX, cY = current X and Y position of mouse, updated by mousemove Event
         // pX, pY = previous X and Y position of mouse, set by mouseover and polling interval
         var cX, cY, pX, pY;
 
@@ -84,7 +84,7 @@
 
         // A private function for handling mouse 'hovering'
         var handleHover = function(e) {
-            // copy objects to be passed into t (required for event object to be passed in IE)
+            // copy objects to be passed into t (required for Event object to be passed in IE)
             var ev = $.extend({},e);
             var ob = this;
 
@@ -102,7 +102,7 @@
 
                 // else e.type == "mouseleave"
             } else {
-                // unbind expensive mousemove event
+                // unbind expensive mousemove Event
                 $(ob).off("mousemove.hoverIntent",track);
                 // if hoverIntent state is true, then call the mouseOut function after the specified delay
                 if (ob.hoverIntent_s) { ob.hoverIntent_t = setTimeout( function(){delay(ev,ob);} , cfg.timeout );}

@@ -2569,7 +2569,7 @@ var modern = (function () {
         parent$$1.items().set(newItems);
         parent$$1._lastRect = null;
       }
-      if (self$$1._eventsRoot && self$$1._eventsRoot === self$$1) {
+      if (self$$1._EventsRoot && self$$1._EventsRoot === self$$1) {
         global$9(elm).off();
       }
       var lookup = self$$1.getRoot().controlIdLookup;
@@ -2612,9 +2612,9 @@ var modern = (function () {
           self$$1.on(name$$1.substr(2), settings[name$$1]);
         }
       }
-      if (self$$1._eventsRoot) {
+      if (self$$1._EventsRoot) {
         for (parent$$1 = self$$1.parent(); !parentEventsRoot && parent$$1; parent$$1 = parent$$1.parent()) {
-          parentEventsRoot = parent$$1._eventsRoot;
+          parentEventsRoot = parent$$1._EventsRoot;
         }
         if (parentEventsRoot) {
           for (name$$1 in parentEventsRoot._nativeEvents) {
@@ -2746,8 +2746,8 @@ var modern = (function () {
   });
   Control = global$10.extend(proto$1);
   function getEventDispatcher(obj) {
-    if (!obj._eventDispatcher) {
-      obj._eventDispatcher = new global$11({
+    if (!obj._EventDispatcher) {
+      obj._EventDispatcher = new global$11({
         scope: obj,
         toggleEvent: function (name$$1, state) {
           if (state && global$11.isNative(name$$1)) {
@@ -2762,30 +2762,30 @@ var modern = (function () {
         }
       });
     }
-    return obj._eventDispatcher;
+    return obj._EventDispatcher;
   }
-  function bindPendingEvents(eventCtrl) {
-    var i, l, parents, eventRootCtrl, nativeEvents, name$$1;
+  function bindPendingEvents(EventCtrl) {
+    var i, l, parents, EventRootCtrl, nativeEvents, name$$1;
     function delegate(e) {
-      var control = eventCtrl.getParentCtrl(e.target);
+      var control = EventCtrl.getParentCtrl(e.target);
       if (control) {
         control.fire(e.type, e);
       }
     }
     function mouseLeaveHandler() {
-      var ctrl = eventRootCtrl._lastHoverCtrl;
+      var ctrl = EventRootCtrl._lastHoverCtrl;
       if (ctrl) {
         ctrl.fire('mouseleave', { target: ctrl.getEl() });
         ctrl.parents().each(function (ctrl) {
           ctrl.fire('mouseleave', { target: ctrl.getEl() });
         });
-        eventRootCtrl._lastHoverCtrl = null;
+        EventRootCtrl._lastHoverCtrl = null;
       }
     }
     function mouseEnterHandler(e) {
-      var ctrl = eventCtrl.getParentCtrl(e.target), lastCtrl = eventRootCtrl._lastHoverCtrl, idx = 0, i, parents, lastParents;
+      var ctrl = EventCtrl.getParentCtrl(e.target), lastCtrl = EventRootCtrl._lastHoverCtrl, idx = 0, i, parents, lastParents;
       if (ctrl !== lastCtrl) {
-        eventRootCtrl._lastHoverCtrl = ctrl;
+        EventRootCtrl._lastHoverCtrl = ctrl;
         parents = ctrl.parents().toArray().reverse();
         parents.push(ctrl);
         if (lastCtrl) {
@@ -2808,7 +2808,7 @@ var modern = (function () {
       }
     }
     function fixWheelEvent(e) {
-      e.preventDefault();
+      e.prEventDefault();
       if (e.type === 'mousewheel') {
         e.deltaY = -1 / 40 * e.wheelDelta;
         if (e.wheelDeltaX) {
@@ -2818,25 +2818,25 @@ var modern = (function () {
         e.deltaX = 0;
         e.deltaY = e.detail;
       }
-      e = eventCtrl.fire('wheel', e);
+      e = EventCtrl.fire('wheel', e);
     }
-    nativeEvents = eventCtrl._nativeEvents;
+    nativeEvents = EventCtrl._nativeEvents;
     if (nativeEvents) {
-      parents = eventCtrl.parents().toArray();
-      parents.unshift(eventCtrl);
-      for (i = 0, l = parents.length; !eventRootCtrl && i < l; i++) {
-        eventRootCtrl = parents[i]._eventsRoot;
+      parents = EventCtrl.parents().toArray();
+      parents.unshift(EventCtrl);
+      for (i = 0, l = parents.length; !EventRootCtrl && i < l; i++) {
+        EventRootCtrl = parents[i]._EventsRoot;
       }
-      if (!eventRootCtrl) {
-        eventRootCtrl = parents[parents.length - 1] || eventCtrl;
+      if (!EventRootCtrl) {
+        EventRootCtrl = parents[parents.length - 1] || EventCtrl;
       }
-      eventCtrl._eventsRoot = eventRootCtrl;
+      EventCtrl._EventsRoot = EventRootCtrl;
       for (l = i, i = 0; i < l; i++) {
-        parents[i]._eventsRoot = eventRootCtrl;
+        parents[i]._EventsRoot = EventRootCtrl;
       }
-      var eventRootDelegates = eventRootCtrl._delegates;
-      if (!eventRootDelegates) {
-        eventRootDelegates = eventRootCtrl._delegates = {};
+      var EventRootDelegates = EventRootCtrl._delegates;
+      if (!EventRootDelegates) {
+        EventRootDelegates = EventRootCtrl._delegates = {};
       }
       for (name$$1 in nativeEvents) {
         if (!nativeEvents) {
@@ -2844,20 +2844,20 @@ var modern = (function () {
         }
         if (name$$1 === 'wheel' && !hasWheelEventSupport) {
           if (hasMouseWheelEventSupport) {
-            global$9(eventCtrl.getEl()).on('mousewheel', fixWheelEvent);
+            global$9(EventCtrl.getEl()).on('mousewheel', fixWheelEvent);
           } else {
-            global$9(eventCtrl.getEl()).on('DOMMouseScroll', fixWheelEvent);
+            global$9(EventCtrl.getEl()).on('DOMMouseScroll', fixWheelEvent);
           }
           continue;
         }
         if (name$$1 === 'mouseenter' || name$$1 === 'mouseleave') {
-          if (!eventRootCtrl._hasMouseEnter) {
-            global$9(eventRootCtrl.getEl()).on('mouseleave', mouseLeaveHandler).on('mouseover', mouseEnterHandler);
-            eventRootCtrl._hasMouseEnter = 1;
+          if (!EventRootCtrl._hasMouseEnter) {
+            global$9(EventRootCtrl.getEl()).on('mouseleave', mouseLeaveHandler).on('mouseover', mouseEnterHandler);
+            EventRootCtrl._hasMouseEnter = 1;
           }
-        } else if (!eventRootDelegates[name$$1]) {
-          global$9(eventRootCtrl.getEl()).on(name$$1, delegate);
-          eventRootDelegates[name$$1] = true;
+        } else if (!EventRootDelegates[name$$1]) {
+          global$9(EventRootCtrl.getEl()).on(name$$1, delegate);
+          EventRootDelegates[name$$1] = true;
         }
         nativeEvents[name$$1] = false;
       }
@@ -3041,10 +3041,10 @@ var modern = (function () {
           return;
         }
         if (handler(e) !== false) {
-          e.preventDefault();
+          e.prEventDefault();
         }
       }
-      if (e.isDefaultPrevented()) {
+      if (e.isDefaultPrEvented()) {
         return;
       }
       switch (e.keyCode) {
@@ -3070,7 +3070,7 @@ var modern = (function () {
         break;
       case 9:
         tab(e);
-        e.preventDefault();
+        e.prEventDefault();
         break;
       }
     });
@@ -3355,7 +3355,7 @@ var modern = (function () {
     }
   }
   function DragHelper (id, settings) {
-    var $eventOverlay;
+    var $EventOverlay;
     var doc = settings.document || document;
     var downButton;
     var start, stop$$1, drag, startX, startY;
@@ -3365,7 +3365,7 @@ var modern = (function () {
       var docSize = getDocumentSize(doc);
       var handleElm, cursor;
       updateWithTouchData(e);
-      e.preventDefault();
+      e.prEventDefault();
       downButton = e.button;
       handleElm = handleElement;
       startX = e.screenX;
@@ -3375,7 +3375,7 @@ var modern = (function () {
       } else {
         cursor = handleElm.runtimeStyle.cursor;
       }
-      $eventOverlay = global$9('<div></div>').css({
+      $EventOverlay = global$9('<div></div>').css({
         position: 'absolute',
         top: 0,
         left: 0,
@@ -3395,13 +3395,13 @@ var modern = (function () {
       }
       e.deltaX = e.screenX - startX;
       e.deltaY = e.screenY - startY;
-      e.preventDefault();
+      e.prEventDefault();
       settings.drag(e);
     };
     stop$$1 = function (e) {
       updateWithTouchData(e);
       global$9(doc).off('mousemove touchmove', drag).off('mouseup touchend', stop$$1);
-      $eventOverlay.remove();
+      $EventOverlay.remove();
       if (settings.stop) {
         settings.stop(e);
       }
@@ -3578,7 +3578,7 @@ var modern = (function () {
           }
         }
         e = panel.fire('autohide', { target: e.target });
-        if (!e.isDefaultPrevented()) {
+        if (!e.isDefaultPrEvented()) {
           panel.hide();
         }
       }
@@ -3691,7 +3691,7 @@ var modern = (function () {
     init: function (settings) {
       var self$$1 = this;
       self$$1._super(settings);
-      self$$1._eventsRoot = self$$1;
+      self$$1._EventsRoot = self$$1;
       self$$1.classes.add('floatpanel');
       if (settings.autohide) {
         bindDocumentClickHandler();
@@ -3779,7 +3779,7 @@ var modern = (function () {
     },
     close: function () {
       var self$$1 = this;
-      if (!self$$1.fire('close').isDefaultPrevented()) {
+      if (!self$$1.fire('close').isDefaultPrEvented()) {
         self$$1.remove();
         addRemove(false, self$$1);
       }
@@ -4212,7 +4212,7 @@ var modern = (function () {
     },
     close: function () {
       var self = this;
-      if (!self.fire('close').isDefaultPrevented()) {
+      if (!self.fire('close').isDefaultPrEvented()) {
         self.remove();
       }
       return self;
@@ -4571,7 +4571,7 @@ var modern = (function () {
         }
       });
       self$$1.on('submit', function (e) {
-        if (!e.isDefaultPrevented()) {
+        if (!e.isDefaultPrEvented()) {
           self$$1.close();
         }
       });
@@ -4922,11 +4922,11 @@ var modern = (function () {
       settings = self$$1.settings;
       size = self$$1.settings.size;
       self$$1.on('click mousedown', function (e) {
-        e.preventDefault();
+        e.prEventDefault();
       });
       self$$1.on('touchstart', function (e) {
         self$$1.fire('click', e);
-        e.preventDefault();
+        e.prEventDefault();
       });
       if (settings.subtype) {
         self$$1.classes.add(settings.subtype);
@@ -5052,7 +5052,7 @@ var modern = (function () {
             return files[0];
           }
         };
-        e.preventDefault();
+        e.prEventDefault();
         if (files.length) {
           self.fire('change', e);
         }
@@ -5097,10 +5097,10 @@ var modern = (function () {
       var self$$1 = this;
       self$$1._super(settings);
       self$$1.on('click mousedown', function (e) {
-        e.preventDefault();
+        e.prEventDefault();
       });
       self$$1.on('click', function (e) {
-        e.preventDefault();
+        e.prEventDefault();
         if (!self$$1.disabled()) {
           self$$1.checked(!self$$1.checked());
         }
@@ -5200,7 +5200,7 @@ var modern = (function () {
       self$$1.on('keydown', function (e) {
         var rootControl;
         if (e.keyCode === 13 && e.target.nodeName === 'INPUT') {
-          e.preventDefault();
+          e.prEventDefault();
           self$$1.parents().reverse().each(function (ctrl) {
             if (ctrl.toJSON) {
               rootControl = ctrl;
@@ -5474,11 +5474,11 @@ var modern = (function () {
         var keyCode = e.keyCode;
         if (e.target.nodeName === 'INPUT') {
           if (keyCode === global$13.DOWN) {
-            e.preventDefault();
+            e.prEventDefault();
             self$$1.fire('autocomplete');
             focusIdx(0, self$$1.menu);
           } else if (keyCode === global$13.UP) {
-            e.preventDefault();
+            e.prEventDefault();
             focusIdx(-1, self$$1.menu);
           }
         }
@@ -5669,11 +5669,11 @@ var modern = (function () {
       huePointElm = self.getEl('hp');
       svRootElm = self.getEl('sv');
       svPointElm = self.getEl('svp');
-      function getPos(elm, event) {
+      function getPos(elm, Event) {
         var pos = funcs.getPos(elm);
         var x, y;
-        x = event.pageX - pos.x;
-        y = event.pageY - pos.y;
+        x = Event.pageX - pos.x;
+        y = Event.pageY - pos.y;
         x = Math.max(0, Math.min(x / elm.clientWidth, 1));
         y = Math.max(0, Math.min(y / elm.clientHeight, 1));
         return {
@@ -5809,7 +5809,7 @@ var modern = (function () {
     postRender: function () {
       var self = this;
       var toggleDragClass = function (e) {
-        e.preventDefault();
+        e.prEventDefault();
         self.classes.toggle('dragenter');
         self.getEl().className = self.classes;
       };
@@ -5825,12 +5825,12 @@ var modern = (function () {
       };
       self._super();
       self.$el.on('dragover', function (e) {
-        e.preventDefault();
+        e.prEventDefault();
       });
       self.$el.on('dragenter', toggleDragClass);
       self.$el.on('dragleave', toggleDragClass);
       self.$el.on('drop', function (e) {
-        e.preventDefault();
+        e.prEventDefault();
         if (self.state.get('disabled')) {
           return;
         }
@@ -5944,7 +5944,7 @@ var modern = (function () {
                 name: parents[i].nodeName.toLowerCase(),
                 target: parents[i]
               });
-              if (!args.isDefaultPrevented()) {
+              if (!args.isDefaultPrEvented()) {
                 outParents.push({
                   name: args.name,
                   element: parents[i]
@@ -7074,7 +7074,7 @@ var modern = (function () {
     });
     ctrl.on('PostRender', function () {
       ctrl.getRoot().on('submit', function (e) {
-        if (!e.isDefaultPrevented()) {
+        if (!e.isDefaultPrEvented()) {
           addToHistory(ctrl.value(), fileType);
         }
       });
@@ -9176,7 +9176,7 @@ var modern = (function () {
         self.classes.add('menu-item-normal');
       }
       self.on('mousedown', function (e) {
-        e.preventDefault();
+        e.prEventDefault();
       });
       if (settings.menu && !settings.ariaHideMenu) {
         self.aria('haspopup', true);
@@ -9448,7 +9448,7 @@ var modern = (function () {
       self.on('keydown', function (e) {
         var rootControl;
         if (e.keyCode === 13) {
-          e.preventDefault();
+          e.prEventDefault();
           self.parents().reverse().each(function (ctrl) {
             if (ctrl.toJSON) {
               rootControl = ctrl;
@@ -9821,7 +9821,7 @@ var modern = (function () {
         self$$1.on('keydown', function (e) {
           var rootControl;
           if (e.keyCode === 13) {
-            e.preventDefault();
+            e.prEventDefault();
             self$$1.parents().reverse().each(function (ctrl) {
               if (ctrl.toJSON) {
                 rootControl = ctrl;

@@ -150,7 +150,7 @@ wp.media.mixin = {
 	 * @summary Removes and resets all players.
 	 *
 	 * Allows any class that has set 'player' to a MediaElementPlayer
-	 * instance to remove the player when listening to events.
+	 * instance to remove the player when listening to Events.
 	 *
 	 * Examples: modal closes, shortcode properties are removed, etc.
 	 *
@@ -868,13 +868,13 @@ MediaDetails = AttachmentDisplay.extend(/** @lends wp.media.view.MediaDetails.pr
 		AttachmentDisplay.prototype.initialize.apply( this, arguments );
 	},
 
-	events: function(){
+	Events: function(){
 		return _.extend( {
 			'click .remove-setting' : 'removeSetting',
 			'change .content-track' : 'setTracks',
 			'click .remove-track' : 'setTracks',
 			'click .add-media-source' : 'addSource'
-		}, AttachmentDisplay.prototype.events );
+		}, AttachmentDisplay.prototype.Events );
 	},
 
 	prepare: function() {

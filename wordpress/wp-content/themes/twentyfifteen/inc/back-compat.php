@@ -2,7 +2,7 @@
 /**
  * Twenty Fifteen back compat functionality
  *
- * Prevents Twenty Fifteen from running on WordPress versions prior to 4.1,
+ * PrEvents Twenty Fifteen from running on WordPress versions prior to 4.1,
  * since this theme is not meant to be backward compatible beyond that and
  * relies on many newer functions and markup changes introduced in 4.1.
  *
@@ -12,7 +12,7 @@
  */
 
 /**
- * Prevent switching to Twenty Fifteen on old versions of WordPress.
+ * PrEvent switching to Twenty Fifteen on old versions of WordPress.
  *
  * Switches to the default theme.
  *
@@ -39,7 +39,7 @@ function twentyfifteen_upgrade_notice() {
 }
 
 /**
- * Prevent the Customizer from being loaded on WordPress versions prior to 4.1.
+ * PrEvent the Customizer from being loaded on WordPress versions prior to 4.1.
  *
  * @since Twenty Fifteen 1.0
  */
@@ -51,7 +51,7 @@ function twentyfifteen_customize() {
 add_action( 'load-customize.php', 'twentyfifteen_customize' );
 
 /**
- * Prevent the Theme Preview from being loaded on WordPress versions prior to 4.1.
+ * PrEvent the Theme Preview from being loaded on WordPress versions prior to 4.1.
  *
  * @since Twenty Fifteen 1.0
  */

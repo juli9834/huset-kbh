@@ -37,7 +37,7 @@
 //    by Evgeny Moysevich <moysevichØgmail*com>                //
 //                                                             //
 //  * version 0.6.1 (30 May 2011)                              //
-//    prevent infinite loops in expGolombUe()                  //
+//    prEvent infinite loops in expGolombUe()                  //
 //                                                             //
 //  * version 0.7.0 (16 Jul 2013)                              //
 //  handle GETID3_FLV_VIDEO_VP6FLV_ALPHA                       //
@@ -262,8 +262,8 @@ class getid3_flv extends getid3_handler {
 						$datachunk = $this->fread($DataLength);
 						$AMFstream = new AMFStream($datachunk);
 						$reader = new AMFReader($AMFstream);
-						$eventName = $reader->readData();
-						$info['flv']['meta'][$eventName] = $reader->readData();
+						$EventName = $reader->readData();
+						$info['flv']['meta'][$EventName] = $reader->readData();
 						unset($reader);
 
 						$copykeys = array('framerate'=>'frame_rate', 'width'=>'resolution_x', 'height'=>'resolution_y', 'audiodatarate'=>'bitrate', 'videodatarate'=>'bitrate');
@@ -719,7 +719,7 @@ class AVCSequenceParameterSetReader {
 			$bit = $this->getBit();
 
 			if ($significantBits > 31) {
-				// something is broken, this is an emergency escape to prevent infinite loops
+				// something is broken, this is an emergency escape to prEvent infinite loops
 				return 0;
 			}
 		}

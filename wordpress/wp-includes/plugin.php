@@ -379,7 +379,7 @@ function doing_action( $action = null ) {
  * Hooks a function on to a specific action.
  *
  * Actions are the hooks that the WordPress core launches at specific points
- * during execution, or when specific events occur. Plugins can specify that
+ * during execution, or when specific Events occur. Plugins can specify that
  * one or more of its PHP functions are executed at these points, using the
  * Action API.
  *
@@ -857,7 +857,7 @@ function _wp_call_all_hook($args) {
  * It also allows for the removal of actions and filters for objects after they
  * change class properties. It is possible to include the property $wp_filter_id
  * in your class and set it to "null" or a number to bypass the workaround.
- * However this will prevent you from adding new classes and any new classes
+ * However this will prEvent you from adding new classes and any new classes
  * will overwrite the previous hook by the same class.
  *
  * Functions and static method callbacks are just returned as strings and

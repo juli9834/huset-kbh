@@ -18,7 +18,7 @@
 
 	/*
 	 * Use feature detection to determine whether password inputs should use
-	 * the `keyup` or `input` event. Input is preferred but lacks support
+	 * the `keyup` or `input` Event. Input is preferred but lacks support
 	 * in legacy browsers.
 	 */
 	if ( 'oninput' in document.createElement( 'input' ) ) {
@@ -193,7 +193,7 @@
 			}
 		} );
 
-		// Disable hidden inputs to prevent autofill and submission.
+		// Disable hidden inputs to prEvent autofill and submission.
 		if ( $pass1.is( ':hidden' ) ) {
 			$pass1.prop( 'disabled', true );
 			$pass2.prop( 'disabled', true );
@@ -253,7 +253,7 @@
 				$weakCheckbox.removeProp( 'checked' );
 			} );
 
-			// Disable the inputs when hiding to prevent autofill and submission.
+			// Disable the inputs when hiding to prEvent autofill and submission.
 			$pass1.prop( 'disabled', true );
 			$pass2.prop( 'disabled', true );
 			$pass1Text.prop( 'disabled', true );
@@ -261,7 +261,7 @@
 			resetToggle();
 
 			if ( $pass1Row.closest( 'form' ).is( '#your-profile' ) ) {
-				// Clear password field to prevent update
+				// Clear password field to prEvent update
 				$pass1.val( '' ).trigger( 'pwupdate' );
 				$submitButtons.prop( 'disabled', false );
 			}
@@ -455,7 +455,7 @@
 			$this.before( '<div class="notice notice-error inline"><p>' + response.message + '</p></div>' );
 		});
 
-		e.preventDefault();
+		e.prEventDefault();
 	});
 
 	window.generatePassword = generatePassword;

@@ -285,7 +285,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 			$results[$plugin] = $this->result;
 
-			// Prevent credentials auth screen from displaying multiple times
+			// PrEvent credentials auth screen from displaying multiple times
 			if ( false === $result )
 				break;
 		} //end foreach $plugins
@@ -334,7 +334,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			return $source;
 
 		$working_directory = str_replace( $wp_filesystem->wp_content_dir(), trailingslashit(WP_CONTENT_DIR), $source);
-		if ( ! is_dir($working_directory) ) // Sanity check, if the above fails, let's not prevent installation.
+		if ( ! is_dir($working_directory) ) // Sanity check, if the above fails, let's not prEvent installation.
 			return $source;
 
 		// Check the folder contains at least 1 valid plugin.
@@ -406,7 +406,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			return new WP_Error('bad_request', $this->strings['bad_request']);
 
 		if ( is_plugin_active($plugin) ) {
-			//Deactivate the plugin silently, Prevent deactivation hooks from running.
+			//Deactivate the plugin silently, PrEvent deactivation hooks from running.
 			deactivate_plugins($plugin, true);
 		}
 

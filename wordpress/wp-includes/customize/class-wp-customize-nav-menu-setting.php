@@ -348,7 +348,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			return false;
 		}
 
-		// Handle sanitization failure by preventing short-circuiting.
+		// Handle sanitization failure by prEventing short-circuiting.
 		if ( null === $setting_value ) {
 			return $menu_obj;
 		}
@@ -610,7 +610,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 *
 	 * @see WP_Customize_Nav_Menu_Setting::update()
 	 *
-	 * @param array $data Additional information passed back to the 'saved' event on `wp.customize`.
+	 * @param array $data Additional information passed back to the 'saved' Event on `wp.customize`.
 	 * @return array Export data.
 	 */
 	public function amend_customize_save_response( $data ) {

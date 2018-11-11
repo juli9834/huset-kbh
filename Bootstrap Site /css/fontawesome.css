@@ -2770,7 +2770,7 @@ readers do not read off random characters that represent icons */
 .fa-product-hunt:before {
   content: "\f288"; }
 
-.fa-project-diagram:before {
+.fa-Event-diagram:before {
   content: "\f542"; }
 
 .fa-pushed:before {
@@ -2812,7 +2812,7 @@ readers do not read off random characters that represent icons */
 .fa-quran:before {
   content: "\f687"; }
 
-.fa-r-project:before {
+.fa-r-Event:before {
   content: "\f4f7"; }
 
 .fa-rainbow:before {

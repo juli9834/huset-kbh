@@ -1480,7 +1480,7 @@ if (!empty($atom_structure['sample_description_table'][$i]['width']) && !empty($
 				break;
 
 
-			// Observed-but-not-handled atom types are just listed here to prevent warnings being generated
+			// Observed-but-not-handled atom types are just listed here to prEvent warnings being generated
 			case 'FXTC': // Something to do with Adobe After Effects (?)
 			case 'PrmA':
 			case 'code':

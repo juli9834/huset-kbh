@@ -163,12 +163,12 @@
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param {event} event The TinyMCE editor init event.
+		 * @param {Event} Event The TinyMCE editor init Event.
 		 * @param {object} editor The editor to bind the vents on.
 		 *
 		 * @returns {void}
 		 */
-		$document.on( 'tinymce-editor-init.editor-expand', function( event, editor ) {
+		$document.on( 'tinymce-editor-init.editor-expand', function( Event, editor ) {
 			// VK contains the type of key pressed. VK = virtual keyboard.
 			var VK = window.tinymce.util.VK,
 				/**
@@ -236,12 +236,12 @@
 			 *
 			 * @since 4.0.0
 			 *
-			 * @param {event} event The event to get the key code from.
+			 * @param {Event} Event The Event to get the key code from.
 			 *
 			 * @returns {void}
 			 */
-			function mceKeyup( event ) {
-				var key = event.keyCode;
+			function mceKeyup( Event ) {
+				var key = Event.keyCode;
 
 				// Bail on special keys. Key code 47 is a /
 				if ( key <= 47 && ! ( key === VK.SPACEBAR || key === VK.ENTER || key === VK.DELETE || key === VK.BACKSPACE || key === VK.UP || key === VK.LEFT || key === VK.DOWN || key === VK.UP ) ) {
@@ -259,7 +259,7 @@
 			 *
 			 * Makes sure the cursor is kept between the toolbars of the editor and scrolls
 			 * the window when the cursor moves out of the viewport to a wpview.
-			 * Setting a buffer > 0 will prevent the browser default.
+			 * Setting a buffer > 0 will prEvent the browser default.
 			 * Some browsers will scroll to the middle,
 			 * others to the top/bottom of the *window* when moving the cursor out of the viewport.
 			 *
@@ -326,13 +326,13 @@
 			 *
 			 * @since 4.1.0
 			 *
-			 * @param {event} event The FullscreenStateChanged event.
+			 * @param {Event} Event The FullscreenStateChanged Event.
 			 *
 			 * @returns {void}
 			 */
-			function mceFullscreenToggled( event ) {
-				// event.state is true if the editor is fullscreen.
-				if ( ! event.state ) {
+			function mceFullscreenToggled( Event ) {
+				// Event.state is true if the editor is fullscreen.
+				if ( ! Event.state ) {
 					adjust();
 				}
 			}
@@ -340,7 +340,7 @@
 			/**
 			 * @summary Shows the editor when scrolled.
 			 *
-			 * Binds the hideFloatPanels function on the window scroll.mce-float-panels event.
+			 * Binds the hideFloatPanels function on the window scroll.mce-float-panels Event.
 			 * Executes the wpAutoResize on the active editor.
 			 *
 			 * @since 4.0.0
@@ -359,7 +359,7 @@
 			/**
 			 * @summary Resizes the editor.
 			 *
-			 * Removes all functions from the window scroll.mce-float-panels event.
+			 * Removes all functions from the window scroll.mce-float-panels Event.
 			 * Resizes the text editor and scrolls to a position based on the pageXOffset and adminBarHeight.
 			 *
 			 * @since 4.0.0
@@ -395,7 +395,7 @@
 			}
 
 			/**
-			 * @summary Binds events of the editor and window.
+			 * @summary Binds Events of the editor and window.
 			 *
 			 * @since 4.0.0
 			 *
@@ -420,7 +420,7 @@
 			};
 
 			/**
-			 * @summary Unbinds the events of the editor and window.
+			 * @summary Unbinds the Events of the editor and window.
 			 *
 			 * @since 4.0.0
 			 *
@@ -454,11 +454,11 @@
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param {event} event The event that calls this function.
+		 * @param {Event} Event The Event that calls this function.
 		 *
 		 * @returns {void}
 		 */
-		function adjust( event ) {
+		function adjust( Event ) {
 
 			// Makes sure we're not in fullscreen mode.
 			if ( fullscreen && fullscreen.settings.visible ) {
@@ -466,7 +466,7 @@
 			}
 
 			var windowPos = $window.scrollTop(),
-				type = event && event.type,
+				type = Event && Event.type,
 				resize = type !== 'scroll',
 				visual = mceEditor && ! mceEditor.isHidden(),
 				buffer = autoresizeMinHeight,
@@ -484,7 +484,7 @@
 				getHeights();
 			}
 
-			// Resize on resize event when the editor is in text mode.
+			// Resize on resize Event when the editor is in text mode.
 			if ( ! visual && type === 'resize' ) {
 				textEditorResize();
 			}
@@ -620,8 +620,8 @@
 						// Add borderWidth for the border around the .wp-editor-container.
 						( windowPos + heights.windowHeight ) <= ( editorPos + editorHeight + heights.bottomHeight + heights.statusBarHeight + borderWidth ) ) {
 
-					if ( event && event.deltaHeight > 0 && event.deltaHeight < 100 ) {
-						window.scrollBy( 0, event.deltaHeight );
+					if ( Event && Event.deltaHeight > 0 && Event.deltaHeight < 100 ) {
+						window.scrollBy( 0, Event.deltaHeight );
 					} else if ( visual && advanced ) {
 						fixedBottom = true;
 
@@ -803,7 +803,7 @@
 		}
 
 		/**
-		 * @summary Binds editor expand events on elements.
+		 * @summary Binds editor expand Events on elements.
 		 *
 		 * @since 4.0.0
 		 *
@@ -821,8 +821,8 @@
 			$wrap.addClass( 'wp-editor-expand' );
 
 			// Adjust when the window is scrolled or resized.
-			$window.on( 'scroll.editor-expand resize.editor-expand', function( event ) {
-				adjust( event.type );
+			$window.on( 'scroll.editor-expand resize.editor-expand', function( Event ) {
+				adjust( Event.type );
 				afterScroll();
 			} );
 
@@ -873,7 +873,7 @@
 		}
 
 		/**
-		 * @summary Unbinds editor expand events.
+		 * @summary Unbinds editor expand Events.
 		 *
 		 * @since 4.0.0
 		 *
@@ -1012,8 +1012,8 @@
 			position: 'relative'
 		} );
 
-		$window.on( 'mousemove.focus', function( event ) {
-			mouseY = event.pageY;
+		$window.on( 'mousemove.focus', function( Event ) {
+			mouseY = Event.pageY;
 		} );
 
 		/**
@@ -1075,7 +1075,7 @@
 		}
 
 		/**
-		 * @summary Binds events on the editor for distraction free writing.
+		 * @summary Binds Events on the editor for distraction free writing.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1098,7 +1098,7 @@
 		}
 
 		/**
-		 * @summary Unbinds events on the editor for distraction free writing.
+		 * @summary Unbinds Events on the editor for distraction free writing.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1121,7 +1121,7 @@
 		}
 
 		/**
-		 * @summary Binds or unbinds the editor expand events.
+		 * @summary Binds or unbinds the editor expand Events.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1155,26 +1155,26 @@
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param event The event that triggers this function.
+		 * @param Event The Event that triggers this function.
 		 *
 		 * @returns {void}
 		 */
-		function fadeOut( event ) {
+		function fadeOut( Event ) {
 			var isMac,
-				key = event && event.keyCode;
+				key = Event && Event.keyCode;
 
 			if ( window.navigator.platform ) {
 				isMac = ( window.navigator.platform.indexOf( 'Mac' ) > -1 );
 			}
 
 			// Fade in and returns on Escape and keyboard shortcut Alt+Shift+W and Ctrl+Opt+W.
-			if ( key === 27 || ( key === 87 && event.altKey && ( ( ! isMac && event.shiftKey ) || ( isMac && event.ctrlKey ) ) ) ) {
-				fadeIn( event );
+			if ( key === 27 || ( key === 87 && Event.altKey && ( ( ! isMac && Event.shiftKey ) || ( isMac && Event.ctrlKey ) ) ) ) {
+				fadeIn( Event );
 				return;
 			}
 
 			// Return if any of the following keys or combinations of keys is pressed.
-			if ( event && ( event.metaKey || ( event.ctrlKey && ! event.altKey ) || ( event.altKey && event.shiftKey ) || ( key && (
+			if ( Event && ( Event.metaKey || ( Event.ctrlKey && ! Event.altKey ) || ( Event.altKey && Event.shiftKey ) || ( key && (
 				// Special keys ( tab, ctrl, alt, esc, arrow keys... )
 				( key <= 47 && key !== 8 && key !== 13 && key !== 32 && key !== 46 ) ||
 				// Windows keys
@@ -1228,9 +1228,9 @@
 						$window.off( 'scroll.focus' );
 					} )
 					// Fade in when the mouse moves away form the editor area.
-					.on( 'mousemove.focus', function( event ) {
-						var nx = event.clientX,
-							ny = event.clientY,
+					.on( 'mousemove.focus', function( Event ) {
+						var nx = Event.clientX,
+							ny = Event.clientY,
 							pageYOffset = window.pageYOffset,
 							pageXOffset = window.pageXOffset;
 
@@ -1269,9 +1269,9 @@
 						y = ny;
 					} )
 
-					// When the overlay is touched, fade in and cancel the event.
-					.on( 'touchstart.focus', function( event ) {
-						event.preventDefault();
+					// When the overlay is touched, fade in and cancel the Event.
+					.on( 'touchstart.focus', function( Event ) {
+						Event.prEventDefault();
 						fadeIn();
 					} );
 
@@ -1294,11 +1294,11 @@
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param event The event that triggers this function.
+		 * @param Event The Event that triggers this function.
 		 *
 		 * @returns {void}
 		 */
-		function fadeIn( event ) {
+		function fadeIn( Event ) {
 			if ( faded ) {
 				faded = false;
 
@@ -1314,10 +1314,10 @@
 
 				/*
 				 * When fading in, temporarily watch for refocus and fade back out - helps
-				 * with 'accidental' editor exits with the mouse. When fading in and the event
-				 * is a key event (Escape or Alt+Shift+W) don't watch for refocus.
+				 * with 'accidental' editor exits with the mouse. When fading in and the Event
+				 * is a key Event (Escape or Alt+Shift+W) don't watch for refocus.
 				 */
-				if ( 'undefined' === typeof event ) {
+				if ( 'undefined' === typeof Event ) {
 					$editor.on( 'mouseenter.focus', function() {
 						if ( $.contains( $editor.get( 0 ), document.activeElement ) || editorHasFocus ) {
 							fadeOut();
@@ -1436,12 +1436,12 @@
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param {event} event The event to trigger the toggle.
+		 * @param {Event} Event The Event to trigger the toggle.
 		 *
 		 * @returns {void}
 		 */
-		function toggleViaKeyboard( event ) {
-			if ( event.altKey && event.shiftKey && 87 === event.keyCode ) {
+		function toggleViaKeyboard( Event ) {
+			if ( Event.altKey && Event.shiftKey && 87 === Event.keyCode ) {
 				toggle();
 			}
 		}
@@ -1455,12 +1455,12 @@
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param {event} event The TinyMCE editor setup event.
+		 * @param {Event} Event The TinyMCE editor setup Event.
 		 * @param {object} editor The editor to add the button to.
 		 *
 		 * @returns {void}
 		 */
-		$document.on( 'tinymce-editor-setup.focus', function( event, editor ) {
+		$document.on( 'tinymce-editor-setup.focus', function( Event, editor ) {
 			editor.addButton( 'dfw', {
 				active: _isOn,
 				classes: 'wp-dfw btn widget',
@@ -1492,16 +1492,16 @@
 		} );
 
 		/**
-		 * @summary Binds and unbinds events on the editor.
+		 * @summary Binds and unbinds Events on the editor.
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param {event} event The TinyMCE editor init event.
-		 * @param {object} editor The editor to bind events on.
+		 * @param {Event} Event The TinyMCE editor init Event.
+		 * @param {object} editor The editor to bind Events on.
 		 *
 		 * @returns {void}
 		 */
-		$document.on( 'tinymce-editor-init.focus', function( event, editor ) {
+		$document.on( 'tinymce-editor-init.focus', function( Event, editor ) {
 			var mceBind, mceUnbind;
 
 			function focus() {
@@ -1539,9 +1539,9 @@
 				// Bind and unbind based on the distraction free writing focus.
 				$document.on( 'dfw-on.focus', mceBind ).on( 'dfw-off.focus', mceUnbind );
 
-				// Focuse the editor when it is the target of the click event.
-				editor.on( 'click', function( event ) {
-					if ( event.target === editor.getDoc().documentElement ) {
+				// Focuse the editor when it is the target of the click Event.
+				editor.on( 'click', function( Event ) {
+					if ( Event.target === editor.getDoc().documentElement ) {
 						editor.focus();
 					}
 				} );
@@ -1549,19 +1549,19 @@
 		} );
 
 		/**
-		 * @summary  Binds events on quicktags init.
+		 * @summary  Binds Events on quicktags init.
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param {event} event The quicktags init event.
-		 * @param {object} editor The editor to bind events on.
+		 * @param {Event} Event The quicktags init Event.
+		 * @param {object} editor The editor to bind Events on.
 		 *
 		 * @returns {void}
 		 */
-		$document.on( 'quicktags-init', function( event, editor ) {
+		$document.on( 'quicktags-init', function( Event, editor ) {
 			var $button;
 
-			// Bind the distraction free writing events if the distraction free writing button is available.
+			// Bind the distraction free writing Events if the distraction free writing button is available.
 			if ( editor.settings.buttons && ( ',' + editor.settings.buttons + ',' ).indexOf( ',dfw,' ) !== -1 ) {
 				$button = $( '#' + editor.name + '_dfw' );
 

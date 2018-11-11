@@ -1109,7 +1109,7 @@ var media = (function () {
     editor.on('ObjectSelected', function (e) {
       var objectType = e.target.getAttribute('data-mce-object');
       if (objectType === 'audio' || objectType === 'script') {
-        e.preventDefault();
+        e.prEventDefault();
       }
     });
     editor.on('objectResized', function (e) {

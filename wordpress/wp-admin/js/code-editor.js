@@ -68,7 +68,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 				options = $.extend( {}, options );
 			}
 
-			// Note that rules must be sent in the "deprecated" lint.options property to prevent linter from complaining about unrecognized options. See <https://github.com/codemirror/CodeMirror/pull/4944>.
+			// Note that rules must be sent in the "deprecated" lint.options property to prEvent linter from complaining about unrecognized options. See <https://github.com/codemirror/CodeMirror/pull/4944>.
 			if ( ! options.options ) {
 				options.options = {};
 			}
@@ -95,7 +95,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 				}
 			}
 
-			// Wrap the onUpdateLinting CodeMirror event to route to onChangeLintingErrors and onUpdateErrorNotice.
+			// Wrap the onUpdateLinting CodeMirror Event to route to onChangeLintingErrors and onUpdateErrorNotice.
 			options.onUpdateLinting = (function( onUpdateLintingOverridden ) {
 				return function( annotations, annotationsSorted, cm ) {
 					var errorAnnotations = _.filter( annotations, function( annotation ) {
@@ -118,7 +118,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 					}
 
 					/*
-					 * Update notifications when the editor is not focused to prevent error message
+					 * Update notifications when the editor is not focused to prEvent error message
 					 * from overwhelming the user during input, unless there are now no errors or there
 					 * were previously errors shown. In these cases, update immediately so they can know
 					 * that they fixed the errors.
@@ -187,8 +187,8 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 		 * blurred the field and cause onUpdateErrorNotice to have already been
 		 * called.
 		 */
-		$( document.body ).on( 'mousedown', function( event ) {
-			if ( editor.state.focused && ! $.contains( editor.display.wrapper, event.target ) && ! $( event.target ).hasClass( 'CodeMirror-hint' ) ) {
+		$( document.body ).on( 'mousedown', function( Event ) {
+			if ( editor.state.focused && ! $.contains( editor.display.wrapper, Event.target ) && ! $( Event.target ).hasClass( 'CodeMirror-hint' ) ) {
 				updateErrorNotice();
 			}
 		});
@@ -210,32 +210,32 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 		codemirror.on( 'blur', function() {
 			$textarea.data( 'next-tab-blurs', false );
 		});
-		codemirror.on( 'keydown', function onKeydown( editor, event ) {
+		codemirror.on( 'keydown', function onKeydown( editor, Event ) {
 			var tabKeyCode = 9, escKeyCode = 27;
 
 			// Take note of the ESC keypress so that the next TAB can focus outside the editor.
-			if ( escKeyCode === event.keyCode ) {
+			if ( escKeyCode === Event.keyCode ) {
 				$textarea.data( 'next-tab-blurs', true );
 				return;
 			}
 
 			// Short-circuit if tab key is not being pressed or the tab key press should move focus.
-			if ( tabKeyCode !== event.keyCode || ! $textarea.data( 'next-tab-blurs' ) ) {
+			if ( tabKeyCode !== Event.keyCode || ! $textarea.data( 'next-tab-blurs' ) ) {
 				return;
 			}
 
 			// Focus on previous or next focusable item.
-			if ( event.shiftKey ) {
-				settings.onTabPrevious( codemirror, event );
+			if ( Event.shiftKey ) {
+				settings.onTabPrevious( codemirror, Event );
 			} else {
-				settings.onTabNext( codemirror, event );
+				settings.onTabNext( codemirror, Event );
 			}
 
 			// Reset tab state.
 			$textarea.data( 'next-tab-blurs', false );
 
-			// Prevent tab character from being added.
-			event.preventDefault();
+			// PrEvent tab character from being added.
+			Event.prEventDefault();
 		});
 	}
 
@@ -283,13 +283,13 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 		};
 
 		if ( codemirror.showHint ) {
-			codemirror.on( 'keyup', function( editor, event ) { // eslint-disable-line complexity
-				var shouldAutocomplete, isAlphaKey = /^[a-zA-Z]$/.test( event.key ), lineBeforeCursor, innerMode, token;
+			codemirror.on( 'keyup', function( editor, Event ) { // eslint-disable-line complexity
+				var shouldAutocomplete, isAlphaKey = /^[a-zA-Z]$/.test( Event.key ), lineBeforeCursor, innerMode, token;
 				if ( codemirror.state.completionActive && isAlphaKey ) {
 					return;
 				}
 
-				// Prevent autocompletion in string literals or comments.
+				// PrEvent autocompletion in string literals or comments.
 				token = codemirror.getTokenAt( codemirror.getCursor() );
 				if ( 'string' === token.type || 'comment' === token.type ) {
 					return;
@@ -299,18 +299,18 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 				lineBeforeCursor = codemirror.doc.getLine( codemirror.doc.getCursor().line ).substr( 0, codemirror.doc.getCursor().ch );
 				if ( 'html' === innerMode || 'xml' === innerMode ) {
 					shouldAutocomplete =
-						'<' === event.key ||
-						'/' === event.key && 'tag' === token.type ||
+						'<' === Event.key ||
+						'/' === Event.key && 'tag' === token.type ||
 						isAlphaKey && 'tag' === token.type ||
 						isAlphaKey && 'attribute' === token.type ||
 						'=' === token.string && token.state.htmlState && token.state.htmlState.tagName;
 				} else if ( 'css' === innerMode ) {
 					shouldAutocomplete =
 						isAlphaKey ||
-						':' === event.key ||
-						' ' === event.key && /:\s+$/.test( lineBeforeCursor );
+						':' === Event.key ||
+						' ' === Event.key && /:\s+$/.test( lineBeforeCursor );
 				} else if ( 'javascript' === innerMode ) {
-					shouldAutocomplete = isAlphaKey || '.' === event.key;
+					shouldAutocomplete = isAlphaKey || '.' === Event.key;
 				} else if ( 'clike' === innerMode && 'application/x-httpd-php' === codemirror.options.mode ) {
 					shouldAutocomplete = 'keyword' === token.type || 'variable' === token.type;
 				}

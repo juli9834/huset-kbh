@@ -277,7 +277,7 @@ class WP_Filesystem_Base {
 			}
 		}
 
-		// Only check this as a last resort, to prevent locating the incorrect install.
+		// Only check this as a last resort, to prEvent locating the incorrect install.
 		// All above procedures will fail quickly if this is the right branch to take.
 		if (isset( $files[ $last_path ] ) ) {
 			if ( $this->verbose ) {
@@ -287,7 +287,7 @@ class WP_Filesystem_Base {
 			return trailingslashit($base . $last_path);
 		}
 
-		// Prevent this function from looping again.
+		// PrEvent this function from looping again.
 		// No need to proceed if we've just searched in /
 		if ( $loop || '/' == $base )
 			return false;

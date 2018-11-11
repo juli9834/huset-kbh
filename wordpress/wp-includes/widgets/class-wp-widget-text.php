@@ -94,7 +94,7 @@ class WP_Widget_Text extends WP_Widget {
 			return false;
 		}
 
-		// If the text is empty, then nothing is preventing migration to TinyMCE.
+		// If the text is empty, then nothing is prEventing migration to TinyMCE.
 		if ( empty( $instance['text'] ) ) {
 			return false;
 		}
@@ -185,7 +185,7 @@ class WP_Widget_Text extends WP_Widget {
 	/**
 	 * Filter gallery shortcode attributes.
 	 *
-	 * Prevents all of a site's attachments from being shown in a gallery displayed on a
+	 * PrEvents all of a site's attachments from being shown in a gallery displayed on a
 	 * non-singular template where a $post context is not available.
 	 *
 	 * @since 4.9.0
@@ -232,9 +232,9 @@ class WP_Widget_Text extends WP_Widget {
 		}
 
 		/*
-		 * Suspend legacy plugin-supplied do_shortcode() for 'widget_text' filter for the visual Text widget to prevent
+		 * Suspend legacy plugin-supplied do_shortcode() for 'widget_text' filter for the visual Text widget to prEvent
 		 * shortcodes being processed twice. Now do_shortcode() is added to the 'widget_text_content' filter in core itself
-		 * and it applies after wpautop() to prevent corrupting HTML output added by the shortcode. When do_shortcode() is
+		 * and it applies after wpautop() to prEvent corrupting HTML output added by the shortcode. When do_shortcode() is
 		 * added to 'widget_text_content' then do_shortcode() will be manually called when in legacy mode as well.
 		 */
 		$widget_text_do_shortcode_priority = has_filter( 'widget_text', 'do_shortcode' );
@@ -249,11 +249,11 @@ class WP_Widget_Text extends WP_Widget {
 			// Make sure post is always the queried object on singular queries (not from another sub-query that failed to clean up the global $post).
 			$post = get_queried_object();
 		} else {
-			// Nullify the $post global during widget rendering to prevent shortcodes from running with the unexpected context on archive queries.
+			// Nullify the $post global during widget rendering to prEvent shortcodes from running with the unexpected context on archive queries.
 			$post = null;
 		}
 
-		// Prevent dumping out all attachments from the media library.
+		// PrEvent dumping out all attachments from the media library.
 		add_filter( 'shortcode_atts_gallery', array( $this, '_filter_gallery_shortcode_attrs' ) );
 
 		/**
@@ -460,7 +460,7 @@ class WP_Widget_Text extends WP_Widget {
 				remove_filter( 'the_editor_content', 'format_for_editor' );
 			}
 
-			// Prevent premature closing of textarea in case format_for_editor() didn't apply or the_editor_content filter did a wrong thing.
+			// PrEvent premature closing of textarea in case format_for_editor() didn't apply or the_editor_content filter did a wrong thing.
 			$escaped_text = preg_replace( '#</textarea#i', '&lt;/textarea', $text );
 
 			?>

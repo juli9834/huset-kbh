@@ -1,7 +1,7 @@
 /* global ajaxurl */
 
 /**
- * @summary Registers all events for customizing the background.
+ * @summary Registers all Events for customizing the background.
  *
  * @since 3.0.0
  *
@@ -13,14 +13,14 @@
 			bgImage = $( '#custom-background-image' );
 
 		/**
-		 * @summary Instantiates the WordPress color picker and binds the change and clear events.
+		 * @summary Instantiates the WordPress color picker and binds the change and clear Events.
 		 *
 		 * @since 3.5.0
 		 *
 		 * @returns {void}
 		 */
 		$('#background-color').wpColorPicker({
-			change: function( event, ui ) {
+			change: function( Event, ui ) {
 				bgImage.css('background-color', ui.color.toString());
 			},
 			clear: function() {
@@ -73,16 +73,16 @@
 		});
 
 		/**
-		 * @summary Binds the event for opening the WP Media dialog.
+		 * @summary Binds the Event for opening the WP Media dialog.
 		 *
 		 * @since 3.5.0
 		 *
 		 * @returns {void}
 		 */
-		$('#choose-from-library-link').click( function( event ) {
+		$('#choose-from-library-link').click( function( Event ) {
 			var $el = $(this);
 
-			event.preventDefault();
+			Event.prEventDefault();
 
 			// If the media frame already exists, reopen it.
 			if ( frame ) {
